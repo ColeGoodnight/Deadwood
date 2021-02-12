@@ -13,7 +13,10 @@ public class Part{
     private int[]  area;
 
     public Part(String partName, int level, int [] area, String line) {
-
+        this.partName = partName;
+        this.level = level;
+        this.area = area;
+        this.line = line;
     }
 
     public void addShotCounter() {
