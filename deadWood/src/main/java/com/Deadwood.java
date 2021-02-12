@@ -4,7 +4,7 @@ package com;
  * Hello world!
  *
  */
-public class Deadwood
+public class App 
 {
     public static void main( String[] args )
     {
