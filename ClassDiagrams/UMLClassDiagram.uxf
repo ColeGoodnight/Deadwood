@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>413</y>
+      <w>182</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>Admin
+--
+-day:int
+--
++Admin():
++checkEndofDay():boolean
++setupGame(numPlayers):void
+-refreshDay():void
+-score():
+--
+Responsibilities
+-- keeps track of current day
+-- watches for end game condition/state
+-- performs scoring at end of game
+-- performs game setup
+
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>399</x>
+      <y>315</y>
+      <w>147</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Dice
+--
+-faceValue:int
+--
++Dice():
++rollDie():int
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>875</x>
+      <y>280</y>
+      <w>196</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>BoardModel
+--
+/locations:BoardLocation[]
+--
++BoardModel(fXMLFile):
++getLocation(locationString):BoardLocation
+--
+Responsibilities
+-- stores all BoardLocation obejcts
+-- handles BoardLocation retrieval
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>553</x>
+      <y>455</y>
+      <w>224</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Bank
+--
++Bank():
++payPlayer(Player, currency, amount):boolean
++debtPlayer(Player, currency, amnount):boolean
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>518</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Deck
+--
+-cards:Card[]
+--
++Deck(fXMLFile):
++clearBoard():void
++dealRefresh():void
+--
+Responsibilities
+-- deal cards to boardLocation
+-- stores all cards
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>609</y>
+      <w>371</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=40
+m1=1</panel_attributes>
+    <additional_attributes>10.0;10.0;510.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1330</x>
+      <y>483</y>
+      <w>154</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Part
+--
+/partName:String
+/level:int
+/area:int[]
+/line:String
+/practiceChips:int
+/shotCounters:int
+--
++Part(partName, level, area, line)
+--
+Responsibilities
+-- created for each part on a card 
+   or set
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1267</x>
+      <y>539</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1..3</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1127</x>
+      <y>483</y>
+      <w>147</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Card
+--
+/cardName:String
+/image:File
+/buget:int
+/sceneNum:int
+/sceneDesc:String
+/cardParts:Part[]
+-dealt:boolean
+--
++Card(nodeList):
+-buildParts(nodeList):void
+--
+Responsibilities
+-- create part objects for 
+   each part on card
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1127</x>
+      <y>280</y>
+      <w>147</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>BoardLocation
+--
+/name:String
+/neighbors:String[]
+/area:int[]
+/takeAreas:int[][]
+/setParts:Parts[]
+-currentCard
+--
++BoardSet(nodeList):
++buildParts(nodeList):void
+--
+Responsibilities
+-- create part objects for each 
+   part on set
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1197</x>
+      <y>427</y>
+      <w>238</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..4</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;300.0;50.0;300.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1064</x>
+      <y>343</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=12</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1330</x>
+      <y>280</y>
+      <w>154</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>CastingOffice
+--
+/upgradeCostsCredit:int[]
+/upgradeCostsDollars:int[]
+--
++CastingOffice(nodeList):
+--
+Responsibilities
+-- handles upgrades for players
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1330</x>
+      <y>371</y>
+      <w>154</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Trailers
+--
++Trailers():
+--
+Responsibilities
+-- starting/return point for players
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1267</x>
+      <y>315</y>
+      <w>77</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;60.0;50.0;60.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1267</x>
+      <y>343</y>
+      <w>77</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;90.0;90.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>847</x>
+      <y>252</y>
+      <w>665</w>
+      <h>427</h>
+    </coordinates>
+    <panel_attributes>
+bg=red
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>602</x>
+      <y>343</y>
+      <w>175</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>PlayerController
+--
++PlayerController(intRank, intCredits):
++move(location):boolean
++upgrade(rank):boolean
++work():
+--
+Responsibilities
+-- performs player actions such as 
+   work, move, upgrade
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1162</x>
+      <y>189</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Model
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1204</x>
+      <y>231</y>
+      <w>21</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>322</x>
+      <y>252</y>
+      <w>483</w>
+      <h>427</h>
+    </coordinates>
+    <panel_attributes>
+bg=cyan
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>525</x>
+      <y>189</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Controller
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>567</x>
+      <y>231</y>
+      <w>21</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>252</y>
+      <w>203</w>
+      <h>427</h>
+    </coordinates>
+    <panel_attributes>
+
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>371</y>
+      <w>119</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1162</x>
+      <y>427</y>
+      <w>21</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>539</x>
+      <y>343</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>483</y>
+      <w>119</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;60.0;150.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>875</x>
+      <y>441</y>
+      <w>161</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>PlayerModel
+--
+-credits:int
+-dollars:int
+-rank:int
+-location:String
+-part:Part
+--
++PlayerModel(intRank, intCredits):
+bg=white
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>427</y>
+      <w>119</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0;100.0;50.0;150.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>420</y>
+      <w>91</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>553</y>
+      <w>119</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>98</x>
+      <y>280</y>
+      <w>147</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>BoardView
+--
++BoardView():
++updateBoardView():void
+--
+Responsibilities
+-- displays board status 
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>602</x>
+      <y>280</y>
+      <w>175</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>BoardController
+--
++BoardController():
+--
+Responsibilities
+-- passes information to BoardView
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>294</y>
+      <w>119</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>287</y>
+      <w>378</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>520.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>98</x>
+      <y>378</y>
+      <w>147</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>PlayerView
+--
++PlayerView():
++updatePlayerView():void
+--
+Responsibilities
+-- displays player information
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>392</y>
+      <w>378</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>520.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>168</x>
+      <y>231</y>
+      <w>21</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>126</x>
+      <y>189</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>View
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>98</x>
+      <y>483</y>
+      <w>147</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>AdminView
+--
++AdminView():
++updateAdminView():void
+--
+Responsibilities
+-- displays player information
+layer=1
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>504</y>
+      <w>126</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
