@@ -3,8 +3,8 @@ package com;
 public class BoardLocation {
     private String   name;
     private String[] neighbors;
-    private int[]    area;
-    private int[][]  takeAreas;
+    private Area     area;
+    private Area[]   takeAreas;
     private Part[]   setParts;
     
     public BoardLocation() {
@@ -13,12 +13,6 @@ public class BoardLocation {
 
     public void buildParts(Part[] parts) {
 
-    }
-
-    class Trailers {
-        public Trailers() {
-    
-        }
     }
 
     class CastingOffice {

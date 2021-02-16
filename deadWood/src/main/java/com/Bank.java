@@ -1,15 +1,35 @@
 package com;
 
 class Bank {
-    public Bank(){
+    public Bank() {
 
     }
 
-    public boolean payPlayer(Player currentPlayer, String currency, int amount){
-        return true;
+    public void payPlayerInCredits(Player currentPlayer, int amount) {
+        int newCredits = currentPlayer.getCredits() + amount;
+        currentPlayer.setCredits(newCredits);
     }
 
-    public boolean debtPlayer(Player currentPlayer, String currency, int amount){
-        return true;
+    public void payPlayerInDollars(Player currentPlayer, int amount) {
+        int newDollars = currentPlayer.getCredits() + amount;
+        currentPlayer.setDollars(newDollars);
+    }
+
+    public boolean debtPlayerInCredits(Player currentPlayer, int amount) {
+        if (currentPlayer.getCredits() >= amount) {
+            currentPlayer.setCredits(currentPlayer.getCredits()-amount);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean debtPlayerInDollars(Player currentPlayer, int amount) {
+        if (currentPlayer.getDollars() >= amount) {
+            currentPlayer.setDollars(currentPlayer.getDollars()-amount);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
