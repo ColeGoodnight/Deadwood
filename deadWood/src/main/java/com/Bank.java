@@ -1,4 +1,6 @@
-class Bank{
+package com;
+
+class Bank {
     public Bank(){
 
     }
