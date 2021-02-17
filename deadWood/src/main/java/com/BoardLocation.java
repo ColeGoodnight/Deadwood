@@ -12,7 +12,7 @@ public class BoardLocation {
         private String[] neighbors;
         private Area     area;
         private Area[]   takeAreas;
-        private Part[]   setParts;
+        private Part[]   parts;
 
         public BoardLocationBuilder() {
 
@@ -39,8 +39,8 @@ public class BoardLocation {
             return this;
         }
 
-        public BoardLocationBuilder setParts(Part[] setParts) {
-            this.setParts = setParts;
+        public BoardLocationBuilder parts(Part[] parts) {
+            this.parts = parts;
             return this;
         }
 
@@ -54,8 +54,8 @@ public class BoardLocation {
                 throw new IllegalStateException("Missing area"); 
             if (takeAreas == null)
                 throw new IllegalStateException("Missing takeAreas"); 
-            if (setParts == null)
-                throw new IllegalStateException("Missing setParts"); 
+            if (parts == null)
+                throw new IllegalStateException("Missing parts"); 
             return new BoardLocation(this);
         }
     }
@@ -64,15 +64,15 @@ public class BoardLocation {
     private String[] neighbors;
     private Area     area;
     private Area[]   takeAreas;
-    private Part[]   setParts;
+    private Part[]   parts;
     
 
     private BoardLocation(BoardLocationBuilder builder) {
-        builder.name = name;
-        builder.neighbors = neighbors;
-        builder.area = area;
-        builder.takeAreas = takeAreas;
-        builder.setParts = setParts;
+        this.name      = builder.name;
+        this.neighbors = builder.neighbors;
+        this.area      = builder.area;
+        this.takeAreas = builder.takeAreas;
+        this.parts     = builder.parts;
     }
 
 
@@ -92,8 +92,8 @@ public class BoardLocation {
         return this.takeAreas;
     }
 
-    public Part[] getSetParts() {
-        return this.setParts;
+    public Part[] getParts() {
+        return this.parts;
     }
 
 }
