@@ -7,19 +7,21 @@ public class BoardLocation {
     private Area[]   takeAreas;
     private Part[]   setParts;
     
-    public BoardLocation() {
 
+    public BoardLocation(String name, String[] neighbors, Area area, Area[] takeAreas, Part[] setParts) {
+        this.name = name;
+        this.neighbors = neighbors;
+        this.area = area;
+        this.takeAreas = takeAreas;
+        this.setParts = setParts;
     }
 
-    public void buildParts(Part[] parts) {
-
-    }
 
     class CastingOffice {
         private int[] upgradeCreditCosts;
         private int[] upgradeDollarCosts;
     
-        public CastingOffice(int[] upgradeCreditCosts, int[] upgradeDollarCosts){
+        public CastingOffice(String name, String[] neighbors, Area area, Area[] takeAreas, Part[] setParts, int[] upgradeCreditCosts, int[] upgradeDollarCosts){
     
         }
     }
