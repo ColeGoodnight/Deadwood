@@ -8,7 +8,7 @@ public class Part{
      * constructor with many parameters
      */
     static final class PartBuilder {
-        private String partName;
+        private String name;
         private String line;
         private int    level;
         private Area   area;
@@ -17,8 +17,8 @@ public class Part{
 
         }
 
-        public PartBuilder partName (String partName) {
-            this.partName = partName;
+        public PartBuilder name (String name) {
+            this.name = name;
             return this;
         }
 
@@ -38,8 +38,8 @@ public class Part{
         }
 
         public Part build() {
-            if (partName == null) 
-                throw new IllegalStateException("Missing partName");
+            if (name == null) 
+                throw new IllegalStateException("Missing name");
             if (line == null)
                 throw new IllegalStateException("Missing line");
             if (level < 0 || level > 6) 
@@ -50,7 +50,7 @@ public class Part{
         }
     }
 
-    private String partName;
+    private String name;
     private String line;
     private int    level;
     private Area   area;
@@ -58,16 +58,16 @@ public class Part{
     private int    shotCounters;
     
     private Part(PartBuilder builder) {
-        builder.partName = partName;
-        builder.level = level;
-        builder.area = area;
-        builder.line = line;
+        this.name = builder.name;
+        this.level = builder.level;
+        this.area = builder.area;
+        this.line = builder.line;
         practiceChips = 0;
         shotCounters = 0;
     }
 
-    public String getPartName() {
-        return this.partName;
+    public String getName() {
+        return this.name;
     }
 
     public String getLine() {

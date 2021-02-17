@@ -31,5 +31,15 @@ public class Area {
         this.w = w;
     }
 
+
+    @Override
+    public String toString() {
+        return "{" +
+            " x1='" + getX1() + "'" +
+            ", x2='" + getX2() + "'" +
+            ", h='" + getH() + "'" +
+            ", w='" + getW() + "'" +
+            "}";
+    }
     
 }

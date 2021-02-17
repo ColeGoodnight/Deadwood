@@ -1,5 +1,7 @@
 package com;
 
+import com.BoardLocation.BoardLocationBuilder;
+
 class Board {
 
     private BoardLocation [] locations;
@@ -8,9 +10,9 @@ class Board {
 
     }
 
-    public BoardLocation getBoardLocation(String locationName) {
-        return new BoardLocation();
-    }
+    /*public BoardLocation getBoardLocation(String locationName) {
+
+    }*/
 
 }
 
