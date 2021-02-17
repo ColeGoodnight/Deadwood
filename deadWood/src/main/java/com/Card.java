@@ -3,26 +3,104 @@ package com;
 import java.io.File;
 
 public class Card {
-    private String  cardName;
+
+    /*
+     * CardBuilder
+     * used to create Card objects instead of a 
+     * constructor with many parameters
+     */
+    static final class CardBuilder {
+        private String  name;
+        private File    image;
+        private int     budget;
+        private int     sceneNum;
+        private String  description;
+        private Part[]  parts;
+        private String  location;
+
+        public CardBuilder() {
+            this.budget   = 0;
+            this.sceneNum = 0;
+        }
+
+
+        public CardBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CardBuilder image(File image) {
+            this.image = image;
+            return this;
+        }
+
+        public CardBuilder budget(int budget) {
+            this.budget = budget;
+            return this;
+        }
+
+        public CardBuilder sceneNum(int sceneNum) {
+            this.sceneNum = sceneNum;
+            return this;
+        }
+
+        public CardBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public CardBuilder parts(Part[] parts) {
+            this.parts = parts;
+            return this;
+        }
+
+        public CardBuilder location(String location) {
+            this.location = location;
+            return this;
+        }
+
+
+
+        public Card build() {
+            if (name == null) 
+                throw new IllegalStateException("Missing partName");
+            if (image == null)
+                throw new IllegalStateException("Missing image");
+            if (budget <= 0)
+                throw new IllegalStateException("Missing or invalid budget"); 
+            if (sceneNum < 0)
+                throw new IllegalStateException("Missing or invalid sceneNum"); 
+            if (description == null)
+                throw new IllegalStateException("Missing description"); 
+            if (parts == null)
+                throw new IllegalStateException("Missing parts");
+            if (location == null) 
+                throw new IllegalStateException("Missing location");
+            return new Card(this);
+        }
+    }
+
+    private String  name;
     private File    image;
     private int     budget;
     private int     sceneNum;
-    private String  sceneDesc;
-    private Part[]  cardParts;
+    private String  description;
+    private Part[]  parts;
     private String  location;
 
-    public Card(String cardName, File image, int budget, int sceneNum, String sceneDesc, Part[] cardParts, String location) {
-        this.cardName  = cardName;
-        this.image     = image;
-        this.budget    = budget;
-        this.sceneNum  = sceneNum;
-        this.sceneDesc = sceneDesc;
-        this.cardParts = cardParts;
-        this.location  = location;
+    private Card(CardBuilder builder) {
+        this.name        = builder.name;
+        this.image       = builder.image;
+        this.budget      = builder.budget;
+        this.sceneNum    = builder.sceneNum;
+        this.description = builder.description;
+        this.parts       = builder.parts;
+        this.location    = builder.location;
     }
 
-    public String getCardName() {
-        return this.cardName;
+
+    public String getName() {
+        return this.name;
     }
 
     public File getImage() {
@@ -37,12 +115,12 @@ public class Card {
         return this.sceneNum;
     }
 
-    public String getSceneDesc() {
-        return this.sceneDesc;
+    public String getDescription() {
+        return this.description;
     }
 
-    public Part[] getCardParts() {
-        return this.cardParts;
+    public Part[] getParts() {
+        return this.parts;
     }
 
     public String getLocation() {
