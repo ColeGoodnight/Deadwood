@@ -2,6 +2,11 @@ package com;
 
 public class Part{
 
+    /*
+     * PartBuilder
+     * used to create Part objects instead of a 
+     * constructor with many parameters
+     */
     static final class PartBuilder {
         private String partName;
         private String line;
@@ -52,7 +57,6 @@ public class Part{
     private int    practiceChips;
     private int    shotCounters;
     
-
     private Part(PartBuilder builder) {
         builder.partName = partName;
         builder.level = level;
