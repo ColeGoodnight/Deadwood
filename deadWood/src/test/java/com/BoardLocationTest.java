@@ -23,7 +23,7 @@ public class BoardLocationTest {
         parts = new Part[1];
         PartBuilder partBuilder = new PartBuilder();
         Area area = new Area(1, 1, 1, 1);
-        Area[] areas = new Area[1];
+        areas = new Area[1];
         areas[0] = area;
         strings = new String[1];
         strings[0] = "I am a string";
@@ -49,6 +49,7 @@ public class BoardLocationTest {
         assertArrayEquals(strings, location.getNeighbors());
         assertEquals(new Area(1,1,1,1).toString(), 
                      location.getArea().toString());
+        assertArrayEquals(areas, location.getTakeAreas());
         assertArrayEquals(parts, location.getParts());
     }
 }
