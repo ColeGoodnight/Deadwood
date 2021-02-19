@@ -18,10 +18,10 @@ public class XMLParserTest {
 
     @Before
     public void setUp() throws Exception{
-        XMLFile   = new File("../../../../res/XMLFiles/board.xml");
+        XMLFile   = new File("res/xmlFiles/board.xml");
         parser    = new XMLParser();
         locations = parser.buildBoardLocations(XMLFile);
-        XMLFile   = new File("../../../../res/XMLFiles/cards.xml");
+        XMLFile   = new File("res/xmlFiles/cards.xml");
         cards     = parser.buildCards(XMLFile);
 
     }
@@ -38,7 +38,7 @@ public class XMLParserTest {
 
     @Test
     public void validateLocationArea() {
-        assertEquals(locations[0].getArea().toString(), new Area(21, 69, 115, 205).toString());
+        assertEquals(locations[0].getArea().toString(), new Area(21, 69, 205, 115).toString());
     }
 
     @Test
@@ -54,7 +54,8 @@ public class XMLParserTest {
                .line("Aww, peaches!")
                .area(new Area(114, 227, 46, 46));
         
-        assertEquals(locations[0].getParts()[0], builder.build());
+        assertEquals(locations[0].getParts()[0].toString(), 
+                     builder.build().toString());
     }
 
     @Test
@@ -70,8 +71,8 @@ public class XMLParserTest {
     @Test
     public void validateCardDescription() {
         assertEquals(cards[0].getDescription(), 
-                     "Calhoun is separated from the group during a " +
-                     "white-knuckled chase near Desperation Bluff.");
+                     "\n      Calhoun is separated from the group during a " +
+                     "white-knuckled chase near Desperation Bluff.\n    ");
     }
 
     @Test
@@ -87,7 +88,8 @@ public class XMLParserTest {
                .line("Look out below!")
                .area(new Area(20, 47, 40, 40));
 
-        assertEquals(cards[0].getParts()[0], builder.build());
+        assertEquals(cards[0].getParts()[0].toString(), 
+                     builder.build().toString());
     }
 
     @Test

@@ -10,6 +10,7 @@ import com.Part.PartBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * XMLParser
@@ -46,13 +47,14 @@ public class XMLParser {
             e.printStackTrace();
         }
 
-        NodeList                 nList        = document
-                                                .getElementsByTagName("board");
-        Element                  decLevel     = (Element) nList.item(0);
-        ArrayList<BoardLocation> locationList = new ArrayList<BoardLocation>();
-        BoardLocationBuilder     builder      = new BoardLocationBuilder();
+        Element              root         = document
+                                                .getDocumentElement();
+        NodeList             nList        = root
+                                                .getElementsByTagName("set");
+        List<BoardLocation>  locationList = new ArrayList<BoardLocation>();
+        BoardLocationBuilder builder      = new BoardLocationBuilder();
 
-        nList = decLevel.getElementsByTagName("set");
+        
 
         // iterates through all Set elements in XML
         for (int i = 0; i < nList.getLength(); i++) {
@@ -64,7 +66,7 @@ public class XMLParser {
                                              .getElementsByTagName("parts")
                                              .item(0);               
 
-                //build current BoardLocation and add to arraylist
+                // build current BoardLocation and add to arraylist
                 builder.name(
                                 eElement.getAttribute("name"))
                        .neighbors(getNeighbors(
@@ -79,18 +81,19 @@ public class XMLParser {
                 locationList.add(builder.build());
             }
         }
-        return (BoardLocation[]) locationList.toArray();
+        return (BoardLocation[]) 
+            locationList.toArray(new BoardLocation[locationList.size()]);
     }
 
     /*
      * Retrieves neighbor values from XML file
      */ 
     private String[] getNeighbors(NodeList nList) {
-        String[] neighbors = new String[nList.getLength()];
         Element temp       = (Element) nList.item(0);
         nList              = temp.getElementsByTagName("neighbor");
+        String[] neighbors = new String[nList.getLength()];
 
-        //iterates through all neighbor nodes
+        // iterates through all neighbor nodes
         for (int i = 0; i < nList.getLength(); i++) {
             Node node = nList.item(i);
 
@@ -117,9 +120,9 @@ public class XMLParser {
      * Retrieves takeArea values from XML file 
      */
     private Area[] getTakeAreas(NodeList nList) {
-        Area[] takeAreas = new Area[nList.getLength()];
         Element temp     = (Element) nList.item(0);
         nList            = temp.getElementsByTagName("take");
+        Area[] takeAreas = new Area[nList.getLength()];
 
         for (int i = nList.getLength()-1; i >= 0; i--) {
             Node node = nList.item(i);
@@ -145,7 +148,7 @@ public class XMLParser {
 
         NodeList        nList    = document.getElementsByTagName("cards");
         Element         decLevel = (Element) nList.item(0);
-        ArrayList<Card> CardList = new ArrayList<Card>();
+        List<Card> CardList = new ArrayList<Card>();
         CardBuilder     builder  = new CardBuilder();
 
         nList = decLevel.getElementsByTagName("card");
@@ -157,7 +160,7 @@ public class XMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;          
 
-                //build current Card and add to arraylist
+                // build current Card and add to arraylist
                 builder.name(
                                 eElement.getAttribute("name"))
                        .parts(buildParts(
@@ -176,7 +179,7 @@ public class XMLParser {
                 CardList.add(builder.build());
             }
         }
-        return (Card[]) CardList.toArray();
+        return (Card[]) CardList.toArray(new Card[CardList.size()]);
     }
 
     private int getSceneNum(NodeList nList) {
@@ -192,7 +195,7 @@ public class XMLParser {
      * Builds Part objects as a part of a Card or BoardLocation object
      */
     private Part[] buildParts(NodeList nList) {
-        ArrayList<Part> parts   = new ArrayList<Part>();
+        List<Part> parts   = new ArrayList<Part>();
         PartBuilder     builder = new PartBuilder();
 
         for (int i = 0; i < nList.getLength(); i++) {
@@ -211,6 +214,6 @@ public class XMLParser {
                        parts.add(builder.build());
             }
         }
-        return (Part[]) parts.toArray();
+        return parts.toArray(new Part[parts.size()]);
     }
 }

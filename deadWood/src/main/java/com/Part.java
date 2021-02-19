@@ -97,4 +97,18 @@ public class Part{
     public void addPracticeChip() {
         practiceChips++;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " name='" + getName() + "'" +
+            ", line='" + getLine() + "'" +
+            ", level='" + getLevel() + "'" +
+            ", area='" + getArea() + "'" +
+            ", practiceChips='" + getPracticeChips() + "'" +
+            ", shotCounters='" + getShotCounters() + "'" +
+            "}";
+    }
+
 }
