@@ -74,8 +74,6 @@ public class Card {
                 throw new IllegalStateException("Missing description"); 
             if (parts == null)
                 throw new IllegalStateException("Missing parts");
-            if (location == null) 
-                throw new IllegalStateException("Missing location");
             return new Card(this);
         }
     }
@@ -125,6 +123,10 @@ public class Card {
 
     public String getLocation() {
         return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
 }

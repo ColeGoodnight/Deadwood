@@ -22,7 +22,6 @@ public class PartTest {
                    .line("wow")
                    .name("long man");
     }
-    
 
     @Test(expected = IllegalStateException.class)
     public void levelRange()

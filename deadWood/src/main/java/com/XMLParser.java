@@ -5,6 +5,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.*;
 
 import com.BoardLocation.BoardLocationBuilder;
+import com.Card.CardBuilder;
+import com.Part.PartBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,12 +16,16 @@ import java.util.ArrayList;
  */
 public class XMLParser {
 
-    DocumentBuilderFactory factory;
-    DocumentBuilder builder;
-    Document document;
+    private DocumentBuilderFactory factory;
+    private DocumentBuilder        builder;
+    private Document               document;
 
+    //TODO:could this be a singleton/static class? No real need for
+    //     multiple parsers/doesn't utilize most functions of an 
+    //     object, is more just a collection of methods
     public XMLParser() {
         factory = DocumentBuilderFactory.newInstance();
+
         try {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -27,6 +33,9 @@ public class XMLParser {
         }
     }
 
+    /*
+     * Builds an array of BoardLocations from a correctly formatted XML file
+     */
     public BoardLocation[] buildBoardLocations(File XMLFile) {
         
         try {
@@ -37,42 +46,66 @@ public class XMLParser {
             e.printStackTrace();
         }
 
-        NodeList nList = document.getElementsByTagName("set");
-        ArrayList<BoardLocation> locaitonList = new ArrayList<BoardLocation>();
+        NodeList                 nList        = document
+                                                .getElementsByTagName("board");
+        Element                  decLevel     = (Element) nList.item(0);
+        ArrayList<BoardLocation> locationList = new ArrayList<BoardLocation>();
+        BoardLocationBuilder     builder      = new BoardLocationBuilder();
 
+        nList = decLevel.getElementsByTagName("set");
+
+        // iterates through all Set elements in XML
         for (int i = 0; i < nList.getLength(); i++) {
             Node node = nList.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
+                Element temp     = (Element) eElement
+                                             .getElementsByTagName("parts")
+                                             .item(0);               
 
-                BoardLocationBuilder builder = new BoardLocationBuilder();
-                builder.neighbors(getNeighbors(
-                                  eElement.getElementsByTagName("neighbors")))
-                       .area(getArea(eElement.getElementsByTagName("area")))
-        }
-    }
+                //build current BoardLocation and add to arraylist
+                builder.name(
+                                eElement.getAttribute("name"))
+                       .neighbors(getNeighbors(
+                                eElement.getElementsByTagName("neighbors")))
+                       .area(buildArea(
+                                eElement.getElementsByTagName("area")))
+                       .takeAreas(getTakeAreas(
+                                eElement.getElementsByTagName("takes")))
+                       .parts(buildParts(
+                                temp.getElementsByTagName("part")));
 
-    private String[] getNeighbors(NodeList nList) {
-        String[] neighbors = new String[nList.getLength()];
-        Element temp = (Element) nList.item(0);
-        nList = temp.getElementsByTagName("neighbor");
-
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
-
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) node;
-
-                neighbors[i] = eElement.getAttribute("name");
-
+                locationList.add(builder.build());
             }
         }
+        return (BoardLocation[]) locationList.toArray();
+    }
 
+    /*
+     * Retrieves neighbor values from XML file
+     */ 
+    private String[] getNeighbors(NodeList nList) {
+        String[] neighbors = new String[nList.getLength()];
+        Element temp       = (Element) nList.item(0);
+        nList              = temp.getElementsByTagName("neighbor");
+
+        //iterates through all neighbor nodes
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node node = nList.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+                neighbors[i]     = eElement.getAttribute("name");
+            }
+        }
         return neighbors;
     }
 
-    private Area getArea(NodeList nList) {
+    /*
+     * Retrieves area values from XML file to create an area object
+     */
+    private Area buildArea(NodeList nList) {
         Element eElement = (Element) nList.item(0);
         return new Area(Integer.parseInt(eElement.getAttribute("x")), 
                         Integer.parseInt(eElement.getAttribute("y")),
@@ -80,11 +113,104 @@ public class XMLParser {
                         Integer.parseInt(eElement.getAttribute("h")));
     }
 
-    /*public Card[] buildCards(File XMLFile) {
+    /*
+     * Retrieves takeArea values from XML file 
+     */
+    private Area[] getTakeAreas(NodeList nList) {
+        Area[] takeAreas = new Area[nList.getLength()];
+        Element temp     = (Element) nList.item(0);
+        nList            = temp.getElementsByTagName("take");
 
-    }*/
+        for (int i = nList.getLength()-1; i >= 0; i--) {
+            Node node = nList.item(i);
 
-    private Part[] buildParts() {
-        return new Part[1];
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+                takeAreas[i]     = buildArea(eElement
+                                           .getElementsByTagName("area"));
+            }
+        }
+        return takeAreas;
+    }
+
+    public Card[] buildCards(File XMLFile) {
+        
+        try {
+            document = builder.parse(XMLFile);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        NodeList        nList    = document.getElementsByTagName("cards");
+        Element         decLevel = (Element) nList.item(0);
+        ArrayList<Card> CardList = new ArrayList<Card>();
+        CardBuilder     builder  = new CardBuilder();
+
+        nList = decLevel.getElementsByTagName("card");
+
+        // iterates through all card elements in XML
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node node = nList.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;          
+
+                //build current Card and add to arraylist
+                builder.name(
+                                eElement.getAttribute("name"))
+                       .parts(buildParts(
+                                eElement.getElementsByTagName("part")))
+                       .budget(Integer.parseInt(
+                                eElement.getAttribute("budget")))
+                       .image(new File("../../../../res/images/" +
+                                eElement.getAttribute("img")))
+                       .sceneNum(getSceneNum(
+                                eElement.getElementsByTagName("scene")))
+                       .description(getDescription(
+                                eElement.getElementsByTagName("scene")))
+                       .parts(buildParts(
+                                eElement.getElementsByTagName("part")));
+
+                CardList.add(builder.build());
+            }
+        }
+        return (Card[]) CardList.toArray();
+    }
+
+    private int getSceneNum(NodeList nList) {
+        return Integer.parseInt(((Element) nList.item(0))
+                      .getAttribute("number"));
+    }
+
+    private String getDescription(NodeList nList) {
+        return nList.item(0).getTextContent();
+    }
+
+    /*
+     * Builds Part objects as a part of a Card or BoardLocation object
+     */
+    private Part[] buildParts(NodeList nList) {
+        ArrayList<Part> parts   = new ArrayList<Part>();
+        PartBuilder     builder = new PartBuilder();
+
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node node = nList.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+
+                builder.name(eElement.getAttribute("name"))
+                       .level(Integer.parseInt(eElement.getAttribute("level")))
+                       .area(buildArea(eElement.getElementsByTagName("area")))
+                       .line(eElement.getElementsByTagName("line")
+                                     .item(0)
+                                     .getTextContent());
+
+                       parts.add(builder.build());
+            }
+        }
+        return (Part[]) parts.toArray();
     }
 }

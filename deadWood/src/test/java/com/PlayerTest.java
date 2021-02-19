@@ -5,15 +5,12 @@ import org.junit.Test;
 
 public class PlayerTest {
 
-
     private Player player;
-    
 
     @Before
     public void setUp() throws Exception{
         player = new Player(3, 2);
     }
-    
 
     @Test(expected = IllegalArgumentException.class)
     public void rankRange()
@@ -33,7 +30,4 @@ public class PlayerTest {
     {
         player.setDollars(-1);
     }
-
-
-
 }

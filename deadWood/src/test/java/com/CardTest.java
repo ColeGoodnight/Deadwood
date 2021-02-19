@@ -38,7 +38,6 @@ public class CardTest {
                    .image(new File(""))
                    .parts(parts);
     }
-    
 
     @Test(expected = IllegalStateException.class)
     public void attributeRange()

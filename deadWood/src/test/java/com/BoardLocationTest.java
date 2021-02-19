@@ -28,7 +28,6 @@ public class BoardLocationTest {
         strings = new String[1];
         strings[0] = "I am a string";
         
-
         partBuilder.area(area)
                    .level(3)
                    .line("wow")
