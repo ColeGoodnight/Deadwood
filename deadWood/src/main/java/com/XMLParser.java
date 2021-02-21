@@ -136,6 +136,9 @@ public class XMLParser {
         return takeAreas;
     }
 
+    /*
+     * Builds an array of Cards from a correctly formatted XML file
+     */
     public Card[] buildCards(File XMLFile) {
         
         try {
@@ -198,12 +201,14 @@ public class XMLParser {
         List<Part> parts   = new ArrayList<Part>();
         PartBuilder     builder = new PartBuilder();
 
+        // iterates through all Part elements in nList
         for (int i = 0; i < nList.getLength(); i++) {
             Node node = nList.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
 
+                // build current Part and adds to arraylist
                 builder.name(eElement.getAttribute("name"))
                        .level(Integer.parseInt(eElement.getAttribute("level")))
                        .area(buildArea(eElement.getElementsByTagName("area")))
