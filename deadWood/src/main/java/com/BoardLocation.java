@@ -1,5 +1,7 @@
 package com;
 
+import java.util.Arrays;
+
 public class BoardLocation {
 
     /*
@@ -95,5 +97,18 @@ public class BoardLocation {
     public Part[] getParts() {
         return this.parts;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " name='" + getName() + "'" +
+            ", neighbors='" + Arrays.toString(getNeighbors()) + "'" +
+            ", area='" + getArea() + "'" +
+            ", takeAreas='" + Arrays.toString(getTakeAreas()) + "'" +
+            ", parts='" + Arrays.toString(getParts()) + "'" +
+            "}";
+    }
+
 
 }
