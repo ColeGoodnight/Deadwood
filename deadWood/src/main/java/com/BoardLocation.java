@@ -15,7 +15,6 @@ public class BoardLocation {
         private Area     area;
         private Area[]   takeAreas;
         private Part[]   parts;
-        private Card     card;
         
         public BoardLocationBuilder() {
 
@@ -64,7 +63,7 @@ public class BoardLocation {
     private Area     area;
     private Area[]   takeAreas;
     private Part[]   parts;
-    
+    private Card     card;
 
     private BoardLocation(BoardLocationBuilder builder) {
         this.name      = builder.name;
