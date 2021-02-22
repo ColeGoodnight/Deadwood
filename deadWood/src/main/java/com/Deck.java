@@ -43,13 +43,11 @@ class Deck {
     }
 
 
-    public void dealCards() {
+    public Card dealCard() {
         shuffledDeck = shuffleDeck(this.cards);
-        ArrayList<Card> dealtCards = new ArrayList<Card>(10);
-        for(int i = 0; i < 10; i++){
-            dealtCards[i] = shuffledDeck[i];
-        }
-        return dealtCards;
+        dealtCard = shuffledDeck[0];
+        shuffledDeck.remove(0);
+        return dealtCard;
     }
 
     public void clearBoard() {
