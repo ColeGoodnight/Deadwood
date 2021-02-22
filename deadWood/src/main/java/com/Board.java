@@ -18,8 +18,8 @@ class Board {
     }
 
     public void setBoardCards(BoardLocation[] locations){
-        for(int i = 0; i < locations.length; i++){
-            locations[i].setBoardCards(Deck.dealCard());
+        for(int i = 0; i < locations.length-2; i++){
+            locations[i].setCard(Deck.dealCard());
         }
     }
 }
