@@ -94,6 +94,9 @@ public class BoardLocation {
         return this.parts;
     }
 
+    public Card getCard(){
+        return this.card;
+    }
 
     @Override
     public String toString() {
