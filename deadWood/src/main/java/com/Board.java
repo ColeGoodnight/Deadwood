@@ -1,14 +1,11 @@
 package com;
 
-import java.io.File;
-
 class Board {
 
     private BoardLocation [] locations;
 
-    public Board (File XMLFile) {
-        XMLParser parser = new XMLParser();
-        locations = parser.buildBoardLocations(XMLFile);
+    public Board (BoardLocation [] locations) {
+        this.locations = locations;
     }
 
     public BoardLocation getBoardLocation(String locationName) {

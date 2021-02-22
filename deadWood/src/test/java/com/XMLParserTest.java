@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 
 import com.Part.PartBuilder;
+import com.Upgrade.UpgradeBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,15 +16,16 @@ public class XMLParserTest {
     File            XMLFile;
     BoardLocation[] locations;
     Card[]          cards;
+    Upgrade[]       upgrades;
 
     @Before
     public void setUp() throws Exception{
         XMLFile   = new File("res/xmlFiles/board.xml");
-        parser    = new XMLParser(new File("res/xmlFiles/board.xml"));
-        locations = parser.buildBoardLocations();
+        parser    = new XMLParser();
+        locations = parser.buildBoardLocations(XMLFile);
+        upgrades  = parser.buildUpgrades(XMLFile);
         XMLFile   = new File("res/xmlFiles/cards.xml");
-        cards     = parser.buildCards();
-
+        cards     = parser.buildCards(XMLFile);
     }
 
     @Test
@@ -94,6 +96,19 @@ public class XMLParserTest {
 
     @Test
     public void validateCardImage() {
-        assertEquals(cards[0].getImage(), new File("../../../../res/images/01.png"));
+        assertEquals(cards[0].getImage(), new File("res/images/01.png"));
+    }
+
+    @Test
+    public void validateUpgradeAttributes() {
+        UpgradeBuilder upgradeBuilder = new UpgradeBuilder();
+        Area area = new Area(98, 542, 19, 19);
+        upgradeBuilder.area(area)
+                      .level(2)
+                      .currency("dollar")
+                      .amt(4);
+
+        assertEquals(upgradeBuilder.build().toString(), 
+                     upgrades[0].toString());
     }
 }

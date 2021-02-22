@@ -13,14 +13,16 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        board = new Board(new File("res/xmlFiles/board.xml"));
+        XMLParser parser = new XMLParser();
+        board = new Board(parser.buildBoardLocations(
+                new File("res/xmlFiles/board.xml")));
     }
 
     @Test 
     public void getLocation() {
-        XMLParser parser = new XMLParser(new File("res/xmlFiles/board.xml"));
+        XMLParser parser = new XMLParser();
         BoardLocation[] testLocations = parser.
-                    buildBoardLocations();
+                    buildBoardLocations(new File("res/xmlFiles/board.xml"));
         assertTrue(testLocations[0].toString()
                                    .equals(board
                                    .getBoardLocation("Train Station")

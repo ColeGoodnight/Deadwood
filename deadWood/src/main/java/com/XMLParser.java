@@ -203,7 +203,7 @@ public class XMLParser {
                                 eElement.getElementsByTagName("part")))
                        .budget(Integer.parseInt(
                                 eElement.getAttribute("budget")))
-                       .image(new File("../../../../res/images/" +
+                       .image(new File("res/images/" +
                                 eElement.getAttribute("img")))
                        .sceneNum(getSceneNum(
                                 eElement.getElementsByTagName("scene")))
@@ -266,26 +266,28 @@ public class XMLParser {
         }
 
         Element        root     = document.getDocumentElement();
-        NodeList       nList    = root.getElementsByTagName("office");                                        
+        NodeList       nList    = root.getElementsByTagName("office"); 
+        Element        node     = (Element) nList.item(0);
+        nList                   = node.getElementsByTagName("upgrades");
+        node                    = (Element) nList.item(0);
+        nList                   = node.getElementsByTagName("upgrade");                            
         List<Upgrade>  upgrades = new ArrayList<Upgrade>();
         UpgradeBuilder builder  = new UpgradeBuilder();
 
         // iterates through all Upgrade elements in nList
         for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
+            node = (Element) nList.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
 
                 // build current Upgrade and adds to arraylist
-                builder.name(eElement.getAttribute("name"))
+                builder.level(Integer.parseInt(eElement.getAttribute("level")))
                        .amt(Integer.parseInt(eElement.getAttribute("amt")))
                        .area(buildArea(eElement.getElementsByTagName("area")))
-                       .currency(eElement.getElementsByTagName("currency")
-                                     .item(0)
-                                     .getTextContent());
+                       .currency(eElement.getAttribute("currency"));
 
-                       upgrades.add(builder.build());
+                upgrades.add(builder.build());
             }
         }
         return upgrades.toArray(new Upgrade[upgrades.size()]);

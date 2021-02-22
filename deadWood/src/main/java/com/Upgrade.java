@@ -8,7 +8,7 @@ public class Upgrade {
         * constructor with many parameters
         */
     static final class UpgradeBuilder {
-        private String name;
+        private int    level;
         private String currency;
         private int    amt;
         private Area   area;
@@ -17,8 +17,8 @@ public class Upgrade {
 
         }
 
-        public UpgradeBuilder name (String name) {
-            this.name = name;
+        public UpgradeBuilder level (int level) {
+            this.level = level;
             return this;
         }
 
@@ -38,8 +38,8 @@ public class Upgrade {
         }
 
         public Upgrade build() {
-            if (name == null) 
-                throw new IllegalStateException("Missing name");
+            if (level < 0 || level > 6) 
+                throw new IllegalStateException("Missing level");
             if (currency == null)
                 throw new IllegalStateException("Missing currency");
             if (amt < 0) 
@@ -50,27 +50,27 @@ public class Upgrade {
         }
     }
 
-    private String name;
     private String currency;
     private int    amt;
     private Area   area;
+    private int    level;
     
     private Upgrade(UpgradeBuilder builder) {
-        this.name = builder.name;
-        this.amt = builder.amt;
-        this.area = builder.area;
+        this.level    = builder.level;
+        this.amt      = builder.amt;
+        this.area     = builder.area;
         this.currency = builder.currency;
     }
 
-    public String getName() {
-        return this.name;
+    public int getLevel() {
+        return this.level;
     }
 
-    public String getcurrency() {
+    public String getCurrency() {
         return this.currency;
     }
 
-    public int getamt() {
+    public int getAmt() {
         return this.amt;
     }
 
@@ -81,9 +81,9 @@ public class Upgrade {
     @Override
     public String toString() {
         return "{" +
-            " name='" + getName() + "'" +
-            ", currency='" + getcurrency() + "'" +
-            ", amt='" + getamt() + "'" +
+            " level='" + getLevel() + "'" +
+            ", currency='" + getCurrency() + "'" +
+            ", amt='" + getAmt() + "'" +
             ", area='" + getArea() + "'" +
             "}";
     }
