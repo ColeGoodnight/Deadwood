@@ -6,8 +6,7 @@ import java.util.ArrayList;
 class Deck {
     private ArrayList<Card> cards;
 
-    private deckCheck = new boolean[40];
-    Arrays.fill(deckCheck, Boolean.FALSE);
+    private boolean[] deckCheck = new boolean[40];
 
     public Deck (List<Card> cards) {
         this.cards = cards;
@@ -52,7 +51,5 @@ class Deck {
 
     public void clearBoard() {
 
-    }
-
-    
+    } 
 }
