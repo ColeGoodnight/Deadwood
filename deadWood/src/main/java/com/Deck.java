@@ -6,20 +6,19 @@ import java.util.ArrayList;
 class Deck {
     private ArrayList<Card> cards;
 
-    private deckCheck = new boolean[40];
-    Arrays.fill(deckCheck, Boolean.FALSE);
+    private boolean[] deckCheck = new boolean[40];
 
     public Deck (List<Card> cards) {
         this.cards = cards;
     }
 
-    private ArrayList<Card> shuffle() {
+    private ArrayList<Card> shuffle(ArrayList<Card> cards) {
         ArrayList<Card> shuffledDeck = new ArrayList<Card>(40);
         int counter = 0;
         while(!allTrue(deckCheck)){
             int randomInt = randyGuy.nextInt(40);
             if(deckCheck[randomInt] == false){  //this card hasn't been accessed yet
-                currentCard = this.cards[randomInt];
+                Card currentCard = this.cards[randomInt];
                 shuffledDeck[i] = currentCard;
                 i++;
             }
@@ -44,15 +43,13 @@ class Deck {
 
 
     public Card dealCard() {
-        shuffledDeck = shuffleDeck(this.cards);
-        dealtCard = shuffledDeck[0];
+        ArrayList<Card> shuffledDeck = shuffle(this.cards);
+        Card dealtCard = shuffledDeck[0];
         shuffledDeck.remove(0);
         return dealtCard;
     }
 
     public void clearBoard() {
 
-    }
-
-    
+    } 
 }
