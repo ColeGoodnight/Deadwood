@@ -13,8 +13,8 @@ class Deck {
         this.cards = cards;
     }
 
-    private Card[] shuffle() {
-        shuffledDeck = new Card[40];
+    private ArrayList<Card> shuffle() {
+        ArrayList<Card> shuffledDeck = new ArrayList<Card>(40);
         int counter = 0;
         while(!allTrue(deckCheck)){
             int randomInt = randyGuy.nextInt(40);
@@ -45,7 +45,7 @@ class Deck {
 
     public void dealCards() {
         shuffledDeck = shuffleDeck(this.cards);
-        dealtCards = new Card[10];
+        ArrayList<Card> dealtCards = new ArrayList<Card>(10);
         for(int i = 0; i < 10; i++){
             dealtCards[i] = shuffledDeck[i];
         }
