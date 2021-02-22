@@ -15,7 +15,7 @@ public class BoardLocation {
         private Area     area;
         private Area[]   takeAreas;
         private Part[]   parts;
-        private Card    card;
+        private Card     card;
         
         public BoardLocationBuilder() {
 
