@@ -15,7 +15,7 @@ public class BoardLocation {
         private Area     area;
         private Area[]   takeAreas;
         private Part[]   parts;
-
+        
         public BoardLocationBuilder() {
 
         }
@@ -63,7 +63,7 @@ public class BoardLocation {
     private Area     area;
     private Area[]   takeAreas;
     private Part[]   parts;
-    
+    private Card     card;
 
     private BoardLocation(BoardLocationBuilder builder) {
         this.name      = builder.name;
@@ -94,6 +94,9 @@ public class BoardLocation {
         return this.parts;
     }
 
+    public Card getCard(){
+        return this.card;
+    }
 
     @Override
     public String toString() {
