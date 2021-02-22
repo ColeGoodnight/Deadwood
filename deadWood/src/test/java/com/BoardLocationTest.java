@@ -16,6 +16,7 @@ public class BoardLocationTest {
     private Part[]               parts;
     private String[]             strings;
     private Area[]               areas;
+    private Take[]               takes;
 
     @Before
     public void setUp() throws Exception{
@@ -25,6 +26,9 @@ public class BoardLocationTest {
         Area area = new Area(1, 1, 1, 1);
         areas = new Area[1];
         areas[0] = area;
+        Take take = new Take(area, false);
+        takes = new Take[1];
+        takes[0] = take;
         strings = new String[1];
         strings[0] = "I am a string";
         
@@ -37,7 +41,7 @@ public class BoardLocationTest {
         locationBuilder.name("sam")
                    .neighbors(strings)
                    .area(area)
-                   .takeAreas(areas)
+                   .takes(takes)
                    .parts(parts);
     }
 
@@ -48,7 +52,7 @@ public class BoardLocationTest {
         assertArrayEquals(strings, location.getNeighbors());
         assertEquals(new Area(1,1,1,1).toString(), 
                      location.getArea().toString());
-        assertArrayEquals(areas, location.getTakeAreas());
+        assertArrayEquals(takes, location.getTakes());
         assertArrayEquals(parts, location.getParts());
     }
 }

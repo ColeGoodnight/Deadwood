@@ -8,10 +8,11 @@ public class Part{
      * constructor with many parameters
      */
     static final class PartBuilder {
-        private String name;
-        private String line;
-        private int    level;
-        private Area   area;
+        private String  name;
+        private String  line;
+        private int     level;
+        private Area    area;
+        private boolean onCard = false;
 
         public PartBuilder() {
 
@@ -37,6 +38,11 @@ public class Part{
             return this;
         }
 
+        public PartBuilder onCard (boolean onCard) {
+            this.onCard = onCard;
+            return this;
+        }
+
         public Part build() {
             if (name == null) 
                 throw new IllegalStateException("Missing name");
@@ -50,18 +56,20 @@ public class Part{
         }
     }
 
-    private String name;
-    private String line;
-    private int    level;
-    private Area   area;
-    private int    practiceChips;
-    private int    shotCounters;
+    private String  name;
+    private String  line;
+    private int     level;
+    private Area    area;
+    private boolean onCard;
+    private int     practiceChips;
+    private int     shotCounters;
     
     private Part(PartBuilder builder) {
-        this.name = builder.name;
-        this.level = builder.level;
-        this.area = builder.area;
-        this.line = builder.line;
+        this.name   = builder.name;
+        this.level  = builder.level;
+        this.area   = builder.area;
+        this.line   = builder.line;
+        this.onCard = builder.onCard;
         practiceChips = 0;
         shotCounters = 0;
     }
@@ -90,6 +98,10 @@ public class Part{
         return this.shotCounters;
     }
 
+    public boolean getOnCard() {
+        return this.onCard;
+    }
+
     public void addShotCounter() {
         shotCounters++;
     }
@@ -106,6 +118,7 @@ public class Part{
             ", line='" + getLine() + "'" +
             ", level='" + getLevel() + "'" +
             ", area='" + getArea() + "'" +
+            ", onCard='" + getOnCard() + "'" +
             ", practiceChips='" + getPracticeChips() + "'" +
             ", shotCounters='" + getShotCounters() + "'" +
             "}";

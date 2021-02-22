@@ -2,11 +2,11 @@ package com;
 
 public class Player {
 
-    private int    credits;
-    private int    dollars;
-    private int    rank;
-    private String location;
-    private Part   currentPart;
+    private int           credits;
+    private int           dollars;
+    private int           rank;
+    private BoardLocation location;
+    private Part          currentPart;
 
     public Player(int credits, int rank) {
         this.credits = credits;
@@ -37,11 +37,11 @@ public class Player {
         } 
     }
 
-    public String getLocation() {
+    public BoardLocation getLocation() {
         return this.location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(BoardLocation location) {
         this.location = location;
     }
 

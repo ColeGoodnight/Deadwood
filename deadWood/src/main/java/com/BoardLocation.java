@@ -13,7 +13,7 @@ public class BoardLocation {
         private String   name;
         private String[] neighbors;
         private Area     area;
-        private Area[]   takeAreas;
+        private Take[]   takes;
         private Part[]   parts;
         
         public BoardLocationBuilder() {
@@ -36,8 +36,8 @@ public class BoardLocation {
             return this;
         }
 
-        public BoardLocationBuilder takeAreas(Area[] takeAreas) {
-            this.takeAreas = takeAreas;
+        public BoardLocationBuilder takes(Take[] takes) {
+            this.takes = takes;
             return this;
         }
 
@@ -61,7 +61,7 @@ public class BoardLocation {
     private String   name;
     private String[] neighbors;
     private Area     area;
-    private Area[]   takeAreas;
+    private Take[]   takes;
     private Part[]   parts;
     private Card     card;
 
@@ -69,7 +69,7 @@ public class BoardLocation {
         this.name      = builder.name;
         this.neighbors = builder.neighbors;
         this.area      = builder.area;
-        this.takeAreas = builder.takeAreas;
+        this.takes     = builder.takes;
         this.parts     = builder.parts;
     }
 
@@ -86,8 +86,8 @@ public class BoardLocation {
         return this.area;
     }
 
-    public Area[] getTakeAreas() {
-        return this.takeAreas;
+    public Take[] getTakes() {
+        return this.takes;
     }
 
     public Part[] getParts() {
@@ -108,7 +108,7 @@ public class BoardLocation {
             " name='" + getName() + "'" +
             ", neighbors='" + Arrays.toString(getNeighbors()) + "'" +
             ", area='" + getArea() + "'" +
-            ", takeAreas='" + Arrays.toString(getTakeAreas()) + "'" +
+            ", takes='" + Arrays.toString(getTakes()) + "'" +
             ", parts='" + Arrays.toString(getParts()) + "'" +
             "}";
     }

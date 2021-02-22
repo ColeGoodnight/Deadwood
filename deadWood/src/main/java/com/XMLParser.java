@@ -73,10 +73,10 @@ public class XMLParser {
                                 eElement.getElementsByTagName("neighbors")))
                        .area(buildArea(
                                 eElement.getElementsByTagName("area")))
-                       .takeAreas(getTakeAreas(
+                       .takes(getTakes(
                                 eElement.getElementsByTagName("takes")))
                        .parts(buildParts(
-                                temp.getElementsByTagName("part")));
+                                temp.getElementsByTagName("part"), false));
 
                 locationList.add(builder.build());
             }
@@ -152,21 +152,21 @@ public class XMLParser {
     /*
      * Retrieves takeArea values from XML file 
      */
-    private Area[] getTakeAreas(NodeList nList) {
-        Element temp     = (Element) nList.item(0);
-        nList            = temp.getElementsByTagName("take");
-        Area[] takeAreas = new Area[nList.getLength()];
+    private Take[] getTakes(NodeList nList) {
+        Element temp  = (Element) nList.item(0);
+        nList         = temp.getElementsByTagName("take");
+        Take[]  takes = new Take[nList.getLength()];
 
         for (int i = nList.getLength()-1; i >= 0; i--) {
             Node node = nList.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
-                takeAreas[i]     = buildArea(eElement
-                                           .getElementsByTagName("area"));
+                takes[i]     = new Take(buildArea(eElement
+                                           .getElementsByTagName("area")), false);
             }
         }
-        return takeAreas;
+        return takes;
     }
 
     /*
@@ -199,8 +199,6 @@ public class XMLParser {
                 // build current Card and add to arraylist
                 builder.name(
                                 eElement.getAttribute("name"))
-                       .parts(buildParts(
-                                eElement.getElementsByTagName("part")))
                        .budget(Integer.parseInt(
                                 eElement.getAttribute("budget")))
                        .image(new File("res/images/" +
@@ -210,7 +208,7 @@ public class XMLParser {
                        .description(getDescription(
                                 eElement.getElementsByTagName("scene")))
                        .parts(buildParts(
-                                eElement.getElementsByTagName("part")));
+                                eElement.getElementsByTagName("part"), true));
 
                 CardList.add(builder.build());
             }
@@ -230,7 +228,7 @@ public class XMLParser {
     /*
      * Builds Part objects as a part of a Card or BoardLocation object
      */
-    private Part[] buildParts(NodeList nList) {
+    private Part[] buildParts(NodeList nList, boolean onCard) {
         List<Part>  parts   = new ArrayList<Part>();
         PartBuilder builder = new PartBuilder();
 
@@ -247,7 +245,8 @@ public class XMLParser {
                        .area(buildArea(eElement.getElementsByTagName("area")))
                        .line(eElement.getElementsByTagName("line")
                                      .item(0)
-                                     .getTextContent());
+                                     .getTextContent())
+                       .onCard(onCard);                        
 
                        parts.add(builder.build());
             }
