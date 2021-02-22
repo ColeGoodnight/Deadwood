@@ -9,7 +9,7 @@ class Deck {
     private deckCheck = new boolean[40];
     Arrays.fill(deckCheck, Boolean.FALSE);
 
-    public Deck (ArrayList<Card> cards) {
+    public Deck (List<Card> cards) {
         this.cards = cards;
     }
 
