@@ -98,6 +98,10 @@ public class BoardLocation {
         return this.card;
     }
 
+    public void setCard(Card newCard){
+        this.card = newCard;
+    }
+
     @Override
     public String toString() {
         return "{" +
