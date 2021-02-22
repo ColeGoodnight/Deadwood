@@ -18,9 +18,9 @@ public class BoardTest {
 
     @Test 
     public void getLocation() {
-        XMLParser parser = new XMLParser();
+        XMLParser parser = new XMLParser(new File("res/xmlFiles/board.xml"));
         BoardLocation[] testLocations = parser.
-                    buildBoardLocations(new File("res/xmlFiles/board.xml"));
+                    buildBoardLocations();
         assertTrue(testLocations[0].toString()
                                    .equals(board
                                    .getBoardLocation("Train Station")

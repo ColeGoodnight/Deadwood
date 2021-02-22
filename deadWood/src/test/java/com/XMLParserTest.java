@@ -19,10 +19,10 @@ public class XMLParserTest {
     @Before
     public void setUp() throws Exception{
         XMLFile   = new File("res/xmlFiles/board.xml");
-        parser    = new XMLParser();
-        locations = parser.buildBoardLocations(XMLFile);
+        parser    = new XMLParser(new File("res/xmlFiles/board.xml"));
+        locations = parser.buildBoardLocations();
         XMLFile   = new File("res/xmlFiles/cards.xml");
-        cards     = parser.buildCards(XMLFile);
+        cards     = parser.buildCards();
 
     }
 

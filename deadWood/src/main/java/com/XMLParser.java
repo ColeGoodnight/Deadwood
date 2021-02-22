@@ -7,6 +7,7 @@ import javax.xml.parsers.*;
 import com.BoardLocation.BoardLocationBuilder;
 import com.Card.CardBuilder;
 import com.Part.PartBuilder;
+import com.Upgrade.UpgradeBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -53,12 +54,11 @@ public class XMLParser {
                                                 .getElementsByTagName("set");
         List<BoardLocation>  locationList = new ArrayList<BoardLocation>();
         BoardLocationBuilder builder      = new BoardLocationBuilder();
-
-        
+        Node                 node;
 
         // iterates through all Set elements in XML
         for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
+            node = nList.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
@@ -81,6 +81,39 @@ public class XMLParser {
                 locationList.add(builder.build());
             }
         }
+
+        nList = root.getElementsByTagName("trailer");
+        node  = nList.item(0);
+
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            Element eElement = (Element) node;           
+
+            // build unique locaiton Trailers and add to arraylist
+            builder.name("Trailers")
+                   .neighbors(getNeighbors(
+                            eElement.getElementsByTagName("neighbors")))
+                   .area(buildArea(
+                            eElement.getElementsByTagName("area")));
+
+            locationList.add(builder.build());
+        }
+
+        nList = root.getElementsByTagName("office");
+        node  = nList.item(0);
+
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            Element eElement = (Element) node;           
+
+            // build unique locaiton office and add to arraylist
+            builder.name("Casting Office")
+                   .neighbors(getNeighbors(
+                            eElement.getElementsByTagName("neighbors")))
+                   .area(buildArea(
+                            eElement.getElementsByTagName("area")));
+                            
+            locationList.add(builder.build());
+        }
+
         return (BoardLocation[]) 
             locationList.toArray(new BoardLocation[locationList.size()]);
     }
@@ -151,7 +184,7 @@ public class XMLParser {
 
         NodeList        nList    = document.getElementsByTagName("cards");
         Element         decLevel = (Element) nList.item(0);
-        List<Card> CardList = new ArrayList<Card>();
+        List<Card>      CardList = new ArrayList<Card>();
         CardBuilder     builder  = new CardBuilder();
 
         nList = decLevel.getElementsByTagName("card");
@@ -198,8 +231,8 @@ public class XMLParser {
      * Builds Part objects as a part of a Card or BoardLocation object
      */
     private Part[] buildParts(NodeList nList) {
-        List<Part> parts   = new ArrayList<Part>();
-        PartBuilder     builder = new PartBuilder();
+        List<Part>  parts   = new ArrayList<Part>();
+        PartBuilder builder = new PartBuilder();
 
         // iterates through all Part elements in nList
         for (int i = 0; i < nList.getLength(); i++) {
@@ -220,5 +253,41 @@ public class XMLParser {
             }
         }
         return parts.toArray(new Part[parts.size()]);
+    }
+
+    public Upgrade[] buildUpgrades(File XMLFile) {
+        
+        try {
+            document = builder.parse(XMLFile);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Element        root     = document.getDocumentElement();
+        NodeList       nList    = root.getElementsByTagName("office");                                        
+        List<Upgrade>  upgrades = new ArrayList<Upgrade>();
+        UpgradeBuilder builder  = new UpgradeBuilder();
+
+        // iterates through all Upgrade elements in nList
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node node = nList.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+
+                // build current Upgrade and adds to arraylist
+                builder.name(eElement.getAttribute("name"))
+                       .amt(Integer.parseInt(eElement.getAttribute("amt")))
+                       .area(buildArea(eElement.getElementsByTagName("area")))
+                       .currency(eElement.getElementsByTagName("currency")
+                                     .item(0)
+                                     .getTextContent());
+
+                       upgrades.add(builder.build());
+            }
+        }
+        return upgrades.toArray(new Upgrade[upgrades.size()]);
     }
 }

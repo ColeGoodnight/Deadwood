@@ -49,15 +49,11 @@ public class BoardLocation {
 
         public BoardLocation build() {
             if (name == null) 
-                throw new IllegalStateException("Missing partName");
+                throw new IllegalStateException("Missing name");
             if (neighbors == null)
-                throw new IllegalStateException("Missing line");
+                throw new IllegalStateException("Missing neighbors");
             if (area == null)
                 throw new IllegalStateException("Missing area"); 
-            if (takeAreas == null)
-                throw new IllegalStateException("Missing takeAreas"); 
-            if (parts == null)
-                throw new IllegalStateException("Missing parts"); 
             return new BoardLocation(this);
         }
     }
