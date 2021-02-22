@@ -17,6 +17,11 @@ class Board {
         return null;
     }
 
+    public void setBoardCards(BoardLocation[] locations){
+        for(int i = 0; i < locations.length; i++){
+            locations[i].setBoardCards(Deck.dealCard());
+        }
+    }
 }
 
 
