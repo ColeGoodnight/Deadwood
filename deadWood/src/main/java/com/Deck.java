@@ -15,7 +15,7 @@ class Deck {
         //put stuff here
     }
 
-    public void shuffleDeck(){
+    public Card[] shuffleDeck(Card[] cards){
         shuffledDeck = new Card[40];
         int counter = 0;
         while(!allTrue(deckCheck)){
@@ -29,6 +29,7 @@ class Deck {
                 continue;
             }  
         }
+        return shuffledDeck;
     }
 
     public boolean allTrue(boolean[] deckCheck){
@@ -43,7 +44,12 @@ class Deck {
         }
     }
 
-    public void dealRefresh(){
-        //add stuff here
+    public Card[] deal(){
+        shuffledDeck = shuffleDeck(this.cards);
+        dealtCards = new Card[10];
+        for(int i = 0; i < 10; i++){
+            dealtCards[i] = shuffledDeck[i];
+        }
+        return dealtCards;
     }
 }
