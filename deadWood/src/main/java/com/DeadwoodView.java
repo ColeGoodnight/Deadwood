@@ -23,7 +23,7 @@ public class DeadwoodView {
                 activeTerminal = false;
             }
             else if(userInput == "Active player?"){
-                System.out.println("The active plater is " + BoardLocation.getName() + ". They have " + Player.getDollars + "$, " + Player.getCredits() + " credits and " + Player.getRank() + " fames. They are working " + Player.getCurrentPart());
+                System.out.println("The active plater is " + BoardLocation.getName() + ". They have " + Player.getDollars() + "$, " + Player.getCredits() + " credits and " + Player.getRank() + " fames. They are working " + Player.getCurrentPart());
             }
             else if(userInput == "where"){
                 System.out.println(Admin.get);
