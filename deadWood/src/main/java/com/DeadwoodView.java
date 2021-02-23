@@ -2,7 +2,7 @@ package com;
 import java.util.Scanner;
 
 public class DeadwoodView {
-    public void pollUser() {
+    public void pollUser(Player currentPlayer) {
 
         System.out.println("List of possible commands:");
         System.out.println("commands");
@@ -19,7 +19,7 @@ public class DeadwoodView {
         boolean activeTerminal = true;
         String userInput;
         Admin admin = new Admin();
-        Player currentPlayer = admin.getCurrentPlayer();
+        Player currentPlayer = Admin.getCurrentPlayer();
 
         while(activeTerminal){
             userInput = terminal.nextLine();
