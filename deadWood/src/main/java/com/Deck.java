@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.Deadwood.Admin;
+import com.Model.Admin;
 
 
 class Deck {

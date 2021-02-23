@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Hello world!
  *
  */
-public class Deadwood
+public class Model
 {
     private static Board            board;
     private static Deck             deck;
@@ -22,8 +22,10 @@ public class Deadwood
 
     public static class Admin {
 
-        private int      day;
-        private int      dayLimit;
+        private int    day;
+        private int    dayLimit;
+        private Player currentPlayer;
+        private int    playerIterator; 
         
         public Admin() {
             
@@ -31,6 +33,10 @@ public class Deadwood
     
         public boolean checkEndOfDay() {
             return false;
+        }
+
+        public static Player[] getPlayers() {
+            return players;
         }
     
         public void setupGame(int numPlayers) throws Exception{

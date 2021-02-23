@@ -1,6 +1,10 @@
 package com;
 
-import com.Deadwood.Admin;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.Model.Admin;
 
 public class PlayerController {
 
@@ -160,5 +164,55 @@ public class PlayerController {
             }
             return false;
         }
+    }
+
+    /*
+     * wraps up a set when all shot counters are removed
+     */
+    public void wrapSet(Player player) {
+        BoardLocation location       = player.getLocation();
+        Card          card           = location.getCard();
+        Player[]      players        = Admin.getPlayers();
+        List<Player>  onCardPlayers  = new ArrayList<Player>();
+        List<Player>  offCardPlayers = new ArrayList<Player>();
+
+        //
+        // get all players at the set that is wrapping
+        // seperates players into onCard and offCard
+        //
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getLocation()
+                          .getName()
+                          .equals(location.getName())) {
+
+                if (players[i].getCurrentPart().getOnCard()) {
+                    onCardPlayers.add(players[i]);
+                } else {
+                    offCardPlayers.add(players[i]);
+                }
+            }
+        }
+
+        int[] diceRolls = Dice.rollDice(card.getBudget());
+
+        // checks to see if any players were on card
+        if (onCardPlayers.size() > 0) {
+            for (Player offCardPlayer : offCardPlayers) {
+                // pays offCardPlayers relative to the level of their part
+                Admin.getBank().payPlayerInDollars(offCardPlayer, 
+                                offCardPlayer.getCurrentPart().getLevel());
+            }
+            int i = 0;
+
+            for (int roll : diceRolls) {
+                if (i >= onCardPlayers.size()) {
+                    i = 0;
+                }
+                Admin.getBank().payPlayerInDollars(onCardPlayers.get(i), roll);
+                i++;
+            }
+        }
+
+        location.setCard(null);
     }
 }
