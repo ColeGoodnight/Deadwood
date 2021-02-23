@@ -151,6 +151,19 @@ public class Model
             return players[playerIterator];
         }
 
+        public static Part getPartByName(String userInput){
+            BoardLocation[] locations = Board.getLocations();
+            for(int i = 0; i < locations.length; i++){
+                BoardLocation currentLocation = locations[i];
+                Part[] currentParts = currentLocation.getParts();
+                for(int x = 0; x < currentParts.length; x++){
+                    if(currentParts[x].getName() == userInput){
+                        return currentParts[x];
+                    }
+                }
+            }
+        }
+
         public static int getPlayerIterator() {
             return playerIterator;
         }
@@ -162,11 +175,6 @@ public class Model
             playerIterator++;
         }
 
-    
-        public void refreshDay() {
-    
-        }
-    
         public int score(Player player) {
             return player.getDollars() + 
                    player.getCredits() + 
