@@ -7,6 +7,9 @@ public class Player {
     private int           rank;
     private BoardLocation location;
     private Part          currentPart;
+    private boolean       hasMoved;
+    private boolean       hasActedOrRehearsed;
+
 
     public Player(int credits, int rank) {
         this.credits = credits;
@@ -63,5 +66,21 @@ public class Player {
 
     public int getRank() {
         return this.rank;
+    }
+
+    public void setHasMoved(boolean bool){
+        this.hasMoved = bool;
+    }
+
+    public boolean getHasMoved(){
+        return this.hasMoved;
+    }
+
+    public void setHasActedOrRehearsed(boolean bool){
+        this.hasActedOrRehearsed = bool;
+    }
+
+    public boolean getHasActedOrRehearsed(){
+        return this.hasActedOrRehearsed;
     }
 }

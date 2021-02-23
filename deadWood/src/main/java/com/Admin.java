@@ -1,7 +1,7 @@
 package com;
 
 import java.io.File;
-
+import java.lang.*;
 import com.Deadwood.Model;
 
 public class Admin {
@@ -49,7 +49,18 @@ public class Admin {
     public void refresh() {
         day++;
         if (day > dayLimit) {
-
+            System.out.println("The game is over! Lets see the scores!");
+            Player[] allPlayers = Deadwood.getPlayers();
+            int maxScore = 0;
+            int winner = 0;
+            for(int x = 0; x < allPlayers.length; x++){
+                System.out.println("Player " + x+1 + "'s score is: " + Admin.score(allPlayers[x]));
+                if(Admin.score(allPlayers[x]) > maxScore){
+                    maxScore = Admin.score(allPlayers[x]);
+                    winner = x+1;
+                }
+            }
+            System.out.println("And the winner is Player " + winner + " with a score of: " + maxScore);
         } else {
             //move players back to trailers
             Player[] players = Model.getPlayers();
@@ -118,6 +129,8 @@ public class Admin {
             default:
                 throw new IllegalArgumentException();
         }
+        Player firstPlayer = Deadwood.getPlayers()[0];
+        pollUser(firstPlayer);
     }
 
         /*
@@ -149,6 +162,7 @@ public class Admin {
             }
             
             currentPlayer = Model.getPlayers()[playerIterator]; 
+            pollUser(currentPlayer);
         }
 
         public String actPlayer(Player player) {
