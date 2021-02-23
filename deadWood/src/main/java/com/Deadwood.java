@@ -5,7 +5,11 @@ public class Deadwood {
         int numPlayers = DeadwoodView.startGame();
         Admin admin = new Admin();
         admin.buildModel(numPlayers);
-        admin.setupGame(numPlayers);
+        try {
+            admin.setupGame(numPlayers);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static class Model {
@@ -14,7 +18,6 @@ public class Deadwood {
         private static Player[]         players;
         private static Upgrade[]        upgrades;
         private static Bank             bank;
-        private static PlayerController pController;
     
         public static Player[] getPlayers() {
             return players;
@@ -49,14 +52,6 @@ public class Deadwood {
         }
         public static void setBank(Bank newBank) {
             bank = newBank;
-        }
-    
-        public static PlayerController getPController() {
-            return pController;
-        }
-    
-        public static void setPController(PlayerController newPController) {
-            pController = newPController;
         }
     }
 }

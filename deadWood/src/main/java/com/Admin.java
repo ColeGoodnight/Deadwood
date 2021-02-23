@@ -6,10 +6,11 @@ import com.Deadwood.Model;
 
 public class Admin {
 
-    private int    day;
-    private int    dayLimit;
-    private Player currentPlayer;
+    private static int    day;
+    private static int    dayLimit;
+    private static Player currentPlayer;
     private static int playerIterator = 0;
+    private PlayerController pController;
 
     public Admin () {
         day = 0;
@@ -25,7 +26,8 @@ public class Admin {
         Model.setPlayers(new Player[numPlayers]);
         Model.setUpgrades(parser.buildUpgrades(new File("res/xmlFiles/cards.xml")));
         Model.setBank(new Bank());
-        Model.setPController(new PlayerController());
+
+        pController = new PlayerController();
     }
 
     public void checkEndOfDay() {
@@ -41,22 +43,27 @@ public class Admin {
         }
     }
 
-    public void refresh(){
-        //move players back to trailers
-        Player[] players = Model.getPlayers();
-        for(int x = 0; x < players.length; x++){
-            Model.getPController().move(players[x], 
-                Model.getBoard().getBoardLocation("Trailers"));
-        }
+    public void refresh() {
+        day++;
+        if (day > dayLimit) {
 
-        //reset shot counters
-        BoardLocation[] locations = Model.getBoard().getLocations();
-        for(int i = 0; i < locations.length-2; i++){
-            locations[i].resetTakeIncrement();
-        }
+        } else {
+            //move players back to trailers
+            Player[] players = Model.getPlayers();
+            for(int x = 0; x < players.length; x++){
+                pController.move(players[x], 
+                    Model.getBoard().getBoardLocation("Trailers"));
+            }
 
-        //redeal cards to board
-        Model.getDeck().dealCardsToBoard();
+            //reset shot counters
+            BoardLocation[] locations = Model.getBoard().getLocations();
+            for(int i = 0; i < locations.length-2; i++){
+                locations[i].resetTakeIncrement();
+            }
+
+            //redeal cards to board
+            Model.getDeck().dealCardsToBoard();
+        }
     }
 
     public void setupGame(int numPlayers) throws Exception {
@@ -124,19 +131,39 @@ public class Admin {
         }
         */
         
-        public static Player getCurrentPlayer() {
+        public Player getCurrentPlayer() {
             return Model.getPlayers()[playerIterator];
         }
 
-        public static int getPlayerIterator() {
+        public int getPlayerIterator() {
             return playerIterator;
         }
 
-        public static void nextPlayer() {
-            if (playerIterator >= Model.getPlayers().length-1) {
+        public void nextPlayer() {
+            playerIterator++;
+            if (playerIterator > Model.getPlayers().length) {
                 playerIterator = 0;
             }
-            playerIterator++;
+            
+            currentPlayer = Model.getPlayers()[playerIterator]; 
+        }
+
+        public String actPlayer(Player player) {
+            try {
+                if (pController.act(player)) {
+                    return "Success!";
+                } else {
+                    return "Failure!";
+                }
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+
+            
+        }
+
+        public String takePartPlayer(Player player, ) {
+            pController.takePart(player, part);
         }
 
         public int score(Player player) {

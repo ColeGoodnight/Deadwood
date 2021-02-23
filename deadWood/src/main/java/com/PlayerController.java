@@ -3,7 +3,7 @@ package com;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.Model.Admin;
+import com.Deadwood.Model;
 
 public class PlayerController {
 
@@ -57,7 +57,7 @@ public class PlayerController {
 
             // attempts to debt player - success if possible, exception if 
             // not enough currency
-            if(Admin.getBank()
+            if(Model.getBank()
                     .debtPlayerInDollars(player, desiredUpgrade.getAmt())) {
                 player.setRank(desiredUpgrade.getLevel());
             } else {
@@ -66,7 +66,7 @@ public class PlayerController {
 
         } else {
 
-            if(Admin.getBank()
+            if(Model.getBank()
                     .debtPlayerInCredits(player, desiredUpgrade.getAmt())) {
                 player.setRank(desiredUpgrade.getLevel());
             } else {
@@ -142,10 +142,10 @@ public class PlayerController {
 
             // check for role on card
             if (part.getOnCard()) {
-                Admin.getBank().payPlayerInCredits(player, 2);
+                Model.getBank().payPlayerInCredits(player, 2);
             } else {
-                Admin.getBank().payPlayerInCredits(player, 1);
-                Admin.getBank().payPlayerInDollars(player, 1);
+                Model.getBank().payPlayerInCredits(player, 1);
+                Model.getBank().payPlayerInDollars(player, 1);
             }
 
 
@@ -159,7 +159,7 @@ public class PlayerController {
 
             // check for role on card
             if (!part.getOnCard()) {
-                Admin.getBank().payPlayerInDollars(player, 1);
+                Model.getBank().payPlayerInDollars(player, 1);
             }
             return false;
         }
@@ -171,7 +171,7 @@ public class PlayerController {
     public void wrapSet(Player player) {
         BoardLocation location       = player.getLocation();
         Card          card           = location.getCard();
-        Player[]      players        = Admin.getPlayers();
+        Player[]      players        = Model.getPlayers();
         List<Player>  onCardPlayers  = new ArrayList<Player>();
         List<Player>  offCardPlayers = new ArrayList<Player>();
 
@@ -198,7 +198,7 @@ public class PlayerController {
         if (onCardPlayers.size() > 0) {
             for (Player offCardPlayer : offCardPlayers) {
                 // pays offCardPlayers relative to the level of their part
-                Admin.getBank().payPlayerInDollars(offCardPlayer, 
+                Model.getBank().payPlayerInDollars(offCardPlayer, 
                                 offCardPlayer.getCurrentPart().getLevel());
                 offCardPlayer.setCurrentPart(null);
             }
@@ -208,7 +208,7 @@ public class PlayerController {
                 if (i >= onCardPlayers.size()) {
                     i = 0;
                 }
-                Admin.getBank().payPlayerInDollars(onCardPlayers.get(i), roll);
+                Model.getBank().payPlayerInDollars(onCardPlayers.get(i), roll);
                 i++;
                 onCardPlayers.get(i).setCurrentPart(null);
             }
