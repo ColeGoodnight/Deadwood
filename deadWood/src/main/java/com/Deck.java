@@ -1,10 +1,14 @@
 package com;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import com.Deadwood.Admin;
 
 
 class Deck {
-    private ArrayList<Card> cards;
+    private List<Card> cards;
 
     private boolean[] deckCheck = new boolean[40];
 
@@ -12,14 +16,15 @@ class Deck {
         this.cards = cards;
     }
 
-    private ArrayList<Card> shuffle(ArrayList<Card> cards) {
-        ArrayList<Card> shuffledDeck = new ArrayList<Card>(40);
-        int counter = 0;
+    private List<Card> shuffle(List<Card> cards) {
+        List<Card> shuffledDeck = new ArrayList<Card>(40);
+        Random randyGuy = new Random();
+        int i = 0;
         while(!allTrue(deckCheck)){
             int randomInt = randyGuy.nextInt(40);
             if(deckCheck[randomInt] == false){  //this card hasn't been accessed yet
-                Card currentCard = this.cards[randomInt];
-                shuffledDeck[i] = currentCard;
+                Card currentCard = this.cards.get(randomInt);
+                shuffledDeck.set(i, currentCard);
                 i++;
             }
             else if(deckCheck[randomInt] == true){ //has been accessed
@@ -39,15 +44,25 @@ class Deck {
                 return false;
             }
         }
+        return check;
     }
 
 
     public Card dealCard() {
-        ArrayList<Card> shuffledDeck = shuffle(this.cards);
-        Card dealtCard = shuffledDeck[0];
+        List<Card> shuffledDeck = shuffle(this.cards);
+        Card dealtCard = shuffledDeck.get(0);
         shuffledDeck.remove(0);
         return dealtCard;
     }
+
+    public void dealCardsToBoard() {
+        BoardLocation[] locations = Admin.getBoard().getLocations();
+        for (int i = 0; i < locations.length-2; i++) {
+            locations[i].setCard(cards.get(0));
+            cards.remove(0);
+        }
+    }
+    
 
     public void clearBoard() {
 

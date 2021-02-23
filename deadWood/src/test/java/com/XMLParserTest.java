@@ -40,12 +40,14 @@ public class XMLParserTest {
 
     @Test
     public void validateLocationArea() {
-        assertEquals(locations[0].getArea().toString(), new Area(21, 69, 205, 115).toString());
+        assertEquals(locations[0].getArea().toString(), 
+                    new Area(21, 69, 205, 115).toString());
     }
 
     @Test
     public void validateLocationTakeAreas() {
-        assertEquals(locations[0].getTakeAreas()[0].toString(), new Area(36, 11, 47, 47).toString());
+        assertEquals(locations[0].getTakes()[0].toString(), 
+                    new Take(new Area(36, 11, 47, 47), false).toString());
     }
 
     @Test

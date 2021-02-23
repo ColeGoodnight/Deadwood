@@ -62,7 +62,6 @@ public class Part{
     private Area    area;
     private boolean onCard;
     private int     practiceChips;
-    private int     shotCounters;
     
     private Part(PartBuilder builder) {
         this.name   = builder.name;
@@ -71,7 +70,6 @@ public class Part{
         this.line   = builder.line;
         this.onCard = builder.onCard;
         practiceChips = 0;
-        shotCounters = 0;
     }
 
     public String getName() {
@@ -94,16 +92,8 @@ public class Part{
         return this.practiceChips;
     }
 
-    public int getShotCounters() {
-        return this.shotCounters;
-    }
-
     public boolean getOnCard() {
         return this.onCard;
-    }
-
-    public void addShotCounter() {
-        shotCounters++;
     }
 
     public void addPracticeChip() {
@@ -120,7 +110,6 @@ public class Part{
             ", area='" + getArea() + "'" +
             ", onCard='" + getOnCard() + "'" +
             ", practiceChips='" + getPracticeChips() + "'" +
-            ", shotCounters='" + getShotCounters() + "'" +
             "}";
     }
 

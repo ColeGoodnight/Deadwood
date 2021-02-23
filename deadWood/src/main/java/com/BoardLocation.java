@@ -64,13 +64,15 @@ public class BoardLocation {
     private Take[]   takes;
     private Part[]   parts;
     private Card     card;
+    private int      takeIterator;
 
     private BoardLocation(BoardLocationBuilder builder) {
-        this.name      = builder.name;
-        this.neighbors = builder.neighbors;
-        this.area      = builder.area;
-        this.takes     = builder.takes;
-        this.parts     = builder.parts;
+        this.name         = builder.name;
+        this.neighbors    = builder.neighbors;
+        this.area         = builder.area;
+        this.takes        = builder.takes;
+        this.parts        = builder.parts;
+        this.takeIterator = 0;
     }
 
 
@@ -100,6 +102,16 @@ public class BoardLocation {
 
     public void setCard(Card newCard){
         this.card = newCard;
+    }
+
+    public boolean finishShot() {
+        takes[takeIterator].setShotCompleted(true);
+        takeIterator++;
+        return takeIterator >= takes.length;
+    }
+
+    public void resetTakeIncrement() {
+        takeIterator = 0;
     }
 
     @Override

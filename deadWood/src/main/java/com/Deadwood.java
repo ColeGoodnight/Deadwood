@@ -111,11 +111,10 @@ public class Deadwood
             return bank;
         }
 
-        public 
     
-        public void refreshDay() {
+        /*public void refreshDay() {
     
-        }
+        }*/
     
         public int score(Player player) {
             return player.getDollars() + 

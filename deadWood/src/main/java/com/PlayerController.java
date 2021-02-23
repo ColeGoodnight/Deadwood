@@ -119,7 +119,7 @@ public class PlayerController {
      * not paid. After the last successful shot, check if any shots are left.
      * If no shots left, commence final payout and remove card from board.
      */
-    public void act(Player player) {
+    public boolean act(Player player) {
         Card card = player.getLocation().getCard();
         Part part = player.getCurrentPart();
 
@@ -133,6 +133,32 @@ public class PlayerController {
             throw new IllegalArgumentException("Shoot already finished");
         }
 
-        
+        int[] diceRoll = Dice.rollDice(1);
+        if (diceRoll[0] >= card.getBudget()) {
+            // successful shoot
+
+            // check for role on card
+            if (part.getOnCard()) {
+                Admin.getBank().payPlayerInCredits(player, 2);
+            } else {
+                Admin.getBank().payPlayerInCredits(player, 1);
+                Admin.getBank().payPlayerInDollars(player, 1);
+            }
+
+
+            if (player.getLocation().finishShot()) {
+                wrapSet(player);
+            }
+            
+            return true;
+        } else {
+            // unsuccessful shoot
+
+            // check for role on card
+            if (!part.getOnCard()) {
+                Admin.getBank().payPlayerInDollars(player, 1);
+            }
+            return false;
+        }
     }
 }

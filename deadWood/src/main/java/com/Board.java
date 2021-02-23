@@ -22,6 +22,10 @@ class Board {
             locations[i].setCard(Deck.dealCard());
         }
     }
+
+    public BoardLocation[] getLocations() {
+        return this.locations;
+    }
 }
 
 
