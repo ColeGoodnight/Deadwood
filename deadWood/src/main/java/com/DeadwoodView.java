@@ -2,9 +2,7 @@ package com;
 import java.util.Scanner;
 
 public class DeadwoodView {
-    public static void main(String[] args) {
-      
-      
+    public static void mainGame(){
         System.out.println("List of possible commands:");
         System.out.println("commands");
         System.out.println("active player?");
@@ -108,6 +106,15 @@ public class DeadwoodView {
         }
         terminal.close();
     }
+
+    public static int startGame(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("How many players?: ");
+        int numPlayers = input.next();
+        return numPlayers;
+    }
+
+    public static void mainGame()
 
     public DeadwoodView() {
 
