@@ -28,7 +28,7 @@ public class DeadwoodView {
 
             switch(userInput) {
                 case "end turn":
-                    
+                    Admin.checkEndOfDay();
 
                 case "active player?":
                     System.out.println("The active player is player " + 
