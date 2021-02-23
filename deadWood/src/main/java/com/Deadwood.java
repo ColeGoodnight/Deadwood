@@ -9,11 +9,12 @@ import java.util.Arrays;
  */
 public class Deadwood
 {
-    private static Board     board;
-    private static Deck      deck;
-    private static Player[]  players;
-    private static Upgrade[] upgrades;
-    private static Bank      bank;
+    private static Board            board;
+    private static Deck             deck;
+    private static Player[]         players;
+    private static Upgrade[]        upgrades;
+    private static Bank             bank;
+    private static PlayerController pController;
     public static void main( String[] args )
     {
         
@@ -109,6 +110,10 @@ public class Deadwood
 
         public static Bank getBank() {
             return bank;
+        }
+
+        public static PlayerController getPlayerController() {
+            return pController;
         }
 
     
