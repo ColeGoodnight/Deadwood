@@ -28,7 +28,7 @@ public class DeadwoodView {
 
             switch(userInput) {
                 case "end turn":
-                    
+                    Admin.endTurn();
 
                 case "active player?":
                     System.out.println("The active player is player " + 
@@ -77,20 +77,20 @@ public class DeadwoodView {
                         System.out.println(e.getMessage());
                     }
                     
-                }
+                
 
                 case "upgrade":
                     String desiredLevel = userInput.substring(7, userInput.length());
                     Admin.getPlayerController().upgrade(Admin.getCurrentPlayer(), desiredLevel);
-                }
+                    }
 
-                else if(userInput.contains("move ")){
-                    String location = userInput.substring(4, userInput.length());
-                    Admin.getPlayerController()
-                        .move(Admin
-                        .getCurrentPlayer(), 
-                        Admin.getBoard()
-                            .getBoardLocation(location));
+                    else if(userInput.contains("move ")){
+                        String location = userInput.substring(4, userInput.length());
+                        Admin.getPlayerController()
+                            .move(Admin
+                            .getCurrentPlayer(), 
+                            Admin.getBoard()
+                                .getBoardLocation(location));
                 }
                 else if(userInput == "commands"){
                     System.out.println("List of possible commands:");
