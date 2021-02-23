@@ -24,7 +24,7 @@ public class DeadwoodView {
             System.out.print("> ");
             String userInput = terminal.nextLine();
             if (userInput == "end") {
-                //next player
+                endOfDayCheck();
             }
             else if(userInput == "Active player?"){
                 System.out.println("The active plater is " + BoardLocation.getName() + ". They have " + Player.getDollars() + "$, " + Player.getCredits() + " credits and " + Player.getRank() + " fames. They are working " + Player.getCurrentPart());
