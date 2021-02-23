@@ -21,10 +21,10 @@ public class DeadwoodView {
                 activeTerminal = false;
             }
             else if(userInput == "Active player?"){
-
+                System.out.println("The active plater is " + BoardLocation.getName() + ". They have " + Player.getDollars + "$, " + Player.getCredits() + " credits and " + Player.getRank() + " fames. They are working " + Player.getCurrentPart());
             }
             else if(userInput == "where"){
-                
+                System.out.println(BoardLocation.getArea());
             }
             else if(userInput == "act"){
                 
@@ -33,7 +33,8 @@ public class DeadwoodView {
                 
             }
             else if(userInput.contains("move")){
-                
+                String location = userInput.substring(4, userInput.length());
+                Player.setLocation(location);
             }
         }
         terminal.close()
