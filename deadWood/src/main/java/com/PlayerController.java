@@ -1,7 +1,6 @@
 package com;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.Model.Admin;
@@ -212,7 +211,6 @@ public class PlayerController {
                 i++;
             }
         }
-
         location.setCard(null);
     }
 }

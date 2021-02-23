@@ -1,7 +1,7 @@
 package com;
 import java.util.Scanner;
 
-import com.Deadwood.Admin;
+import com.Model.Admin;
 
 public class DeadwoodView {
     public static void main(String[] args){
