@@ -30,9 +30,8 @@ public class Model
         public Admin() {
 
         }
-
-        public boolean checkEndOfDay() {
-            endDayStatus = false;
+    
+        public void checkEndOfDay() {
             BoardLocation[] locations = Board.getLocations();
             int nullCount = 0;
             for(int i = 0; i < locations.length; i++){
@@ -42,9 +41,25 @@ public class Model
                 }
             }
             if(nullCount = 1){
-                endDayStatus = true;
+                refresh();
             }
-            return endDayStatus;
+        }
+
+        public void refresh(){
+            //move players back to trailers
+            Player[] players = Admin.getPlayers();
+            for(int x = 0; x < players.length; x++){
+                Admin.getPlayerController().move(player[x], Admin.getBoard().getBoardLocation("Trailers"));
+            }
+
+            //reset shot counters
+            BoardLocation[] locations = Board.getLocations();
+            for(int i = 0; i < locations.length; i++){
+                locations[i].resetTakeIncrement();
+            }
+
+            //redeal cards to board
+            Deck.dealCardsToBoard();
         }
 
         public static Player[] getPlayers() {
