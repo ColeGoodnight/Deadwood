@@ -117,6 +117,7 @@ public class Admin {
                 throw new IllegalArgumentException();
         }
 
+        /*
         public static List<Integer> playerOrder(int numPlayers){
             Random randyGuy = new Random();
             List<Integer> playerOrder = new ArrayList<Integer>(numPlayers));
@@ -128,7 +129,8 @@ public class Admin {
             }
             return playerOrder;
         }
-
+        */
+        
         public static Player getCurrentPlayer() {
             return players[playerIterator];
         }
