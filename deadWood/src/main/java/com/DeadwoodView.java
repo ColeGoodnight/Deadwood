@@ -84,7 +84,7 @@ public class DeadwoodView {
                     Admin.getPlayerController().upgrade(Admin.getCurrentPlayer(), desiredLevel);
                 }
 
-                else if(userInput.contains("move ")){
+                case "move ":
                     String location = userInput.substring(4, userInput.length());
                     Admin.getPlayerController()
                         .move(Admin
@@ -92,7 +92,7 @@ public class DeadwoodView {
                         Admin.getBoard()
                             .getBoardLocation(location));
                 }
-                else if(userInput == "commands"){
+                case "commands":
                     System.out.println("List of possible commands:");
                     System.out.println("commands");
                     System.out.println("Active player?");
