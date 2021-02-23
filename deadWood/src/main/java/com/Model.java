@@ -76,6 +76,10 @@ public class Model
         return players;
     }
 
+    public static Player nextPlayer(Player currentPlayer){
+
+    }
+
     public static Board getBoard() {
         return board;
     }
