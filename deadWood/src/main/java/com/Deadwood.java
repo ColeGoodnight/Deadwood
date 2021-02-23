@@ -2,9 +2,10 @@ package com;
 
 public class Deadwood {
     public static void main(String[] args) {
-        int numPlayers = view.startGame();
+        int numPlayers = DeadwoodView.startGame();
         Admin admin = new Admin();
         admin.buildModel(numPlayers);
+        admin.setupGame(numPlayers);
     }
 
     public static class Model {

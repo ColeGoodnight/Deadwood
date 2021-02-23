@@ -45,7 +45,7 @@ public class Admin {
         //move players back to trailers
         Player[] players = Model.getPlayers();
         for(int x = 0; x < players.length; x++){
-            Model.getPlayerController().move(players[x], 
+            Model.getPController().move(players[x], 
                 Model.getBoard().getBoardLocation("Trailers"));
         }
 
@@ -108,6 +108,7 @@ public class Admin {
             default:
                 throw new IllegalArgumentException();
         }
+    }
 
         /*
         public static List<Integer> playerOrder(int numPlayers){
