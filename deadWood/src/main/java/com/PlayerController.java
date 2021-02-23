@@ -14,7 +14,9 @@ public class PlayerController {
      */
     public void move(Player player, BoardLocation location) {
         String[] neighbors = player.getLocation().getNeighbors();
-
+        if(player.getHasMoved()){
+            throw new IllegalArgumentException("Cannot move more than once in a turn");
+        }
         // chceck for active part
         if (player.getCurrentPart() != null) {
             throw new IllegalArgumentException(
@@ -105,6 +107,9 @@ public class PlayerController {
         if (player.getCurrentPart() == null) {
             throw new IllegalArgumentException("No part to rehearse");
         }
+        if(player.getHasActedOrRehearsed()){
+            throw new IllegalArgumentException("You cannot act or rehearse more than once in a turn");
+        }
 
         Card card = player.getLocation().getCard();
 
@@ -130,6 +135,10 @@ public class PlayerController {
         // checks for valid part
         if (part == null) {
             throw new IllegalArgumentException("No part being worked on");
+        }
+
+        if(player.getHasActedOrRehearsed()){
+            throw new IllegalArgumentException("Cannot act or rehearse more than once in a turn");
         }
 
         // checks for valid card
