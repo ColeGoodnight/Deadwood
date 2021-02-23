@@ -3,7 +3,6 @@ package com;
 import java.io.File;
 
 import com.Deadwood.Model;
-import com.Model.ModelBuilder;
 
 public class Admin {
 
@@ -110,6 +109,20 @@ public class Admin {
                 throw new IllegalArgumentException();
         }
 
+        /*
+        public static List<Integer> playerOrder(int numPlayers){
+            Random randyGuy = new Random();
+            List<Integer> playerOrder = new ArrayList<Integer>(numPlayers));
+            for(int i = 0; i < numPlayers; i++){
+                int newRand = randyGuy.nextInt(numPlayers+1);
+                if(newRand != 0 && !playerOrder.contains(newRand)){
+                    playerOrder.add(newRand);
+                }
+            }
+            return playerOrder;
+        }
+        */
+        
         public static Player getCurrentPlayer() {
             return Model.getPlayers()[playerIterator];
         }
