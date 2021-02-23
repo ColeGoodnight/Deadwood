@@ -26,6 +26,8 @@ public class DeadwoodView {
 
             switch(userInput) {
                 case "end turn":
+                    currentPlayer.setHasMoved(false);
+                    currentPlayer.setHasActedOrRehearsed(false);
                     admin.nextPlayer();
                     activeTerminal = false;
 
