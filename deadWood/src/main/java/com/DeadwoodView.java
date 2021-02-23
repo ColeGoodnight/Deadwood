@@ -69,6 +69,22 @@ public class DeadwoodView {
         terminal.close();
     }
 
+    public boolean endOfDayCheck(){
+        endDayStatus = false;
+        BoardLocation[] locations = Board.getLocations();
+        int nullCount = 0;
+        for(int i = 0; i < locations.length; i++){
+            currentLocationCard = locations[i].getCard();
+            if(currentLocationCard == null){
+                nullCount++;
+            }
+        }
+        if(nullCount = 1){
+            endDayStatus = true;
+        }
+        return endDayStatus;
+    }
+
     public DeadwoodView() {
 
     }
