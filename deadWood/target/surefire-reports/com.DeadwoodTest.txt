@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.DeadwoodTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.026 s <<< FAILURE! - in com.DeadwoodTest
-shouldAnswerWithTrue(com.DeadwoodTest)  Time elapsed: 0.005 s  <<< FAILURE!
-java.lang.AssertionError
-	at com.DeadwoodTest.shouldAnswerWithTrue(DeadwoodTest.java:18)
-

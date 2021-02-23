@@ -2,6 +2,11 @@ package com;
 import java.util.Scanner;
 
 public class DeadwoodView {
+
+    public DeadwoodView() {
+
+    }
+
     public void pollUser(Player currentPlayer) {
 
         System.out.println("List of possible commands:");
@@ -10,10 +15,11 @@ public class DeadwoodView {
         System.out.println("location");
         System.out.println("act");
         System.out.println("rehearse");
-        System.out.println("move <location>");
+        System.out.println("move");
         System.out.println("upgrade");
         System.out.println("take role");
         System.out.println("end turn");
+        System.out.println();
         
         Scanner terminal = new Scanner(System.in);
         boolean activeTerminal = true;
@@ -28,8 +34,9 @@ public class DeadwoodView {
                 case "end turn":
                     currentPlayer.setHasMoved(false);
                     currentPlayer.setHasActedOrRehearsed(false);
-                    admin.nextPlayer();
+                    admin.nextPlayer(this);
                     activeTerminal = false;
+                    break;
 
                 case "active player?":
                     System.out.println("The active player is player " + 
@@ -40,16 +47,21 @@ public class DeadwoodView {
                             ". They are working " + currentPlayer
                                                    .getCurrentPart()
                                                    .getName());
+                    break;
                 
                 case "location":
                     System.out.println(admin.getCurrentPlayer()
                                             .getLocation()
                                             .getName());
+                    break;
 
                 case "act":
-                        System.out.println(admin.actPlayer(currentPlayer));
+                    System.out.println(admin.actPlayer(currentPlayer));
+                    break;
                     
-                    
+                case "rehearse":
+                    //rehearse current player
+                    break;
             
                 case "take role":
                     Part[] parts = currentPlayer
@@ -58,13 +70,13 @@ public class DeadwoodView {
                     
                     for (Part part : parts) {
                         if (part.getLevel() <= currentPlayer.getRank()) {
-                            System.out.println("role name" + part.getName() +
-                            "role rank" + part.getLevel() + 
+                            System.out.println("role name: " + part.getName() +
+                            " - role rank: " + part.getLevel() + 
                             "\n");
                         }
                     }
 
-                    System.out.println("Which role would you like to take?");
+                    System.out.println("Which role would you like to take? ");
                     userInput = terminal.nextLine();
                     try {
                         pController
@@ -75,29 +87,36 @@ public class DeadwoodView {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
+                    break;
                     
                 
 
                 case "upgrade":
-                    System.out.println("What rank would you like to upgrade to?");
+                    System.out.println("What rank would you like to upgrade to? ");
                     String desiredRank = terminal.nextLine();
 
-                    System.out.println("What currency would you like to pay in?");
+                    System.out.println("What currency would you like to pay in? ");
                     String desiredCurrency = terminal.nextLine();
 
                     System.out.println(admin.upgradePlayer(currentPlayer, 
                                                            desiredCurrency, 
                                           Integer.parseInt(desiredRank)));
+
+                    break;
                     
                 case "move":
                     String[] neighbors = currentPlayer.getLocation()
                                                       .getNeighbors();
 
+                    System.out.println("Neighboring Locations:\n");
+
                     for (String string : neighbors) {
                         System.out.println(string);
                     }
+
                     System.out.println("Where would you like to move to?");
                     System.out.println(admin.movePlayer(currentPlayer, terminal.nextLine()));
+                    break;
 
                 case "commands":
                     System.out.println("List of possible commands:");
@@ -110,19 +129,19 @@ public class DeadwoodView {
                     System.out.println("rehearse");
                     System.out.println("end");
                     System.out.println("move");
+                    break;
+
+                default:
+                    System.out.println("Invalid command");
                 }
             }
         }
 
-    public static int startGame(){
+    public int startGame(){
         Scanner input = new Scanner(System.in);
-        System.out.println("How many players?: ");
+        System.out.println("How many players? ");
         
         return input.nextInt();
-    }
-
-    public DeadwoodView() {
-
     }
 
     public void updateView() {

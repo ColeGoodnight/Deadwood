@@ -5,10 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.Deadwood.Model;
-
-
-
 class Deck {
     private List<Card> cards;
 

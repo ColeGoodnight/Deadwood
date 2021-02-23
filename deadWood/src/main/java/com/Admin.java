@@ -1,8 +1,6 @@
 package com;
 
 import java.io.File;
-import java.lang.*;
-import com.Deadwood.Model;
 
 public class Admin {
 
@@ -12,6 +10,7 @@ public class Admin {
     private static int playerIterator = 0;
     private static PlayerController pController;
     private static UpgradeManager upgradeManager;
+    private static Admin admin;
 
     public Admin () {
         day = 0;
@@ -22,12 +21,12 @@ public class Admin {
         XMLParser parser = new XMLParser();
 
         Model.setBoard(new Board(parser.buildBoardLocations(
-                       new File("res/xmlFiles/board.xml"))));
+                       new File("deadWood/res/xmlFiles/board.xml"))));
         Model.setDeck(new Deck(parser.buildCards(
-                      new File("res/xmlFiles/cards.xml"))));
+                      new File("deadWood/res/xmlFiles/cards.xml"))));
         Model.setPlayers(new Player[numPlayers]);
         Model.setUpgradeManager(new UpgradeManager(parser.buildUpgrades
-                      (new File("res/xmlFiles/cards.xml"))));
+                      (new File("deadWood/res/xmlFiles/board.xml"))));
         Model.setBank(new Bank());
 
         
@@ -50,13 +49,13 @@ public class Admin {
         day++;
         if (day > dayLimit) {
             System.out.println("The game is over! Lets see the scores!");
-            Player[] allPlayers = Deadwood.getPlayers();
+            Player[] allPlayers = Model.getPlayers();
             int maxScore = 0;
             int winner = 0;
             for(int x = 0; x < allPlayers.length; x++){
-                System.out.println("Player " + x+1 + "'s score is: " + Admin.score(allPlayers[x]));
-                if(Admin.score(allPlayers[x]) > maxScore){
-                    maxScore = Admin.score(allPlayers[x]);
+                System.out.println("Player " + x+1 + "'s score is: " + admin.score(allPlayers[x]));
+                if(admin.score(allPlayers[x]) > maxScore){
+                    maxScore = admin.score(allPlayers[x]);
                     winner = x+1;
                 }
             }
@@ -90,47 +89,53 @@ public class Admin {
                     Model.getPlayers()[i] = new Player(0, 1);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             case 3:
                 dayLimit = 3;
                 for (int i = 0; i < numPlayers; i++) {
                     Model.getPlayers()[i] = new Player(0, 1);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             case 4:
                 dayLimit = 4;
                 for (int i = 0; i < numPlayers; i++) {
                     Model.getPlayers()[i] = new Player(0, 1);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             case 5:
                 dayLimit = 4;
                 for (int i = 0; i < numPlayers; i++) {
                     Model.getPlayers()[i] = new Player(2, 1);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             case 6:
                 dayLimit = 4;
                 for (int i = 0; i < numPlayers; i++) {
                     Model.getPlayers()[i] = new Player(4, 1);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             case 7:
                 dayLimit = 4;
                 for (int i = 0; i < numPlayers; i++) {
                     Model.getPlayers()[i] = new Player(0, 2);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             case 8:
                 dayLimit = 4;
                 for (int i = 0; i < numPlayers; i++) {
                     Model.getPlayers()[i] = new Player(0, 2);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
+                break;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Invalid # of players");
+                
         }
-        Player firstPlayer = Deadwood.getPlayers()[0];
-        pollUser(firstPlayer);
     }
 
         /*
@@ -155,14 +160,14 @@ public class Admin {
             return playerIterator;
         }
 
-        public void nextPlayer() {
+        public void nextPlayer(DeadwoodView view) {
             playerIterator++;
             if (playerIterator > Model.getPlayers().length) {
                 playerIterator = 0;
             }
             
             currentPlayer = Model.getPlayers()[playerIterator]; 
-            pollUser(currentPlayer);
+            view.pollUser(currentPlayer);
         }
 
         public String actPlayer(Player player) {

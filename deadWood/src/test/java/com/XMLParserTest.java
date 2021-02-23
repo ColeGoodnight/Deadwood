@@ -90,7 +90,8 @@ public class XMLParserTest {
         builder.name("Defrocked Priest")
                .level(2)
                .line("Look out below!")
-               .area(new Area(20, 47, 40, 40));
+               .area(new Area(20, 47, 40, 40))
+               .onCard(true);
 
         assertEquals(cards[0].getParts()[0].toString(), 
                      builder.build().toString());
