@@ -26,6 +26,7 @@ public class PlayerController {
         for (int i = 0; i < neighbors.length; i++) {
             if (location.getName().equals(neighbors[i])) {
                 player.setLocation(location);
+                player.setHasMoved(true);
                 return;
             }
         }
@@ -112,7 +113,7 @@ public class PlayerController {
             throw new IllegalArgumentException(
                       "Already rehearsed enough, must act");
         }
-
+        player.setHasActedOrRehearsed(true);
         player.getCurrentPart().addPracticeChip();
     }
 
@@ -139,7 +140,7 @@ public class PlayerController {
         int[] diceRoll = Dice.rollDice(1);
         if (diceRoll[0] >= card.getBudget()) {
             // successful shoot
-
+            player.setHasActedOrRehearsed(true);
             // check for role on card
             if (part.getOnCard()) {
                 Model.getBank().payPlayerInCredits(player, 2);
@@ -156,7 +157,7 @@ public class PlayerController {
             return true;
         } else {
             // unsuccessful shoot
-
+            player.setHasActedOrRehearsed(true);
             // check for role on card
             if (!part.getOnCard()) {
                 Model.getBank().payPlayerInDollars(player, 1);
