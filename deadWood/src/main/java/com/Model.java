@@ -25,12 +25,12 @@ public class Model
         private int    day;
         private int    dayLimit;
         private Player currentPlayer;
-        private int    playerIterator; 
-        
+        private static int playerIterator = 0;
+
         public Admin() {
-            
+
         }
-    
+
         public boolean checkEndOfDay() {
             return false;
         }
@@ -38,25 +38,23 @@ public class Model
         public static Player[] getPlayers() {
             return players;
         }
-    
-        public void setupGame(int numPlayers) throws Exception{
+
+        public void setupGame(int numPlayers) throws Exception {
             XMLParser parser = new XMLParser();
-            board = new Board(parser.buildBoardLocations(
-                    new File("res/xmlFiles/board.xml")));
+            board = new Board(parser.buildBoardLocations(new File("res/xmlFiles/board.xml")));
 
-            /*deck = new Deck(Arrays.asList(
-                            parser.buildCards(
-                            new File("res/xmlFiles/cards.xml"))));*/
+            /*
+             * deck = new Deck(Arrays.asList( parser.buildCards( new
+             * File("res/xmlFiles/cards.xml"))));
+             */
 
-            //TODO: figure out deck constructor interface
+            // TODO: figure out deck constructor interface
 
-            upgrades = parser.buildUpgrades(
-                              new File("res/xmlFiles/board.xml"));
-            
+            upgrades = parser.buildUpgrades(new File("res/xmlFiles/board.xml"));
+
             players = new Player[numPlayers];
 
-            BoardLocation trailers = Admin.getBoard()
-                                          .getBoardLocation("Trailers");
+            BoardLocation trailers = Admin.getBoard().getBoardLocation("Trailers");
 
             switch (numPlayers) {
                 case 2:
@@ -122,10 +120,25 @@ public class Model
             return pController;
         }
 
+        public static Player getCurrentPlayer() {
+            return players[playerIterator];
+        }
+
+        public static int getPlayerIterator() {
+            return playerIterator;
+        }
+
+        public static void nextPlayer() {
+            if (playerIterator >= players.length-1) {
+                playerIterator = 0;
+            }
+            playerIterator++;
+        }
+
     
-        /*public void refreshDay() {
+        public void refreshDay() {
     
-        }*/
+        }
     
         public int score(Player player) {
             return player.getDollars() + 
