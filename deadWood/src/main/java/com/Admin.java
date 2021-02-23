@@ -115,6 +115,8 @@ public class Admin {
             default:
                 throw new IllegalArgumentException();
         }
+        Player firstPlayer = Deadwood.getPlayers()[0];
+        pollUser(firstPlayer);
     }
 
         /*
@@ -146,6 +148,7 @@ public class Admin {
             }
             
             currentPlayer = Model.getPlayers()[playerIterator]; 
+            pollUser(currentPlayer);
         }
 
         public String actPlayer(Player player) {
