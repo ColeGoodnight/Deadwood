@@ -200,6 +200,7 @@ public class PlayerController {
                 // pays offCardPlayers relative to the level of their part
                 Admin.getBank().payPlayerInDollars(offCardPlayer, 
                                 offCardPlayer.getCurrentPart().getLevel());
+                offCardPlayer.setCurrentPart(null);
             }
             int i = 0;
 
@@ -209,6 +210,7 @@ public class PlayerController {
                 }
                 Admin.getBank().payPlayerInDollars(onCardPlayers.get(i), roll);
                 i++;
+                onCardPlayers.get(i).setCurrentPart(null);
             }
         }
         location.setCard(null);
