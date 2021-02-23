@@ -16,7 +16,7 @@ public class Deadwood {
         private static Board            board;
         private static Deck             deck;
         private static Player[]         players;
-        private static Upgrade[]        upgrades;
+        private static UpgradeManager   upgradeManager;
         private static Bank             bank;
     
         public static Player[] getPlayers() {
@@ -27,8 +27,8 @@ public class Deadwood {
             return board;
         }
     
-        public static Upgrade[] getUpgrades() {
-            return upgrades;
+        public static UpgradeManager getUpgradeManager() {
+            return upgradeManager;
         }
     
         public static Bank getBank() {
@@ -47,8 +47,8 @@ public class Deadwood {
         public static void setPlayers(Player[] newPlayers) {
             players = newPlayers;
         }
-        public static void setUpgrades(Upgrade[] newUpgrades) {
-            upgrades = newUpgrades;
+        public static void setUpgradeManager(UpgradeManager newUpgrades) {
+            upgradeManager = newUpgrades;
         }
         public static void setBank(Bank newBank) {
             bank = newBank;

@@ -10,10 +10,12 @@ public class Admin {
     private static int    dayLimit;
     private static Player currentPlayer;
     private static int playerIterator = 0;
-    private PlayerController pController;
+    private static PlayerController pController;
+    private static UpgradeManager upgradeManager;
 
     public Admin () {
         day = 0;
+        pController = new PlayerController();
     }
 
     public void buildModel(int numPlayers) {
@@ -24,10 +26,11 @@ public class Admin {
         Model.setDeck(new Deck(parser.buildCards(
                       new File("res/xmlFiles/cards.xml"))));
         Model.setPlayers(new Player[numPlayers]);
-        Model.setUpgrades(parser.buildUpgrades(new File("res/xmlFiles/cards.xml")));
+        Model.setUpgradeManager(new UpgradeManager(parser.buildUpgrades
+                      (new File("res/xmlFiles/cards.xml"))));
         Model.setBank(new Bank());
 
-        pController = new PlayerController();
+        
     }
 
     public void checkEndOfDay() {
@@ -162,8 +165,26 @@ public class Admin {
             
         }
 
-        public String takePartPlayer(Player player, ) {
-            pController.takePart(player, part);
+        public String upgradePlayer(Player player, String currency, int rank) {
+            try {
+                pController.upgrade(player, upgradeManager.getUpgrade(currency, rank));
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+
+            return "Success!";
+            
+        }
+
+        public String movePlayer(Player player, String location) {
+            try {
+                pController.move(player, Model.getBoard().getBoardLocation(location));
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+
+            return "Success!";
+            
         }
 
         public int score(Player player) {
