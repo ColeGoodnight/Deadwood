@@ -12,7 +12,7 @@ class Deck {
 
     private boolean[] deckCheck = new boolean[40];
 
-    public Deck (List<Card> cards) {
+    public Deck (Card[] cards) {
         this.cards = cards;
     }
 
