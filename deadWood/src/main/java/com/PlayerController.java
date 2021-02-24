@@ -10,7 +10,7 @@ public class PlayerController {
      * a neighbor of the player's current location, or if the player
      * is currently working on a part - move will fail (throws exception)
      */
-    public void move(Player player, BoardLocation location) {
+    public String move(Player player, BoardLocation location) {
         String[] neighbors = player.getLocation().getNeighbors();
         if(player.getHasMoved()){
             throw new IllegalArgumentException("Cannot move more than once in a turn");
@@ -27,7 +27,7 @@ public class PlayerController {
             if (location.getName().equals(neighbors[i])) {
                 player.setLocation(location);
                 player.setHasMoved(true);
-                return;
+                return "Success!";
             }
         }
 
@@ -80,7 +80,22 @@ public class PlayerController {
      * assigns new part to player if not assigned part and
      * have sufficient rank to work part
      */
-    public void takePart(Player player, Part part) {
+    public String takePart(Player player, Part part) {
+        String locationName = player.getLocation().getName();
+        if (locationName.equals("Trailers") || locationName.equals("Casting Office")) {
+            throw new IllegalArgumentException("Cannot take roles at Trailers or Casting Office");
+        } 
+
+        for (int i = 0; i < Model.getPlayers().length; i++) {
+            if(Model.getPlayers()[i]
+                    .getCurrentPart() != null 
+            && Model.getPlayers()[i]
+                    .getCurrentPart() == part
+            && player.getLocation() == Model.getPlayers()[i].getLocation()) {
+                throw new IllegalArgumentException("Role already taken by player");
+            }
+        }
+
         //check for existing part
         if (player.getCurrentPart() != null) {
             throw new IllegalArgumentException(
@@ -92,7 +107,12 @@ public class PlayerController {
             throw new IllegalArgumentException("Rank not high enough");
         }
 
+        if (player.getLocation().getCard() == null) {
+            throw new IllegalArgumentException("Shoot already finished");
+        }
+
         player.setCurrentPart(part);
+        return "Success!";
     }
 
     /*

@@ -100,6 +100,10 @@ public class BoardLocation {
         for (Part part : parts) {
             if (part.getName().equals(name)) {return part;};
         }
+
+        for (Part part : card.getParts()) {
+            if (part.getName().equals(name)) {return part;};
+        }
         throw new IllegalArgumentException("part not found!");
     }
 

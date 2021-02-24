@@ -162,7 +162,7 @@ public class Admin {
 
         public void nextPlayer(DeadwoodView view) {
             playerIterator++;
-            if (playerIterator > Model.getPlayers().length) {
+            if (playerIterator >= Model.getPlayers().length) {
                 playerIterator = 0;
             }
             
@@ -182,6 +182,16 @@ public class Admin {
             }
 
             
+        }
+
+        public String rehearsePlayer(Player player) {
+            try {
+                pController.rehearse(player);
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+
+            return "\nSuccess!";
         }
 
         public String upgradePlayer(Player player, String currency, int rank) {

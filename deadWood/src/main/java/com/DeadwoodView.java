@@ -9,7 +9,7 @@ public class DeadwoodView {
 
     public void pollUser(Player currentPlayer) {
 
-        System.out.println("List of possible commands:");
+        System.out.println("\nList of possible commands:");
         System.out.println("commands");
         System.out.println("active player?");
         System.out.println("location");
@@ -39,63 +39,100 @@ public class DeadwoodView {
                     break;
 
                 case "active player?":
-                    System.out.println("The active player is player " + 
+                    System.out.print("\nThe active player is player " + 
                             (admin.getPlayerIterator()+1) + 
                             ". They have $" + currentPlayer.getDollars() +
-                            ", " + currentPlayer.getCredits() + " credits" + 
-                            "and their rank is" + currentPlayer.getRank() + 
-                            ". They are working " + currentPlayer
-                                                   .getCurrentPart()
-                                                   .getName());
+                            ", " + currentPlayer.getCredits() + " credits " + 
+                            "and their rank is " + currentPlayer.getRank());
+                    if (currentPlayer.getCurrentPart() == null) {
+                        System.out.println(". They are not currently working on a role.");
+                    } else {
+                        System.out.println(". They are working on " + currentPlayer
+                        .getCurrentPart()
+                        .getName());
+                    }
+                            
                     break;
                 
                 case "location":
+                    System.out.println();
                     System.out.println(admin.getCurrentPlayer()
                                             .getLocation()
                                             .getName());
+                    System.out.println();
                     break;
 
                 case "act":
-                    System.out.println(admin.actPlayer(currentPlayer));
+                        System.out.println();
+                        System.out.println(admin.actPlayer(currentPlayer));
                     break;
                     
                 case "rehearse":
-                    //rehearse current player
+                    System.out.println();
+                    System.out.println(admin.rehearsePlayer(currentPlayer));
                     break;
             
                 case "take role":
-                    Part[] parts = currentPlayer
+                    System.out.println();
+
+                    if (currentPlayer.getLocation().getCard() == null) {
+                        System.out.println("Shoot already finished");
+                    } else {
+                        Part[] parts1 = currentPlayer
                                    .getLocation()
                                    .getParts();
+
+                        Part[] parts2 = currentPlayer.getLocation()
+                                                     .getCard()
+                                                     .getParts();
+
+                        Part[] parts = new Part[parts1.length + parts2.length];
+                        int i = 0;
+                        while (i < parts1.length) {
+                            parts[i] = parts1[i];
+                            i++;
+                        }
+                        i--; // this is bad but it works so sshhhhhh
+                        for (int j = 0; j < parts2.length; j++) {
+                            if (i < parts.length) {
+                                i++;
+                            }
+                            
+                            parts[i] = parts2[j];
+                        }
+                        // actually that entire thing was bad
                     
-                    for (Part part : parts) {
-                        if (part.getLevel() <= currentPlayer.getRank()) {
-                            System.out.println("role name: " + part.getName() +
-                            " - role rank: " + part.getLevel() + 
-                            "\n");
+                        for (Part part : parts) {
+                            if (part.getLevel() <= currentPlayer.getRank()) {
+                                System.out.println("role name: " + part.getName() +
+                                " - role rank: " + part.getLevel() + 
+                                "\n");
+                            }
+                        }
+
+                        System.out.println("Which role would you like to take? ");
+                        userInput = terminal.nextLine();
+                        try {
+                            System.out.println(pController
+                                .takePart(currentPlayer, 
+                                admin.getCurrentPlayer()
+                                    .getLocation()
+                                    .getPartByName(userInput)));
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                         }
                     }
 
-                    System.out.println("Which role would you like to take? ");
-                    userInput = terminal.nextLine();
-                    try {
-                        pController
-                             .takePart(currentPlayer, 
-                              admin.getCurrentPlayer()
-                                   .getLocation()
-                                   .getPartByName(userInput));
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    
                     break;
                     
                 
 
                 case "upgrade":
-                    System.out.println("What rank would you like to upgrade to? ");
+                    System.out.println("\nWhat rank would you like to upgrade to? ");
                     String desiredRank = terminal.nextLine();
 
-                    System.out.println("What currency would you like to pay in? ");
+                    System.out.println("\nWhat currency would you like to pay in? ");
                     String desiredCurrency = terminal.nextLine();
 
                     System.out.println(admin.upgradePlayer(currentPlayer, 
@@ -108,7 +145,7 @@ public class DeadwoodView {
                     String[] neighbors = currentPlayer.getLocation()
                                                       .getNeighbors();
 
-                    System.out.println("Neighboring Locations:\n");
+                    System.out.println("\nNeighboring Locations:\n");
 
                     for (String string : neighbors) {
                         System.out.println(string);
@@ -122,13 +159,13 @@ public class DeadwoodView {
                     System.out.println("List of possible commands:");
                     System.out.println("commands");
                     System.out.println("active player?");
-                    System.out.println("where");
+                    System.out.println("location");
                     System.out.println("act");
-                    System.out.println("who");
-                    System.out.println("upgrade");
                     System.out.println("rehearse");
-                    System.out.println("end");
                     System.out.println("move");
+                    System.out.println("upgrade");
+                    System.out.println("take role");
+                    System.out.println("end turn");
                     break;
 
                 default:

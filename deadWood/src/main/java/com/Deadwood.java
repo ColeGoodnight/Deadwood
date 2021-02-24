@@ -11,6 +11,7 @@ public class Deadwood {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        Model.getDeck().dealCardsToBoard();
         view.pollUser(Model.getPlayers()[0]);
     }
 }

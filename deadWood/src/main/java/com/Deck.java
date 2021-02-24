@@ -11,7 +11,9 @@ class Deck {
     private boolean[] deckCheck = new boolean[40];
 
     public Deck (Card[] cards) {
-        this.cards = Arrays.asList(cards);
+        List<Card> cardsTemp = new ArrayList<Card>();
+        cardsTemp.addAll(Arrays.asList(cards));
+        this.cards = cardsTemp;
     }
 
     public void shuffle() {
@@ -55,7 +57,7 @@ class Deck {
         BoardLocation[] locations = Model.getBoard().getLocations();
         for (int i = 0; i < locations.length-2; i++) {
             locations[i].setCard(cards.get(0));
-            cards.remove(0);
+            cards.remove(cards.get(i));
         }
     }
 }
