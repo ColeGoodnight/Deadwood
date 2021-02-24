@@ -1,5 +1,7 @@
 package com;
 
+import java.util.NoSuchElementException;
+
 class Board {
 
     private BoardLocation [] locations;
@@ -14,7 +16,7 @@ class Board {
                 return locations[i];
             }
         }
-        return null;
+        throw new NoSuchElementException("No location found");
     }
 
     public BoardLocation[] getLocations() {

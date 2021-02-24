@@ -64,8 +64,8 @@ public class Admin {
             //move players back to trailers
             Player[] players = Model.getPlayers();
             for(int x = 0; x < players.length; x++){
-                pController.move(players[x], 
-                    Model.getBoard().getBoardLocation("Trailers"));
+                players[x].setLocation(Model.getBoard().getBoardLocation("Trailers"));
+                pController.resetPart(players[x]);
             }
 
             //reset shot counters
@@ -137,20 +137,6 @@ public class Admin {
                 
         }
     }
-
-        /*
-        public static List<Integer> playerOrder(int numPlayers){
-            Random randyGuy = new Random();
-            List<Integer> playerOrder = new ArrayList<Integer>(numPlayers));
-            for(int i = 0; i < numPlayers; i++){
-                int newRand = randyGuy.nextInt(numPlayers+1);
-                if(newRand != 0 && !playerOrder.contains(newRand)){
-                    playerOrder.add(newRand);
-                }
-            }
-            return playerOrder;
-        }
-        */
         
         public Player getCurrentPlayer() {
             return Model.getPlayers()[playerIterator];
@@ -173,9 +159,9 @@ public class Admin {
         public String actPlayer(Player player) {
             try {
                 if (pController.act(player)) {
-                    return "Success!";
+                    return "\nSuccess!\n";
                 } else {
-                    return "Failure!";
+                    return "\nFailure!\n";
                 }
             } catch (Exception e) {
                 return e.getMessage();
@@ -191,17 +177,18 @@ public class Admin {
                 return e.getMessage();
             }
 
-            return "\nSuccess!";
+            return "\nSuccess!\n";
         }
 
         public String upgradePlayer(Player player, String currency, int rank) {
             try {
-                pController.upgrade(player, upgradeManager.getUpgrade(currency, rank));
+                Upgrade desiredUpgrade = Model.getUpgradeManager().getUpgrade(currency, rank);
+                pController.upgrade(player, desiredUpgrade);
             } catch (Exception e) {
                 return e.getMessage();
             }
 
-            return "Success!";
+            return "\nSuccess!\n";
             
         }
 
@@ -212,8 +199,12 @@ public class Admin {
                 return e.getMessage();
             }
 
-            return "Success!";
+            return "\nSuccess!\n";
             
+        }
+
+        public void incrementDay() {
+            day++;
         }
 
         public int score(Player player) {

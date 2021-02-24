@@ -132,7 +132,7 @@ public class DeadwoodView {
                     System.out.println("\nWhat rank would you like to upgrade to? ");
                     String desiredRank = terminal.nextLine();
 
-                    System.out.println("\nWhat currency would you like to pay in? ");
+                    System.out.println("\nWhat currency would you like to pay in? (dollar or credit) ");
                     String desiredCurrency = terminal.nextLine();
 
                     System.out.println(admin.upgradePlayer(currentPlayer, 
@@ -148,11 +148,22 @@ public class DeadwoodView {
                     System.out.println("\nNeighboring Locations:\n");
 
                     for (String string : neighbors) {
-                        System.out.println(string);
+                        switch (string) {
+                            case "office": 
+                                System.out.println("Casting Office");
+                                break;
+                            case "trailer":
+                                System.out.println("Trailers");
+                                break;
+                            default:
+                                System.out.println(string);
+                        } 
                     }
 
                     System.out.println("Where would you like to move to?");
-                    System.out.println(admin.movePlayer(currentPlayer, terminal.nextLine()));
+                    userInput = terminal.nextLine();
+
+                    System.out.println(admin.movePlayer(currentPlayer, userInput));
                     break;
 
                 case "commands":
@@ -167,6 +178,50 @@ public class DeadwoodView {
                     System.out.println("take role");
                     System.out.println("end turn");
                     break;
+
+                case "debug":
+                    System.out.println("debug commands");
+                    System.out.println("incrementDay");
+                    System.out.println("bigCurrency");
+                    System.out.println("maxRank");
+                    System.out.println("endGame");
+                    System.out.println("endDay");
+                    System.out.println("jumpLocation");
+
+                    userInput = terminal.nextLine();
+                    switch (userInput) {
+                        case "incrementDay":
+                            admin.incrementDay();
+                            break;
+                        case "bigCurrency":
+                            currentPlayer.setCredits(1000);
+                            currentPlayer.setDollars(1000);
+                            break;
+                        case "maxRank":
+                            currentPlayer.setRank(6);
+                            break;
+                        case "endGame":
+                            for (int i = 0; i < 4; i++) {
+                                admin.incrementDay();
+                            }
+                        case "endDay":
+                            BoardLocation[] locations = Model.getBoard()
+                                                             .getLocations();
+                            for (BoardLocation boardLocation : locations) {
+                                boardLocation.setCard(null);
+                            }
+
+                            admin.checkEndOfDay();
+                            break;
+                        case "jumpLocation":
+                            System.out.println("Where to jump to?");
+                            currentPlayer.setLocation(Model.getBoard().getBoardLocation(terminal.nextLine()));
+                            break;
+                        default:
+                            System.out.println("Invalid debug command");
+                            
+                    }
+
 
                 default:
                     System.out.println("Invalid command");

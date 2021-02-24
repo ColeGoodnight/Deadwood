@@ -1,5 +1,7 @@
 package com;
 
+import java.util.NoSuchElementException;
+
 public class UpgradeManager {
 
     Upgrade[] upgrades;
@@ -15,6 +17,6 @@ public class UpgradeManager {
                     return upgrades[i];
             }
         }
-        return null;
+        throw new NoSuchElementException("no such upgrade found");
     }
 }

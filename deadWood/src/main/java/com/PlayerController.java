@@ -12,6 +12,17 @@ public class PlayerController {
      */
     public String move(Player player, BoardLocation location) {
         String[] neighbors = player.getLocation().getNeighbors();
+
+        String name = location.getName();
+
+        if (name.equals("Trailers")) {
+            name = "trailer";
+        }
+
+        if (name.equals("Casting Office")) {
+            name = "office";
+        }
+
         if(player.getHasMoved()){
             throw new IllegalArgumentException("Cannot move more than once in a turn");
         }
@@ -24,16 +35,16 @@ public class PlayerController {
         // check all neighbors of player's current location
         // if requested location is present, move player
         for (int i = 0; i < neighbors.length; i++) {
-            if (location.getName().equals(neighbors[i])) {
+            if (name.equals(neighbors[i])) {
                 player.setLocation(location);
                 player.setHasMoved(true);
-                return "Success!";
+                return "\nSuccess!\n";
             }
         }
 
         //is only reached if requested location is not a neighbor
         throw new IllegalArgumentException(
-                  "cannot move to non-neighboring location");
+                  "cannot move to non-neighboring location\n");
     }
 
     /*
@@ -44,13 +55,13 @@ public class PlayerController {
         // checks for player at office
         if (!player.getLocation().getName().equals("Casting Office")) {
             throw new IllegalArgumentException(
-                      "player not at casting office");
+                      "player not at casting office\n");
         }
 
         // checks for valid rank
         if (player.getRank() >= desiredUpgrade.getLevel()) {
             throw new IllegalArgumentException(
-                      "selected rank less than current");
+                      "selected rank less than current\n");
         }
 
         // checks for dollars or credits
@@ -62,7 +73,7 @@ public class PlayerController {
                     .debtPlayerInDollars(player, desiredUpgrade.getAmt())) {
                 player.setRank(desiredUpgrade.getLevel());
             } else {
-                throw new IllegalArgumentException("not enough dollars");
+                throw new IllegalArgumentException("not enough dollars\n");
             }
 
         } else {
@@ -71,7 +82,7 @@ public class PlayerController {
                     .debtPlayerInCredits(player, desiredUpgrade.getAmt())) {
                 player.setRank(desiredUpgrade.getLevel());
             } else {
-                throw new IllegalArgumentException("not enough credits");
+                throw new IllegalArgumentException("not enough credits\n");
             }
         }
     }
@@ -83,7 +94,7 @@ public class PlayerController {
     public String takePart(Player player, Part part) {
         String locationName = player.getLocation().getName();
         if (locationName.equals("Trailers") || locationName.equals("Casting Office")) {
-            throw new IllegalArgumentException("Cannot take roles at Trailers or Casting Office");
+            throw new IllegalArgumentException("Cannot take roles at Trailers or Casting Office\n");
         } 
 
         for (int i = 0; i < Model.getPlayers().length; i++) {
@@ -92,27 +103,27 @@ public class PlayerController {
             && Model.getPlayers()[i]
                     .getCurrentPart() == part
             && player.getLocation() == Model.getPlayers()[i].getLocation()) {
-                throw new IllegalArgumentException("Role already taken by player");
+                throw new IllegalArgumentException("Role already taken by player\n");
             }
         }
 
         //check for existing part
         if (player.getCurrentPart() != null) {
             throw new IllegalArgumentException(
-                "Already working on " + player.getCurrentPart().getName());
+                "Already working on " + player.getCurrentPart().getName() + "\n");
         }
 
         // check for rank 
         if (player.getRank() < part.getLevel()) {
-            throw new IllegalArgumentException("Rank not high enough");
+            throw new IllegalArgumentException("Rank not high enough\n");
         }
 
         if (player.getLocation().getCard() == null) {
-            throw new IllegalArgumentException("Shoot already finished");
+            throw new IllegalArgumentException("Shoot already finished\n");
         }
 
         player.setCurrentPart(part);
-        return "Success!";
+        return "\nSuccess!\n";
     }
 
     /*
@@ -123,10 +134,10 @@ public class PlayerController {
 
         //check for existing part
         if (player.getCurrentPart() == null) {
-            throw new IllegalArgumentException("No part to rehearse");
+            throw new IllegalArgumentException("No part to rehearse\n");
         }
         if(player.getHasActedOrRehearsed()){
-            throw new IllegalArgumentException("You cannot act or rehearse more than once in a turn");
+            throw new IllegalArgumentException("You cannot act or rehearse more than once in a turn\n");
         }
 
         Card card = player.getLocation().getCard();
@@ -134,7 +145,7 @@ public class PlayerController {
         // check for # practice chips
         if (card.getBudget() <= player.getCurrentPart().getPracticeChips()) {
             throw new IllegalArgumentException(
-                      "Already rehearsed enough, must act");
+                      "Already rehearsed enough, must act\n");
         }
         player.setHasActedOrRehearsed(true);
         player.getCurrentPart().addPracticeChip();
@@ -152,16 +163,16 @@ public class PlayerController {
 
         // checks for valid part
         if (part == null) {
-            throw new IllegalArgumentException("No part being worked on");
+            throw new IllegalArgumentException("No part being worked on\n");
         }
 
         if(player.getHasActedOrRehearsed()){
-            throw new IllegalArgumentException("Cannot act or rehearse more than once in a turn");
+            throw new IllegalArgumentException("Cannot act or rehearse more than once in a turn\n");
         }
 
         // checks for valid card
         if (card == null) {
-            throw new IllegalArgumentException("Shoot already finished");
+            throw new IllegalArgumentException("Shoot already finished\n");
         }
 
         int[] diceRoll = Dice.rollDice(1);
@@ -242,5 +253,9 @@ public class PlayerController {
             }
         }
         location.setCard(null);
+    }
+
+    public void resetPart(Player player) {
+        player.setCurrentPart(null);
     }
 }
