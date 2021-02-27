@@ -1,6 +1,6 @@
 package com;
 
-public class DeadwoodView {
+public class CLIView {
 
     public void displayCommands() {
         System.out.println("\nList of commands:");
@@ -25,6 +25,11 @@ public class DeadwoodView {
         System.out.println("jumpLocation\n");
     }
 
+    public void setupPrompt() {
+        System.out.println("Welcome to Deadwood!");
+        System.out.println("How many players?");
+    }
+
     public void updatePlayerInfo(Player player, int playerNum) {
         System.out.println();
         System.out.print("The active player is player " + playerNum + 
@@ -39,6 +44,7 @@ public class DeadwoodView {
             .getCurrentPart()
             .getName() + ".");
         }
+
         System.out.println();
     }
 
@@ -56,9 +62,10 @@ public class DeadwoodView {
         System.out.println("\nFailure!\n");
     }
 
-    public void displayRoles(Part[] parts, int playerRank) {
+    public void updateAvaliableRoles(Part[] parts, int playerRank) {
         System.out.println();
         System.out.println("Avaliable roles:");
+
         for (Part part : parts) {
             if (part.getLevel() <= playerRank) {
                 System.out.println("role name: " + 
@@ -100,8 +107,6 @@ public class DeadwoodView {
                     System.out.println(string);
             } 
         }
-
-        movePrompt();
     }
 
     public void displayError(String string) {

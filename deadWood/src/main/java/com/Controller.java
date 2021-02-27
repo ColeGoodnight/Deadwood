@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class Controller {
 
-    private View  view;
+    private CLIView  view;
     private Model model;
 
-    public Controller(View view, Model model) {
+    public Controller(CLIView view, Model model) {
         this.model = model;
         this.view  = view;
     }
@@ -17,10 +17,9 @@ public class Controller {
         boolean validInput = false;
         int userInput = 0;
         while (!validInput) {
-            view.displayMessage("Welcome to Deadwood!");
-            view.displayMessage("How many players?");
+                view.setupPrompt();
             try {
-                 userInput = terminal.nextInt();
+                userInput = terminal.nextInt();
             } catch (Exception e) {
                 view.displayError("Invalid input");
             }
@@ -57,38 +56,35 @@ public class Controller {
                         break;
 
                     case "active player?":
-                        view.displayMessage(model.getPlayerInfo());
+                        view.updatePlayerInfo(model.getCurrentPlayer(), 
+                                              model.getAdmin()
+                                                   .getPlayerIterator()+1);
                         break;
                     
                     case "location":
-                        view.displayMessage(model.getCurrentPlayer()
-                                                .getLocation()
-                                                .getName());
+                        view.updateLocation(model.getCurrentPlayer()
+                                                 .getLocation());
                         break;
 
                     case "act":
-                        boolean actSuccess = false;
                         try {
-                            actSuccess = model.getPlayerManager()
-                                                      .act(model.getCurrentPlayer(), 
-                                                           model.getBank()); 
-                            if (actSuccess) {
-                                view.displayMessage("Success!");
+                            if (model.getPlayerManager()
+                                     .act(model.getCurrentPlayer(), 
+                                          model.getBank())) {
+                                view.displaySuccess();
                             } else {
-                                view.displayMessage("Failure!");
+                                view.displayFailure();
                             }
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
-
-                        
 
                         break;
                         
                     case "rehearse":
                         try {
                             model.getPlayerManager().rehearse(model.getCurrentPlayer());
-                            view.displayMessage("Success!");
+                            view.displaySuccess();
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
@@ -123,20 +119,9 @@ public class Controller {
                             
                             parts[i] = parts2[j];
                         }
-                        // actually that entire thing was bad
                     
-                        for (Part part : parts) {
-                            if (part.getLevel() <= model.getCurrentPlayer()
-                                                                .getRank()) {
-                                
-                                view.displayMessage("role name: " + 
-                                            part.getName() +
-                                            " - role rank: " + 
-                                            part.getLevel());
-                            }
-                        }
+                        view.updateAvaliableRoles(parts, model.getCurrentPlayer().getRank());
 
-                        view.displayMessage("Which role would you like to take? ");
                         userInput = terminal.nextLine();
 
                         Part temp = null;
@@ -149,17 +134,17 @@ public class Controller {
                         try {
                             model.getPlayerManager()
                                            .takePart(model.getCurrentPlayer(), temp);
-                            view.displayMessage("Success!");
+                            view.displaySuccess();
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
                         break;
                         
                     case "upgrade":
-                        view.displayMessage("What rank would you like to upgrade to? ");
+                        view.rankPrompt();
                         String desiredRank = terminal.nextLine();
 
-                        view.displayMessage("What currency would you like to pay in? (dollar or credit) ");
+                        view.currencyPrompt();
                         String desiredCurrency = terminal.nextLine();
 
                         try {
@@ -170,7 +155,7 @@ public class Controller {
                                                           .getUpgrade(desiredCurrency, 
                                                           Integer.parseInt(desiredRank)), 
                                              model.getBank());
-                            view.displayMessage("Success!");
+                            view.displaySuccess();
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
@@ -183,22 +168,10 @@ public class Controller {
                                                           .getLocation()
                                                           .getNeighbors();
 
-                        view.displayMessage("Neighboring Locations:");
+                        view.updateNeighboringLocations(neighbors);
 
-                        for (String string : neighbors) {
-                            switch (string) {
-                                case "office": 
-                                    view.displayMessage("Casting Office");
-                                    break;
-                                case "trailer":
-                                    view.displayMessage("Trailers");
-                                    break;
-                                default:
-                                    view.displayMessage(string);
-                            } 
-                        }
+                        view.movePrompt();
 
-                        view.displayMessage("Where would you like to move to?");
                         userInput = terminal.nextLine();
 
                         try {
@@ -206,7 +179,7 @@ public class Controller {
                                          .move(model.getCurrentPlayer(), 
                                                model.getBoard()
                                                             .getBoardLocation(userInput));
-                            view.displayMessage("Success!");
+                            view.displaySuccess();
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
@@ -246,18 +219,18 @@ public class Controller {
                                 model.getAdmin().checkEndOfDay();
                                 break;
                             case "jumpLocation":
-                                System.out.println("Where to jump to?");
+                                view.movePrompt();
                                 model.getCurrentPlayer().setLocation(model.getBoard().getBoardLocation(terminal.nextLine()));
                                 break;
                             default:
-                                System.out.println("Invalid debug command");
+                                view.displayError("Invalid debug command");
                                 break; 
                         }
                         break; 
 
 
                     default:
-                        System.out.println("Invalid command");
+                        view.displayError("Invalid command");
                         break;
                     }
                 }

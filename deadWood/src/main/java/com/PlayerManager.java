@@ -157,6 +157,10 @@ public class PlayerManager {
                 "Already working on " + player.getCurrentPart().getName() + "\n");
         }
 
+        if (part == null) {
+            throw new IllegalArgumentException("Invalid part");
+        }
+
         // check for rank 
         if (player.getRank() < part.getLevel()) {
             throw new IllegalArgumentException("Rank not high enough\n");
@@ -291,8 +295,8 @@ public class PlayerManager {
                     i = 0;
                 }
                 bank.payPlayerInDollars(onCardPlayers.get(i), roll);
-                i++;
                 onCardPlayers.get(i).setCurrentPart(null);
+                i++;
             }
         }
         location.setCard(null);

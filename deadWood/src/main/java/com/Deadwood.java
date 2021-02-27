@@ -6,7 +6,7 @@ import com.Model.ModelBuilder;
 
 public class Deadwood {
     public static void main(String[] args) {
-        View view = new View();
+        CLIView view = new CLIView();
         ModelBuilder modelBuilder = new ModelBuilder();
         XMLParser xmlParser = new XMLParser();
         modelBuilder.board(new Board(xmlParser.buildBoardLocations(

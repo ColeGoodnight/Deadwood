@@ -157,8 +157,12 @@ public class Model {
         }
 
         public void advancePlayer() {
+            Player[] players = playerManager.getPlayers();
             playerIterator++;
-            currentPlayer = playerManager.getPlayers()[playerIterator];
+            if (playerIterator >= players.length) {
+                playerIterator = 0;
+            }
+            currentPlayer = players[playerIterator];
         }
     
         public void refreshDay() {
