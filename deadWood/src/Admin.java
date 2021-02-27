@@ -1,65 +1,72 @@
 package com;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Admin {
 
-    private static int    day;
-    private static int    dayLimit;
-    private static Player currentPlayer;
-    private static int playerIterator = 0;
-    private static PlayerController pController;
-    private static UpgradeManager upgradeManager;
-    private static Admin admin;
+    private static int              day;
+    private static int              dayLimit;
+    private static Player           currentPlayer;
+    private static int              playerIterator;
+    private static boolean          gameIsDone;
 
     public Admin () {
         day = 0;
-        pController = new PlayerController();
+        playerIterator = 0;
+        gameIsDone = false;
     }
 
-    public void buildModel(int numPlayers) {
-        XMLParser parser = new XMLParser();
+    
 
-        Model.setBoard(new Board(parser.buildBoardLocations(
-                       new File("deadWood/res/xmlFiles/board.xml"))));
-        Model.setDeck(new Deck(parser.buildCards(
-                      new File("deadWood/res/xmlFiles/cards.xml"))));
-        Model.setPlayers(new Player[numPlayers]);
-        Model.setUpgradeManager(new UpgradeManager(parser.buildUpgrades
-                      (new File("deadWood/res/xmlFiles/board.xml"))));
-        Model.setBank(new Bank());
-
-        
-    }
-
-    public void checkEndOfDay() {
-        BoardLocation[] locations = Model.getBoard().getLocations();
+    public boolean checkEndOfDay(Board board) {
+        BoardLocation[] locations = board.getLocations();
         int nullCount = 0;
         for(int i = 0; i < locations.length; i++){
             if(locations[i].getCard() == null){
                 nullCount++;
             }
         }
-        if(nullCount > 8){
-            refresh();
-        }
+        return (nullCount > 8);
     }
 
-    public void refresh() {
+    public void refresh(PlayerManager playerManager) {
         day++;
         if (day > dayLimit) {
-            System.out.println("The game is over! Lets see the scores!");
-            Player[] allPlayers = Model.getPlayers();
+            Player[] players = playerManager.getPlayers();
             int maxScore = 0;
-            int winner = 0;
+            ArrayList<Integer> winners = new ArrayList<Integer>();
+
+            // prints out all player scores and checks them against 
+            // current high score
             for(int x = 0; x < allPlayers.length; x++){
-                System.out.println("Player " + x+1 + "'s score is: " + admin.score(allPlayers[x]));
-                if(admin.score(allPlayers[x]) > maxScore){
-                    maxScore = admin.score(allPlayers[x]);
-                    winner = x+1;
+                System.out.println("Player " + (x+1) + "'s score is: " + score(allPlayers[x]));
+                
+                // in case of ties for current high score
+                if(score(allPlayers[x]) == maxScore) {
+                    winners.add(x+1);
+                }
+                
+                // in case of new high score
+                if(score(allPlayers[x]) > maxScore){
+                    winners.clear();
+                    maxScore = score(allPlayers[x]);
+                    winners.add(x+1);
                 }
             }
-            System.out.println("And the winner is Player " + winner + " with a score of: " + maxScore);
+
+            // prints out winner(s) and score
+            if (winners.size() > 1) {
+                System.out.print("There is a tie! The winners are: ");
+                for (Integer integer : winners) {
+                    System.out.print("Player " + integer + ", ");
+                }
+                System.out.println("each with a score of " + maxScore);
+            } else {
+                System.out.println("And the winner is Player " + winners.get(0) + " with a score of: " + maxScore);
+            }
+            
+            gameIsDone = true;
         } else {
             //move players back to trailers
             Player[] players = Model.getPlayers();
@@ -79,7 +86,7 @@ public class Admin {
         }
     }
 
-    public void setupGame(int numPlayers) throws Exception {
+    public void setupGame(int numPlayers) {
         BoardLocation trailers = Model.getBoard().getBoardLocation("Trailers");
 
         switch (numPlayers) {
@@ -131,10 +138,7 @@ public class Admin {
                     Model.getPlayers()[i] = new Player(0, 2);
                     Model.getPlayers()[i].setLocation(trailers);
                 }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid # of players");
-                
+                break;        
         }
     }
         
@@ -180,6 +184,17 @@ public class Admin {
             return "\nSuccess!\n";
         }
 
+        public String rolePlayer(Player player, String partName) {
+            try {
+                return pController.takePart(currentPlayer, 
+                currentPlayer.getLocation()
+                             .getPartByName(partName));
+            } catch (Exception e) {
+                return e.getMessage();
+            }
+        }
+        
+
         public String upgradePlayer(Player player, String currency, int rank) {
             try {
                 Upgrade desiredUpgrade = Model.getUpgradeManager().getUpgrade(currency, rank);
@@ -203,8 +218,16 @@ public class Admin {
             
         }
 
+        public void refreshPlayer(Player player) {
+            pController.refresh(player);
+        }
+
         public void incrementDay() {
             day++;
+        }
+
+        public boolean isGameDone() {
+            return gameIsDone;
         }
 
         public int score(Player player) {

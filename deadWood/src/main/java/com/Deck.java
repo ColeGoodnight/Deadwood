@@ -34,7 +34,7 @@ class Deck {
         cards = shuffledDeck;
     }
 
-    public boolean allTrue(boolean[] deckCheck){
+    private boolean allTrue(boolean[] deckCheck){
         boolean check = true;
         for(int i = 0; i < 40; i++){
             if(check == deckCheck[i]){
@@ -47,14 +47,7 @@ class Deck {
         return check;
     }
 
-    /*public Card dealCard() {
-        Card dealtCard = shuffledDeck.get(0);
-        shuffledDeck.remove(0);
-        return dealtCard;
-    }*/
-
-    public void dealCardsToBoard() {
-        BoardLocation[] locations = Model.getBoard().getLocations();
+    public void dealCardsToBoard(BoardLocation[] locations) {;
         for (int i = 0; i < locations.length-2; i++) {
             locations[i].setCard(cards.get(0));
             cards.remove(cards.get(i));
