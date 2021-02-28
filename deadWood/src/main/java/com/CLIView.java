@@ -1,5 +1,7 @@
 package com;
 
+import java.util.ArrayList;
+
 public class CLIView {
 
     public void displayCommands() {
@@ -119,5 +121,40 @@ public class CLIView {
         System.out.println();
         System.out.println("Where would you like to move to?");
         System.out.println();
+    }
+
+    public void displayScores(Player[] players) {
+        int score = 0;
+        int maxScore = 0;
+        ArrayList<Integer> winners = new ArrayList<Integer>();
+        
+        System.out.println("The game is finished!");
+
+        for (int i = 0; i < players.length; i++) {
+            score = (players[i].getDollars() + 
+                     players[i].getCredits() + 
+                     players[i].getRank()*5);
+            if (score > maxScore) {
+                maxScore = score;
+                winners.clear();
+                winners.add(i+1);
+            } else if (score == maxScore) {
+                winners.add(i+1);
+            }
+            
+            System.out.println();
+            System.out.println("Player " + (i+1) + " has a score of " + score);
+        }
+
+        if (winners.size() < 2) {
+            System.out.println("The winner is player " + winners.get(0) + 
+                               " with a score of " + maxScore);
+        } else {
+            System.out.println("There is a tie between players:");
+            for (Integer integer : winners) {
+                System.out.println("Player " + integer);
+            }
+            System.out.println("With a score of " + maxScore);
+        }
     }
 }

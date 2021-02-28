@@ -125,15 +125,19 @@ public class Model {
         private Player           currentPlayer;
         private boolean          gameIsDone;
     
-        public boolean checkEndOfDay() {
+        public void checkEndOfDay() {
             BoardLocation[] locations = board.getLocations();
             int nullCount = 0;
-            for(int i = 0; i < locations.length; i++){
+            for(int i = 0; i < locations.length-2; i++){
                 if(locations[i].getCard() == null){
                     nullCount++;
                 }
             }
-            return (nullCount > 8);
+            if (nullCount > 8) {
+                refreshDay();
+            }
+
+
         }
 
         public void initializeGameVars(int numPlayers) {
@@ -168,6 +172,9 @@ public class Model {
         public void refreshDay() {
             day++;
     
+            if (day >= dayLimit) {
+                endGame();
+            }
             //move players back to trailers
             Player[] players = playerManager.getPlayers();
             for(int x = 0; x < players.length; x++){
@@ -193,6 +200,10 @@ public class Model {
             }
             
             currentPlayer = players[playerIterator]; 
+        }
+
+        public void endGame() {
+            gameIsDone = true;
         }
 
         public int getPlayerIterator() {

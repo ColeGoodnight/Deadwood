@@ -45,8 +45,13 @@ public class Controller {
         while(!model.isGameDone()) {
 
             view.displayCommands();
+
             while(activeTerminal){
-                
+
+                if (model.isGameDone()) {
+                    activeTerminal = false;
+                }
+
                 userInput = terminal.nextLine();
 
                 switch(userInput) {
@@ -236,6 +241,8 @@ public class Controller {
                 }
                 activeTerminal = true;
             }
+
+            view.displayScores(model.getPlayerManager().getPlayers());
 
             terminal.close();
     }
