@@ -10,11 +10,11 @@ public class Deadwood {
         ModelBuilder modelBuilder = new ModelBuilder();
         XMLParser xmlParser = new XMLParser();
         modelBuilder.board(new Board(xmlParser.buildBoardLocations(
-                            new File("deadWood/res/xmlFiles/board.xml"))))
+                            new File("res/xmlFiles/board.xml"))))
                     .deck(new Deck(xmlParser.buildCards(
-                            new File("deadWood/res/xmlFiles/cards.xml"))))
+                            new File("res/xmlFiles/cards.xml"))))
                     .upgradeManager(new UpgradeManager(xmlParser.buildUpgrades(
-                            new File("deadWood/res/xmlFiles/board.xml"))))
+                            new File("res/xmlFiles/board.xml"))))
                     .playerManager(new PlayerManager());
         Controller controller = new Controller(view, modelBuilder.build());
 
