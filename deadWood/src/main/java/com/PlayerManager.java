@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PlayerManager {
 
-    private Player players[];
+    private Player []players;
 
     public PlayerManager() {
 
@@ -18,11 +18,6 @@ public class PlayerManager {
         switch (numPlayers) {
             case 2:
             case 3:
-                for (int i = 0; i < numPlayers; i++) {
-                    players[i] = new Player(0, 1);
-                    players[i].setLocation(trailers);
-                }
-                break;
             case 4:
                 for (int i = 0; i < numPlayers; i++) {
                     players[i] = new Player(0, 1);
@@ -72,7 +67,7 @@ public class PlayerManager {
         if(player.getHasMoved()){
             throw new IllegalArgumentException("Cannot move more than once in a turn");
         }
-        // chceck for active part
+        // check for active part
         if (player.getCurrentPart() != null) {
             throw new IllegalArgumentException(
                 "Cannot move while working on part");
@@ -80,8 +75,8 @@ public class PlayerManager {
 
         // check all neighbors of player's current location
         // if requested location is present, move player
-        for (int i = 0; i < neighbors.length; i++) {
-            if (name.equals(neighbors[i])) {
+        for (String neighbor : neighbors) {
+            if (name.equals(neighbor)) {
                 player.setLocation(location);
                 player.setHasMoved(true);
                 return;
@@ -139,14 +134,14 @@ public class PlayerManager {
         String locationName = player.getLocation().getName();
         if (locationName.equals("Trailers") || locationName.equals("Casting Office")) {
             throw new IllegalArgumentException("Cannot take roles at Trailers or Casting Office\n");
-        } 
+        }
 
-        for (int i = 0; i < players.length; i++) {
-            if(players[i]
-                    .getCurrentPart() != null 
-            && players[i]
+        for (Player value : players) {
+            if (value
+                    .getCurrentPart() != null
+                    && value
                     .getCurrentPart() == part
-            && player.getLocation() == players[i].getLocation()) {
+                    && player.getLocation() == value.getLocation()) {
                 throw new IllegalArgumentException("Role already taken by player\n");
             }
         }
@@ -175,7 +170,7 @@ public class PlayerManager {
 
     /*
      * allows player to rehearse and add counter to their scene if 
-     * they have an active part and are not already guarenteed success
+     * they have an active part and are not already guaranteed success
      */
     public void rehearse(Player player) {
 
@@ -263,17 +258,17 @@ public class PlayerManager {
 
         //
         // get all players at the set that is wrapping
-        // seperates players into onCard and offCard
+        // separates players into onCard and offCard
         //
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].getLocation()
-                          .getName()
-                          .equals(location.getName())) {
+        for (Player value : players) {
+            if (value.getLocation()
+                    .getName()
+                    .equals(location.getName())) {
 
-                if (players[i].getCurrentPart().getOnCard()) {
-                    onCardPlayers.add(players[i]);
+                if (value.getCurrentPart().getOnCard()) {
+                    onCardPlayers.add(value);
                 } else {
-                    offCardPlayers.add(players[i]);
+                    offCardPlayers.add(value);
                 }
             }
         }

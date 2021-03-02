@@ -11,10 +11,10 @@ public class UpgradeManager {
     }
 
     public Upgrade getUpgrade(String currency, int desiredRank) {
-        for (int i = 0; i < upgrades.length; i++) {
-            if (upgrades[i].getCurrency().equals(currency) &&
-                upgrades[i].getLevel() == desiredRank) {
-                    return upgrades[i];
+        for (Upgrade upgrade : upgrades) {
+            if (upgrade.getCurrency().equals(currency) &&
+                    upgrade.getLevel() == desiredRank) {
+                return upgrade;
             }
         }
         throw new NoSuchElementException("no such upgrade found");

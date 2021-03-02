@@ -2,10 +2,10 @@ package com;
 
 public class Area {
 
-    private int x;
-    private int y;
-    private int h;
-    private int w;
+    private final int x;
+    private final int y;
+    private final int h;
+    private final int w;
 
     public Area (int x, int y, int w, int h) {
         this.x = x;

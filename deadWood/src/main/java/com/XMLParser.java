@@ -88,7 +88,7 @@ public class XMLParser {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element eElement = (Element) node;           
 
-            // build unique locaiton Trailers and add to arraylist
+            // build unique location Trailers and add to arraylist
             builder.name("Trailers")
                    .neighbors(getNeighbors(
                             eElement.getElementsByTagName("neighbors")))
@@ -104,7 +104,7 @@ public class XMLParser {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element eElement = (Element) node;           
 
-            // build unique locaiton office and add to arraylist
+            // build unique location office and add to arraylist
             builder.name("Casting Office")
                    .neighbors(getNeighbors(
                             eElement.getElementsByTagName("neighbors")))

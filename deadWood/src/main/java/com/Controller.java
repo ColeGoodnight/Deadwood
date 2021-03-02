@@ -125,7 +125,7 @@ public class Controller {
                             parts[i] = parts2[j];
                         }
                     
-                        view.updateAvaliableRoles(parts, model.getCurrentPlayer().getRank());
+                        view.updateAvailableRoles(parts, model.getCurrentPlayer().getRank());
 
                         userInput = terminal.nextLine();
 

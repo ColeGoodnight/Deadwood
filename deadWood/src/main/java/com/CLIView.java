@@ -64,9 +64,9 @@ public class CLIView {
         System.out.println("\nFailure!\n");
     }
 
-    public void updateAvaliableRoles(Part[] parts, int playerRank) {
+    public void updateAvailableRoles(Part[] parts, int playerRank) {
         System.out.println();
-        System.out.println("Avaliable roles:");
+        System.out.println("Available roles:");
 
         for (Part part : parts) {
             if (part.getLevel() <= playerRank) {

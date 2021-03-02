@@ -98,11 +98,11 @@ public class BoardLocation {
 
     public Part getPartByName(String name) {
         for (Part part : parts) {
-            if (part.getName().equals(name)) {return part;};
+            if (part.getName().equals(name)) {return part;}
         }
 
         for (Part part : card.getParts()) {
-            if (part.getName().equals(name)) {return part;};
+            if (part.getName().equals(name)) {return part;}
         }
         throw new IllegalArgumentException("part not found!");
     }
