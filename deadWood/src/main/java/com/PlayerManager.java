@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PlayerManager {
 
-    private Player []players;
+    private Player[] players;
 
     public PlayerManager() {
 
