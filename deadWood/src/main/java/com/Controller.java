@@ -36,6 +36,119 @@ public class Controller {
         pollUser();
     }
 
+    public boolean move(String location){
+        boolean moved = false;
+        String[] neighbors = model.getCurrentPlayer()
+                .getLocation()
+                .getNeighbors();
+
+        view.updateNeighboringLocations(neighbors);
+
+        //view.movePrompt();
+
+        try {
+            model.getPlayerManager()
+                    .move(model.getCurrentPlayer(),
+                            model.getBoard()
+                                    .getBoardLocation(location));
+            moved = true;
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+        return moved;
+    }
+
+    public boolean upgrade(int rank, String currency){ //2, cash
+        boolean canUpgrade = false;
+        String desiredRank = Integer.toString(rank);
+        try {
+            model.getPlayerManager()
+                    .upgrade(
+                            model.getCurrentPlayer(),
+                            model.getUpgradeManager()
+                                    .getUpgrade(currency,
+                                            Integer.parseInt(desiredRank)),
+                            model.getBank());
+            canUpgrade = true;
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+        return canUpgrade;
+    }
+    public void takeRole(String partName){
+        Part[] parts1 = model.getCurrentPlayer()
+                .getLocation()
+                .getParts();
+
+        Part[] parts2 = model.getCurrentPlayer()
+                .getLocation()
+                .getCard()
+                .getParts();
+
+        Part[] parts = new Part[parts1.length + parts2.length];
+        int i = 0;
+
+        while (i < parts1.length) {
+            parts[i] = parts1[i];
+            i++;
+        }
+
+        i--; // this is bad but it works so sshhhhhh
+
+        for (int j = 0; j < parts2.length; j++) {
+            if (i < parts.length) {
+                i++;
+            }
+
+            parts[i] = parts2[j];
+        }
+
+        view.updateAvailableRoles(parts, model.getCurrentPlayer().getRank());
+
+        Part temp = null;
+        for (Part part : parts) {
+            if (part.getName().equals(partName)) {
+                temp = part;
+            }
+        }
+
+        try {
+            model.getPlayerManager()
+                    .takePart(model.getCurrentPlayer(), temp);
+            view.displaySuccess();
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+    }
+    public boolean act(){
+        boolean outcome = false;
+        try {
+            if (model.getPlayerManager()
+                    .act(model.getCurrentPlayer(),
+                            model.getBank())) {
+                outcome = true;
+            } else {
+                outcome = false;
+            }
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+        return outcome;
+    }
+
+    public boolean rehearse(){
+        boolean rehearse = false;
+        try {
+            model.getPlayerManager().rehearse(model.getCurrentPlayer());
+            rehearse = true;
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+        return rehearse;
+    }
+    public void endTurn(){
+        model.endTurn();
+    }
     public void pollUser() {
 
         Scanner terminal = new Scanner(System.in);
@@ -144,8 +257,9 @@ public class Controller {
                             view.displayError(e.getMessage());
                         }
                         break;
-                        
+
                     case "upgrade":
+
                         view.rankPrompt();
                         String desiredRank = terminal.nextLine();
 
@@ -154,19 +268,21 @@ public class Controller {
 
                         try {
                             model.getPlayerManager()
-                                         .upgrade(
-                                             model.getCurrentPlayer(), 
-                                             model.getUpgradeManager()
-                                                          .getUpgrade(desiredCurrency, 
-                                                          Integer.parseInt(desiredRank)), 
-                                             model.getBank());
+                                    .upgrade(
+                                            model.getCurrentPlayer(),
+                                            model.getUpgradeManager()
+                                                    .getUpgrade(desiredCurrency,
+                                                            Integer.parseInt(desiredRank)),
+                                            model.getBank());
                             view.displaySuccess();
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
 
-                        
+
                         break;
+
+
                         
                     case "move":
                         String[] neighbors = model.getCurrentPlayer()
