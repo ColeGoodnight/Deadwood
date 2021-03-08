@@ -1,5 +1,7 @@
 package com;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class Card {
@@ -11,7 +13,7 @@ public class Card {
      */
     static final class CardBuilder {
         private String  name;
-        private File    image;
+        private String image;
         private int     budget;
         private int     sceneNum;
         private String  description;
@@ -29,7 +31,7 @@ public class Card {
             return this;
         }
 
-        public CardBuilder image(File image) {
+        public CardBuilder image(String image) {
             this.image = image;
             return this;
         }
@@ -79,7 +81,7 @@ public class Card {
     }
 
     private String  name;
-    private File    image;
+    private String    image;
     private int     budget;
     private int     sceneNum;
     private String  description;
@@ -101,7 +103,7 @@ public class Card {
         return this.name;
     }
 
-    public File getImage() {
+    public String getImage() {
         return this.image;
     }
 

@@ -46,7 +46,6 @@ public class GUI {
 
 
     private JFrame mainFrame;
-    private JLabel boardImage;
 
     public GUI(List<Card> cards) {
         initializeBoard(cards);
@@ -70,30 +69,43 @@ public class GUI {
         cards = new JLabel[40];
 
         for (int i = 0; i < cards.length; i++) {
-            cards[i].setIcon(new ImageIcon(cardsp.get(i).getImage().toString()));
+            cards[i] = new JLabel();
+
+            BufferedImage image;
+            ClassLoader classLoader = getClass().getClassLoader();
+
+            try {
+                image = ImageIO.read(classLoader.getResource("images/cards/" + cardsp.get(i).getImage()));
+                cards[i].setIcon(new ImageIcon(image));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+            cards[i].setVisible(true);
+            boardPane.add(cards[i]);
+            boardPane.moveToFront(cards[i]);
+
         }
 
 
     }
 
-    public void initializeMenu() {
-
-    }
-
-    public void loadImage() throws IOException {
-        gameboard = ImageIO.read(new File("res/images/board.jpg"));
-    }
-
     public static void main(String[] args) {
         XMLParser xmlParser = new XMLParser();
         Model.ModelBuilder modelBuilder = new Model.ModelBuilder();
-        modelBuilder.board(new Board(xmlParser.buildBoardLocations(
-                new File("res/xmlFiles/board.xml"))))
-                .deck(new Deck(xmlParser.buildCards(
-                        new File("res/xmlFiles/cards.xml"))))
-                .upgradeManager(new UpgradeManager(xmlParser.buildUpgrades(
-                        new File("res/xmlFiles/board.xml"))))
-                .playerManager(new PlayerManager());
+        try {
+            modelBuilder.board(new Board(xmlParser.buildBoardLocations(
+                    new File("src/main/resources/xmlFiles/board.xml"))))
+                    .deck(new Deck(xmlParser.buildCards(
+                            new File("src/main/resources/xmlFiles/cards.xml"))))
+                    .upgradeManager(new UpgradeManager(xmlParser.buildUpgrades(
+                            new File("src/main/resources/xmlFiles/board.xml"))))
+                    .playerManager(new PlayerManager());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Model model = modelBuilder.build();
 
