@@ -1,17 +1,19 @@
 package com;
 
+import java.awt.*;
+
 public class Take {
 
-    Area    area;
+    Rectangle rectangle;
     boolean shotCompleted;
 
-    public Take (Area area, boolean shotCompleted) {
-        this.area          = area;
+    public Take (Rectangle rectangle, boolean shotCompleted) {
+        this.rectangle          = rectangle;
         this.shotCompleted = shotCompleted;
     }
 
-    public Area getArea() {
-        return this.area;
+    public Rectangle getRectangle() {
+        return this.rectangle;
     }
 
     public boolean getShotCompleted() {
@@ -25,7 +27,7 @@ public class Take {
     @Override
     public String toString() {
         return "{" +
-            " area='" + getArea() + "'" +
+            " rectangle='" + getRectangle() + "'" +
             ", shotCompleted='" + getShotCompleted() + "'" +
             "}";
     }

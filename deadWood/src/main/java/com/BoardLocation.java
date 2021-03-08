@@ -1,5 +1,6 @@
 package com;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class BoardLocation {
@@ -12,7 +13,7 @@ public class BoardLocation {
     static final class BoardLocationBuilder {
         private String   name;
         private String[] neighbors;
-        private Area     area;
+        private Rectangle     rectangle;
         private Take[]   takes;
         private Part[]   parts;
         
@@ -31,8 +32,8 @@ public class BoardLocation {
             return this;
         }
 
-        public BoardLocationBuilder area(Area area) {
-            this.area = area;
+        public BoardLocationBuilder rectangle(Rectangle rectangle) {
+            this.rectangle = rectangle;
             return this;
         }
 
@@ -52,15 +53,15 @@ public class BoardLocation {
                 throw new IllegalStateException("Missing name");
             if (neighbors == null)
                 throw new IllegalStateException("Missing neighbors");
-            if (area == null)
-                throw new IllegalStateException("Missing area"); 
+            if (rectangle == null)
+                throw new IllegalStateException("Missing rectangle");
             return new BoardLocation(this);
         }
     }
 
     private String   name;
     private String[] neighbors;
-    private Area     area;
+    private Rectangle rectangle;
     private Take[]   takes;
     private Part[]   parts;
     private Card     card;
@@ -69,7 +70,7 @@ public class BoardLocation {
     private BoardLocation(BoardLocationBuilder builder) {
         this.name         = builder.name;
         this.neighbors    = builder.neighbors;
-        this.area         = builder.area;
+        this.rectangle         = builder.rectangle;
         this.takes        = builder.takes;
         this.parts        = builder.parts;
         this.takeIterator = 0;
@@ -84,8 +85,8 @@ public class BoardLocation {
         return this.neighbors;
     }
 
-    public Area getArea() {
-        return this.area;
+    public Rectangle getRectangle() {
+        return this.rectangle;
     }
 
     public Take[] getTakes() {
@@ -130,7 +131,7 @@ public class BoardLocation {
         return "{" +
             " name='" + getName() + "'" +
             ", neighbors='" + Arrays.toString(getNeighbors()) + "'" +
-            ", area='" + getArea() + "'" +
+            ", rectangle='" + getRectangle() + "'" +
             ", takes='" + Arrays.toString(getTakes()) + "'" +
             ", parts='" + Arrays.toString(getParts()) + "'" +
             "}";

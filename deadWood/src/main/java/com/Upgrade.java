@@ -1,5 +1,7 @@
 package com;
 
+import java.awt.*;
+
 public class Upgrade {
 
     /*
@@ -11,7 +13,7 @@ public class Upgrade {
         private int    level;
         private String currency;
         private int    amt;
-        private Area   area;
+        private Rectangle rectangle;
 
         public UpgradeBuilder() {
 
@@ -32,8 +34,8 @@ public class Upgrade {
             return this;
         }
 
-        public UpgradeBuilder area (Area area) {
-            this.area = area;
+        public UpgradeBuilder rectangle (Rectangle rectangle) {
+            this.rectangle = rectangle;
             return this;
         }
 
@@ -44,21 +46,21 @@ public class Upgrade {
                 throw new IllegalStateException("Missing currency");
             if (amt < 0) 
                 throw new IllegalStateException("Missing or invalid amt");
-            if (area == null)
-                throw new IllegalStateException("Missing area"); 
+            if (rectangle == null)
+                throw new IllegalStateException("Missing rectangle");
             return new Upgrade(this);
         }
     }
 
     private String currency;
     private int    amt;
-    private Area   area;
+    private Rectangle   rectangle;
     private int    level;
     
     private Upgrade(UpgradeBuilder builder) {
         this.level    = builder.level;
         this.amt      = builder.amt;
-        this.area     = builder.area;
+        this.rectangle     = builder.rectangle;
         this.currency = builder.currency;
     }
 
@@ -74,8 +76,8 @@ public class Upgrade {
         return this.amt;
     }
 
-    public Area getArea() {
-        return this.area;
+    public Rectangle getRectangle() {
+        return this.rectangle;
     }
 
     @Override
@@ -84,7 +86,7 @@ public class Upgrade {
             " level='" + getLevel() + "'" +
             ", currency='" + getCurrency() + "'" +
             ", amt='" + getAmt() + "'" +
-            ", area='" + getArea() + "'" +
+            ", rectangle='" + getRectangle() + "'" +
             "}";
     }
 }

@@ -1,5 +1,7 @@
 package com;
 
+import java.awt.*;
+
 public class Part{
 
     /*
@@ -11,7 +13,7 @@ public class Part{
         private String  name;
         private String  line;
         private int     level;
-        private Area    area;
+        private Rectangle    rectangle;
         private boolean onCard = false;
 
         public PartBuilder() {
@@ -33,8 +35,8 @@ public class Part{
             return this;
         }
 
-        public PartBuilder area (Area area) {
-            this.area = area;
+        public PartBuilder rectangle (Rectangle rectangle) {
+            this.rectangle = rectangle;
             return this;
         }
 
@@ -50,8 +52,8 @@ public class Part{
                 throw new IllegalStateException("Missing line");
             if (level < 0 || level > 6) 
                 throw new IllegalStateException("Missing or invalid level");
-            if (area == null)
-                throw new IllegalStateException("Missing area"); 
+            if (rectangle == null)
+                throw new IllegalStateException("Missing rectangle");
             return new Part(this);
         }
     }
@@ -59,14 +61,14 @@ public class Part{
     private String  name;
     private String  line;
     private int     level;
-    private Area    area;
+    private Rectangle rectangle;
     private boolean onCard;
     private int     practiceChips;
     
     private Part(PartBuilder builder) {
         this.name   = builder.name;
         this.level  = builder.level;
-        this.area   = builder.area;
+        this.rectangle   = builder.rectangle;
         this.line   = builder.line;
         this.onCard = builder.onCard;
         practiceChips = 0;
@@ -84,8 +86,8 @@ public class Part{
         return this.level;
     }
 
-    public Area getArea() {
-        return this.area;
+    public Rectangle getRectangle() {
+        return this.rectangle;
     }
 
     public int getPracticeChips() {
@@ -107,7 +109,7 @@ public class Part{
             " name='" + getName() + "'" +
             ", line='" + getLine() + "'" +
             ", level='" + getLevel() + "'" +
-            ", area='" + getArea() + "'" +
+            ", rectangle='" + getRectangle() + "'" +
             ", onCard='" + getOnCard() + "'" +
             ", practiceChips='" + getPracticeChips() + "'" +
             "}";

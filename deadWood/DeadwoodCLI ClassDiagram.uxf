@@ -71,7 +71,7 @@
 --
 -name: String
 -neighbors: String[]
--area: Area
+-rectangle: Area
 -takes: Take[]
 -parts: Part[]
 -card: Card
@@ -294,7 +294,7 @@ many getters/setters</panel_attributes>
 -name: String
 -line: String
 -level: int
--area: Area
+-rectangle: Area
 -onCard: boolean
 --
 -Part(builder)
@@ -312,10 +312,10 @@ many getters/setters</panel_attributes>
     </coordinates>
     <panel_attributes>Take
 --
-+area: Area
++rectangle: Area
 +shotCompleted: boolean
 --
-+Take(area, shotCompleted)
++Take(rectangle, shotCompleted)
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -355,7 +355,7 @@ many getters/setters</panel_attributes>
 -level: int
 -currency: String
 -amt: int
--area: Area
+-rectangle: Area
 --
 +UpgradeBuilder()
 -Upgrade(builder)</panel_attributes>

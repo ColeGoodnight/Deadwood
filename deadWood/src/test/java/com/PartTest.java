@@ -7,17 +7,19 @@ import com.Part.PartBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
+
 public class PartTest {
 
     private Part        part;
     private PartBuilder partBuilder;
-    private Area        area;
+    private Rectangle rectangle;
 
     @Before
     public void setUp() throws Exception{
         partBuilder = new PartBuilder();
-        area = new Area(1, 1, 1, 1);
-        partBuilder.area(area)
+        rectangle = new Rectangle(1, 1, 1, 1);
+        partBuilder.rectangle(rectangle)
                    .level(3)
                    .line("wow")
                    .name("long man");
@@ -33,7 +35,7 @@ public class PartTest {
     @Test
     public void attributeValidation() {
         part = partBuilder.build();
-        assertEquals(area.toString(), part.getArea().toString());
+        assertEquals(rectangle.toString(), part.getRectangle().toString());
         assertEquals(3, part.getLevel());
         assertEquals("wow", part.getLine());
         assertEquals("long man", part.getName());

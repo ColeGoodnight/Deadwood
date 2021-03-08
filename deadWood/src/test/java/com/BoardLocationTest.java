@@ -9,13 +9,15 @@ import com.Part.PartBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
+
 public class BoardLocationTest {
 
     private BoardLocation        location;
     private BoardLocationBuilder locationBuilder;
     private Part[]               parts;
     private String[]             strings;
-    private Area[]               areas;
+    private Rectangle[]               rectangles;
     private Take[]               takes;
 
     @Before
@@ -23,16 +25,16 @@ public class BoardLocationTest {
         locationBuilder = new BoardLocationBuilder();
         parts = new Part[1];
         PartBuilder partBuilder = new PartBuilder();
-        Area area = new Area(1, 1, 1, 1);
-        areas = new Area[1];
-        areas[0] = area;
-        Take take = new Take(area, false);
+        Rectangle rectangle = new Rectangle(1, 1, 1, 1);
+        rectangles = new Rectangle[1];
+        rectangles[0] = rectangle;
+        Take take = new Take(rectangle, false);
         takes = new Take[1];
         takes[0] = take;
         strings = new String[1];
         strings[0] = "I am a string";
         
-        partBuilder.area(area)
+        partBuilder.rectangle(rectangle)
                    .level(3)
                    .line("wow")
                    .name("long man");
@@ -40,7 +42,7 @@ public class BoardLocationTest {
 
         locationBuilder.name("sam")
                    .neighbors(strings)
-                   .area(area)
+                   .rectangle(rectangle)
                    .takes(takes)
                    .parts(parts);
     }
@@ -50,8 +52,8 @@ public class BoardLocationTest {
         location = locationBuilder.build();
         assertEquals("sam", location.getName());
         assertArrayEquals(strings, location.getNeighbors());
-        assertEquals(new Area(1,1,1,1).toString(), 
-                     location.getArea().toString());
+        assertEquals(new Rectangle(1,1,1,1).toString(),
+                     location.getRectangle().toString());
         assertArrayEquals(takes, location.getTakes());
         assertArrayEquals(parts, location.getParts());
     }

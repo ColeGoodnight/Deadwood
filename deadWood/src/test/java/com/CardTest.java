@@ -3,6 +3,7 @@ package com;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import java.awt.*;
 import java.io.File;
 
 import com.Card.CardBuilder;
@@ -22,9 +23,9 @@ public class CardTest {
         cardBuilder = new CardBuilder();
         parts = new Part[1];
         PartBuilder partBuilder = new PartBuilder();
-        Area area = new Area(1, 1, 1, 1);
+        Rectangle rectangle = new Rectangle(1, 1, 1, 1);
 
-        partBuilder.area(area)
+        partBuilder.rectangle(rectangle)
                    .level(3)
                    .line("wow")
                    .name("long man");

@@ -9,6 +9,7 @@ import com.Card.CardBuilder;
 import com.Part.PartBuilder;
 import com.Upgrade.UpgradeBuilder;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class XMLParser {
                                 eElement.getAttribute("name"))
                        .neighbors(getNeighbors(
                                 eElement.getElementsByTagName("neighbors")))
-                       .area(buildArea(
+                       .rectangle(buildRectangle(
                                 eElement.getElementsByTagName("area")))
                        .takes(getTakes(
                                 eElement.getElementsByTagName("takes")))
@@ -92,7 +93,7 @@ public class XMLParser {
             builder.name("Trailers")
                    .neighbors(getNeighbors(
                             eElement.getElementsByTagName("neighbors")))
-                   .area(buildArea(
+                   .rectangle(buildRectangle(
                             eElement.getElementsByTagName("area")));
 
             locationList.add(builder.build());
@@ -108,7 +109,7 @@ public class XMLParser {
             builder.name("Casting Office")
                    .neighbors(getNeighbors(
                             eElement.getElementsByTagName("neighbors")))
-                   .area(buildArea(
+                   .rectangle(buildRectangle(
                             eElement.getElementsByTagName("area")));
                             
             locationList.add(builder.build());
@@ -139,18 +140,18 @@ public class XMLParser {
     }
 
     /*
-     * Retrieves area values from XML file to create an area object
+     * Retrieves rectangle values from XML file to create an rectangle object
      */
-    private Area buildArea(NodeList nList) {
+    private Rectangle buildRectangle(NodeList nList) {
         Element eElement = (Element) nList.item(0);
-        return new Area(Integer.parseInt(eElement.getAttribute("x")), 
+        return new Rectangle(Integer.parseInt(eElement.getAttribute("x")),
                         Integer.parseInt(eElement.getAttribute("y")),
                         Integer.parseInt(eElement.getAttribute("w")), 
                         Integer.parseInt(eElement.getAttribute("h")));
     }
 
     /*
-     * Retrieves takeArea values from XML file 
+     * Retrieves takeRectangle values from XML file
      */
     private Take[] getTakes(NodeList nList) {
         Element temp  = (Element) nList.item(0);
@@ -162,7 +163,7 @@ public class XMLParser {
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
-                takes[i]     = new Take(buildArea(eElement
+                takes[i]     = new Take(buildRectangle(eElement
                                            .getElementsByTagName("area")), false);
             }
         }
@@ -242,7 +243,7 @@ public class XMLParser {
                 // build current Part and adds to arraylist
                 builder.name(eElement.getAttribute("name"))
                        .level(Integer.parseInt(eElement.getAttribute("level")))
-                       .area(buildArea(eElement.getElementsByTagName("area")))
+                       .rectangle(buildRectangle(eElement.getElementsByTagName("area")))
                        .line(eElement.getElementsByTagName("line")
                                      .item(0)
                                      .getTextContent())
@@ -283,7 +284,7 @@ public class XMLParser {
                 // build current Upgrade and adds to arraylist
                 builder.level(Integer.parseInt(eElement.getAttribute("level")))
                        .amt(Integer.parseInt(eElement.getAttribute("amt")))
-                       .area(buildArea(eElement.getElementsByTagName("area")))
+                       .rectangle(buildRectangle(eElement.getElementsByTagName("area")))
                        .currency(eElement.getAttribute("currency"));
 
                 upgrades.add(builder.build());

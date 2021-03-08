@@ -2,6 +2,7 @@ package com;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.*;
 import java.io.File;
 
 import com.Part.PartBuilder;
@@ -39,15 +40,15 @@ public class XMLParserTest {
     }
 
     @Test
-    public void validateLocationArea() {
-        assertEquals(locations[0].getArea().toString(), 
-                    new Area(21, 69, 205, 115).toString());
+    public void validateLocationRectangle() {
+        assertEquals(locations[0].getRectangle().toString(),
+                    new Rectangle(21, 69, 205, 115).toString());
     }
 
     @Test
-    public void validateLocationTakeAreas() {
+    public void validateLocationTakeRectangles() {
         assertEquals(locations[0].getTakes()[0].toString(), 
-                    new Take(new Area(36, 11, 47, 47), false).toString());
+                    new Take(new Rectangle(36, 11, 47, 47), false).toString());
     }
 
     @Test
@@ -56,7 +57,7 @@ public class XMLParserTest {
         builder.name("Crusty Prospector")
                .level(1)
                .line("Aww, peaches!")
-               .area(new Area(114, 227, 46, 46));
+               .rectangle(new Rectangle(114, 227, 46, 46));
         
         assertEquals(locations[0].getParts()[0].toString(), 
                      builder.build().toString());
@@ -90,7 +91,7 @@ public class XMLParserTest {
         builder.name("Defrocked Priest")
                .level(2)
                .line("Look out below!")
-               .area(new Area(20, 47, 40, 40))
+               .rectangle(new Rectangle(20, 47, 40, 40))
                .onCard(true);
 
         assertEquals(cards[0].getParts()[0].toString(), 
@@ -105,8 +106,8 @@ public class XMLParserTest {
     @Test
     public void validateUpgradeAttributes() {
         UpgradeBuilder upgradeBuilder = new UpgradeBuilder();
-        Area area = new Area(98, 542, 19, 19);
-        upgradeBuilder.area(area)
+        Rectangle rectangle = new Rectangle(98, 542, 19, 19);
+        upgradeBuilder.rectangle(rectangle)
                       .level(2)
                       .currency("dollar")
                       .amt(4);
