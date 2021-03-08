@@ -1,5 +1,7 @@
 package com;
 
+import java.util.List;
+
 public class Model {
 
     public static class ModelBuilder {
@@ -142,9 +144,9 @@ public class Model {
 
         public String[] getCardPaths(String prefix) {
             String[] cardPaths = new String[40];
-            Card[] cards = (Card[]) deck.getCards().toArray();
+            List<Card> cards = deck.getCards();
             for (int i = 0; i < cardPaths.length; i++) {
-                cardPaths[i] = prefix + cards[i].getImage();
+                cardPaths[i] = prefix + cards.get(i).getImage();
             }
 
             return cardPaths;
