@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,6 +45,7 @@ public class GUI {
     private BufferedImage gameboard;
     private JLabel[] players;
     private JLabel[] cards;
+    private List<JLabel> shotCounters;
 
 
     private JFrame mainFrame;
@@ -53,6 +55,7 @@ public class GUI {
         initializeBoard(cards, numPlayers);
 
         setComponentBounds(getPlayerByNum(1), 200, 200);
+        addShotCounter(new Rectangle(20,20,49,49));
     }
 
     public void setComponentBounds(Component component, Rectangle rectangle) {
@@ -82,7 +85,32 @@ public class GUI {
     }
 
     public JLabel getPlayerByNum(int i) {
-        return players[i];
+        return players[i-1];
+    }
+
+    public void addShotCounter(Rectangle r) {
+        JLabel counter = new JLabel();
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            BufferedImage image = ImageIO.read(classLoader.getResource("shotCounter.png"));
+            counter.setIcon(new ImageIcon(image));
+            counter.setBounds(r);
+            counter.setVisible(true);
+            shotCounters.add(counter);
+            boardPane.add(counter);
+            boardPane.moveToFront(counter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void clearShotCounters() {
+        for (JLabel counter : shotCounters) {
+            boardPane.remove(counter);
+        }
+
+        shotCounters.clear();
     }
 
     public void initializeFrame() {
@@ -92,7 +120,7 @@ public class GUI {
         mainFrame.getContentPane().setPreferredSize(new Dimension(1500,950));
         mainFrame.setVisible(true);
         mainFrame.pack();
-        mainFrame.setResizable(true);
+        mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -141,7 +169,7 @@ public class GUI {
             }
         }
 
-
+        shotCounters = new ArrayList<JLabel>();
     }
 
     // testing logic/not functional code
@@ -163,5 +191,7 @@ public class GUI {
         Model model = modelBuilder.build();
 
         GUI gui = new GUI(model.getDeck().getCards(), 2);
+
+
     }
 }

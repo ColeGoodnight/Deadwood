@@ -127,6 +127,8 @@ public class Card {
         return this.location;
     }
 
+    public int getID() { return Integer.parseInt(this.image.substring(0,2)); }
+
     public void setLocation(String location) {
         this.location = location;
     }
