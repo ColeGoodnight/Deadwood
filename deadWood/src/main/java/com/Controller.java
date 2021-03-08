@@ -36,6 +36,49 @@ public class Controller {
         pollUser();
     }
 
+    public boolean upgrade(int rank, String currency){ //2, cash
+        String desiredRank = Integer.toString(rank);
+        try {
+            model.getPlayerManager()
+                    .upgrade(
+                            model.getCurrentPlayer(),
+                            model.getUpgradeManager()
+                                    .getUpgrade(currency,
+                                            Integer.parseInt(desiredRank)),
+                            model.getBank());
+            return true;
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+    }
+
+    public boolean act(){
+        boolean outcome = false;
+        try {
+            if (model.getPlayerManager()
+                    .act(model.getCurrentPlayer(),
+                            model.getBank())) {
+                outcome = true;
+            } else {
+                outcome = false;
+            }
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+        return outcome;
+    }
+
+    public boolean rehearse(){
+        boolean rehearse = false;
+        try {
+            model.getPlayerManager().rehearse(model.getCurrentPlayer());
+            rehearse = true;
+        } catch (Exception e) {
+            view.displayError(e.getMessage());
+        }
+        return rehearse;
+    }
+
     public void pollUser() {
 
         Scanner terminal = new Scanner(System.in);
@@ -144,8 +187,9 @@ public class Controller {
                             view.displayError(e.getMessage());
                         }
                         break;
-                        
+
                     case "upgrade":
+
                         view.rankPrompt();
                         String desiredRank = terminal.nextLine();
 
@@ -154,19 +198,21 @@ public class Controller {
 
                         try {
                             model.getPlayerManager()
-                                         .upgrade(
-                                             model.getCurrentPlayer(), 
-                                             model.getUpgradeManager()
-                                                          .getUpgrade(desiredCurrency, 
-                                                          Integer.parseInt(desiredRank)), 
-                                             model.getBank());
+                                    .upgrade(
+                                            model.getCurrentPlayer(),
+                                            model.getUpgradeManager()
+                                                    .getUpgrade(desiredCurrency,
+                                                            Integer.parseInt(desiredRank)),
+                                            model.getBank());
                             view.displaySuccess();
                         } catch (Exception e) {
                             view.displayError(e.getMessage());
                         }
 
-                        
+
                         break;
+
+
                         
                     case "move":
                         String[] neighbors = model.getCurrentPlayer()

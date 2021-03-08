@@ -25,6 +25,8 @@ class bullshit extends JFrame {
     private JPanel rolePanel;
     private JPanel workPanel;
     private JPanel upgradePanel;
+    private int    playerIterator;
+    private int    numPlayers;
 
     public static void main(String[] args) throws IOException {
         JFrame frame = new bullshit();
@@ -52,7 +54,7 @@ class bullshit extends JFrame {
         initialPanel = new JPanel();
         initialPanel.add(new JLabel("How many players?"));
         initialPanel.setLayout(new BoxLayout(initialPanel, BoxLayout.Y_AXIS));
-
+        setPlayerIterator(1);
         JButton two = new JButton(new AbstractAction("2") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,7 +122,18 @@ class bullshit extends JFrame {
 
         return initialPanel;
     }
-
+    public void setPlayerIterator(int num){
+        this.playerIterator = num;
+    }
+    public int getPlayerIterator(){
+        return this.playerIterator;
+    }
+    public void setNumPlayers(int num){
+        this.numPlayers = num;
+    }
+    public int getNumPlayers(){
+        return this.numPlayers;
+    }
     /*
     public JPanel makeNamePanel(final int numPlayers){
         namePanel = new JPanel();
@@ -156,6 +169,8 @@ class bullshit extends JFrame {
     public JPanel makeMenuPanel(){
         menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        JLabel playerNum = new JLabel("Player " + this.playerIterator + "'s turn");
+        menuPanel.add(playerNum);
         JLabel label = new JLabel("What would you like to do?");
         menuPanel.add(label);
         JButton moveBtn = new JButton(new AbstractAction("move") {
@@ -179,10 +194,25 @@ class bullshit extends JFrame {
                 mainPanel.add(makeUpgradePanel());
             }
         });
+        JButton endBtn = new JButton(new AbstractAction("end turn") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuPanel.setVisible(false);
+                mainPanel.add(makeMenuPanel());
+                if(getNumPlayers() == 8){
+                    setPlayerIterator(1);
+                }
+                else{
+                    int currentNum = getPlayerIterator()+1;
+                    setPlayerIterator(currentNum);
+                }
+            }
+        });
 
         menuPanel.add(moveBtn);
         menuPanel.add(workBtn);
         menuPanel.add(upgradeBtn);
+        menuPanel.add(endBtn);
         return menuPanel;
     }
 
@@ -191,38 +221,88 @@ class bullshit extends JFrame {
         movePanel = new JPanel();
         JLabel label = new JLabel("Where would you like to go?");
         movePanel.add(label);
-        JButton up = new JButton(new AbstractAction("up") {
+
+        JButton mainStreet = new JButton(new AbstractAction("Main Street") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
             }
         });
-        JButton down = new JButton(new AbstractAction("down") {
+        JButton jail = new JButton(new AbstractAction("Jail") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
             }
         });
-        JButton left = new JButton(new AbstractAction("left") {
+        JButton trainStation = new JButton(new AbstractAction("Train Station") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
             }
         });
-        JButton right = new JButton(new AbstractAction("right") {
+        JButton generalStore = new JButton(new AbstractAction("General Store") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
             }
         });
-        movePanel.add(up);
-        movePanel.add(down);
-        movePanel.add(left);
-        movePanel.add(right);
+        JButton saloon = new JButton(new AbstractAction("Saloon") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePanel.setVisible(false);
+                mainPanel.add(makeTakeRolePanel());
+            }
+        });
+        JButton ranch = new JButton(new AbstractAction("Ranch") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePanel.setVisible(false);
+                mainPanel.add(makeTakeRolePanel());
+            }
+        });
+        JButton bank = new JButton(new AbstractAction("Bank") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePanel.setVisible(false);
+                mainPanel.add(makeTakeRolePanel());
+            }
+        });
+        JButton hotel = new JButton(new AbstractAction("Hotel") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePanel.setVisible(false);
+                mainPanel.add(makeTakeRolePanel());
+            }
+        });
+        JButton church = new JButton(new AbstractAction("Church") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePanel.setVisible(false);
+                mainPanel.add(makeTakeRolePanel());
+            }
+        });
+        JButton secretHideout = new JButton(new AbstractAction("Secret Hideout") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePanel.setVisible(false);
+                mainPanel.add(makeTakeRolePanel());
+            }
+        });
+
+        movePanel.add(mainStreet);
+        movePanel.add(jail);
+        movePanel.add(trainStation);
+        movePanel.add(generalStore);
+        movePanel.add(saloon);
+        movePanel.add(ranch);
+        movePanel.add(bank);
+        movePanel.add(secretHideout);
+        movePanel.add(church);
+        movePanel.add(hotel);
         return movePanel;
     }
     public JPanel makeTakeRolePanel(){
@@ -284,13 +364,13 @@ class bullshit extends JFrame {
         JButton act = new JButton(new AbstractAction("act") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //add roll dice function
+                Controller.act();
             }
         });
         JButton rehearse = new JButton(new AbstractAction("rehearse") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //increase rehearse counter
+                Controller.rehearse();
             }
         });
         workPanel.add(act);
@@ -299,22 +379,81 @@ class bullshit extends JFrame {
     }
     public JPanel makeUpgradePanel(){
         upgradePanel = new JPanel();
-        JLabel label = new JLabel("How would you like to pay?");
+        upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
+
+        JLabel label = new JLabel("Which rank would you like?");
         upgradePanel.add(label);
-        JButton cash = new JButton(new AbstractAction("Pay in cash") {
+
+        JButton cash2 = new JButton(new AbstractAction("Rank 2 4$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //check if enough cash
+                Controller.upgrade(2, "cash");
             }
         });
-        JButton credits = new JButton(new AbstractAction("Pay in credits") {
+        JButton credits2 = new JButton(new AbstractAction("Rank 2 5 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //check if enough credits
+                Controller.upgrade(2, "credits");
             }
         });
-        upgradePanel.add(cash);
-        upgradePanel.add(credits);
+        JButton cash3 = new JButton(new AbstractAction("Rank 3 10$") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(3, "cash");
+            }
+        });
+        JButton credits3 = new JButton(new AbstractAction("Rank 3 10 Credits") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(3, "credits");
+            }
+        });
+        JButton cash4 = new JButton(new AbstractAction("Rank 4 18$") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(4, "cash");
+            }
+        });
+        JButton credits4 = new JButton(new AbstractAction("Rank 4 15 Credits") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(4, "credits");
+            }
+        });
+        JButton cash5 = new JButton(new AbstractAction("Rank 5 28$") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(5, "cash");
+            }
+        });
+        JButton credits5 = new JButton(new AbstractAction("Rank 5 20 Credits") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(5, "credits");
+            }
+        });
+        JButton cash6 = new JButton(new AbstractAction("Rank 6 40$") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(6, "cash");
+            }
+        });
+        JButton credits6 = new JButton(new AbstractAction("Rank 6 25 Credits") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.upgrade(6, "credits");
+            }
+        });
+        upgradePanel.add(cash2);
+        upgradePanel.add(credits2);
+        upgradePanel.add(cash3);
+        upgradePanel.add(credits3);
+        upgradePanel.add(cash4);
+        upgradePanel.add(credits4);
+        upgradePanel.add(cash5);
+        upgradePanel.add(credits5);
+        upgradePanel.add(cash6);
+        upgradePanel.add(credits6);
         return upgradePanel;
     }
 
