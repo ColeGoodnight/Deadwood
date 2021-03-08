@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 public class GUI {
@@ -48,8 +49,8 @@ public class GUI {
     private JFrame mainFrame;
     private JLabel boardImage;
 
-    public GUI(String[] cardPaths) {
-        initializeBoard(cardPaths);
+    public GUI(List<Card> cards) {
+        initializeBoard(cards);
         initializeFrame();
     }
 
@@ -64,13 +65,13 @@ public class GUI {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void initializeBoard(String[] cardPaths) {
+    public void initializeBoard(List<Card> cardsp) {
         boardPane.moveToBack(boardLabel);
         players = new JLabel[8];
         cards = new JLabel[40];
 
         for (int i = 0; i < cards.length; i++) {
-            cards[i].setIcon(new ImageIcon(cardPaths[i]));
+            cards[i].setIcon(new ImageIcon(cardsp.get(i).getImage().toString()));
         }
 
 
@@ -97,7 +98,7 @@ public class GUI {
 
         Model model = modelBuilder.build();
 
-        GUI gui = new GUI(model.getAdmin().getCardPaths("res/images/cards/"));
+        GUI gui = new GUI(model.getDeck().getCards());
     }
 }
 */

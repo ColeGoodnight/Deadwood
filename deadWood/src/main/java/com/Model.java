@@ -130,8 +130,8 @@ public class Model {
         public void checkEndOfDay() {
             BoardLocation[] locations = board.getLocations();
             int nullCount = 0;
-            for(int i = 0; i < locations.length-2; i++){
-                if(locations[i].getCard() == null){
+            for (int i = 0; i < locations.length - 2; i++) {
+                if (locations[i].getCard() == null) {
                     nullCount++;
                 }
             }
@@ -140,16 +140,6 @@ public class Model {
             }
 
 
-        }
-
-        public String[] getCardPaths(String prefix) {
-            String[] cardPaths = new String[40];
-            List<Card> cards = deck.getCards();
-            for (int i = 0; i < cardPaths.length; i++) {
-                cardPaths[i] = prefix + cards.get(i).getImage();
-            }
-
-            return cardPaths;
         }
 
         public void initializeGameVars(int numPlayers) {
