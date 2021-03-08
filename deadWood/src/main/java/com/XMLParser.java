@@ -2,6 +2,9 @@ package com;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import javax.xml.parsers.*;
 
 import com.BoardLocation.BoardLocationBuilder;
@@ -10,6 +13,7 @@ import com.Part.PartBuilder;
 import com.Upgrade.UpgradeBuilder;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -173,7 +177,7 @@ public class XMLParser {
     /*
      * Builds an array of Cards from a correctly formatted XML file
      */
-    public Card[] buildCards(File XMLFile) {
+    public Card[] buildCards(File XMLFile) throws IOException {
         
         try {
             document = builder.parse(XMLFile);
@@ -202,8 +206,7 @@ public class XMLParser {
                                 eElement.getAttribute("name"))
                        .budget(Integer.parseInt(
                                 eElement.getAttribute("budget")))
-                       .image(new File("res/images/" +
-                                eElement.getAttribute("img")))
+                       .image(eElement.getAttribute("img"))
                        .sceneNum(getSceneNum(
                                 eElement.getElementsByTagName("scene")))
                        .description(getDescription(

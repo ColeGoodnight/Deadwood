@@ -9,13 +9,17 @@ public class Deadwood {
         CLIView view = new CLIView();
         ModelBuilder modelBuilder = new ModelBuilder();
         XMLParser xmlParser = new XMLParser();
-        modelBuilder.board(new Board(xmlParser.buildBoardLocations(
-                            new File("res/xmlFiles/board.xml"))))
+        try {
+            modelBuilder.board(new Board(xmlParser.buildBoardLocations(
+                    new File("src/main/resources/xmlFiles/board.xml"))))
                     .deck(new Deck(xmlParser.buildCards(
-                            new File("res/xmlFiles/cards.xml"))))
+                            new File("src/main/resources/xmlFiles/cards.xml"))))
                     .upgradeManager(new UpgradeManager(xmlParser.buildUpgrades(
-                            new File("res/xmlFiles/board.xml"))))
+                            new File("src/main/resources/xmlFiles/board.xml"))))
                     .playerManager(new PlayerManager());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Controller controller = new Controller(view, modelBuilder.build());
 
         controller.gameSetup();

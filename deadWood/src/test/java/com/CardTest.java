@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import com.Card.CardBuilder;
@@ -11,6 +12,9 @@ import com.Part.PartBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class CardTest {
 
@@ -36,7 +40,7 @@ public class CardTest {
                    .sceneNum(6)
                    .description("egg")
                    .location("west")
-                   .image(new File(""))
+                   .image("ImageIO.read(new File ())")
                    .parts(parts);
     }
 
