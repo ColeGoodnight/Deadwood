@@ -15,7 +15,7 @@
           <component id="2de4d" class="javax.swing.JLabel" binding="boardLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="1.0"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
               <icon value="images/board.jpg"/>

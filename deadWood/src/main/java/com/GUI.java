@@ -1,5 +1,5 @@
 package com;
-/*
+
 import com.sun.xml.internal.bind.v2.model.impl.ModelBuilder;
 
 import javax.imageio.ImageIO;
@@ -48,9 +48,41 @@ public class GUI {
 
     private JFrame mainFrame;
 
-    public GUI(List<Card> cards) {
-        initializeBoard(cards);
+    public GUI(List<Card> cards, int numPlayers) {
         initializeFrame();
+        initializeBoard(cards, numPlayers);
+
+        setComponentBounds(getPlayerByNum(1), 200, 200);
+    }
+
+    public void setComponentBounds(Component component, Rectangle rectangle) {
+        component.setBounds(rectangle.x,
+                            rectangle.y,
+                            component.getWidth(),
+                            component.getHeight());
+    }
+
+    public void setComponentBounds(Component component, int x, int y) {
+        component.setBounds(x,
+                y,
+                component.getWidth(),
+                component.getHeight());
+    }
+
+    public JLabel[] getCards() {
+        return cards;
+    }
+
+    public JLabel getCardByNum(int i) {
+        return cards[i-1];
+    }
+
+    public JLabel[] getPlayers() {
+        return players;
+    }
+
+    public JLabel getPlayerByNum(int i) {
+        return players[i];
     }
 
     public void initializeFrame() {
@@ -64,35 +96,55 @@ public class GUI {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void initializeBoard(List<Card> cardsp) {
+    public void initializeBoard(List<Card> cardsp, int numPlayers) {
         boardPane.moveToBack(boardLabel);
-        players = new JLabel[8];
+
+        // prefix for dice files
+        String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
+
+        players = new JLabel[numPlayers];
         cards = new JLabel[40];
 
+        BufferedImage image;
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        // gets card image files from resources and creates new Jlabel objects for each image
+        // Jlabels are then added to the overlay pane
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new JLabel();
-
-            BufferedImage image;
-            ClassLoader classLoader = getClass().getClassLoader();
 
             try {
                 image = ImageIO.read(classLoader.getResource("images/cards/" + cardsp.get(i).getImage()));
                 cards[i].setIcon(new ImageIcon(image));
+                cards[i].setBounds(0,0,image.getWidth(), image.getHeight());
+                cards[i].setVisible(true);
+                boardPane.add(cards[i]);
+                boardPane.moveToFront(cards[i]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
 
+        // same as above loop but for players
+        for (int i = 0; i < players.length; i++) {
+            players[i] = new JLabel();
 
-
-            cards[i].setVisible(true);
-            boardPane.add(cards[i]);
-            boardPane.moveToFront(cards[i]);
-
+            try {
+                image = ImageIO.read(classLoader.getResource("images/dice/" + playerPrefix[i] + "1.png"));
+                players[i].setIcon(new ImageIcon(image));
+                players[i].setBounds(0,0,image.getWidth(), image.getHeight());
+                players[i].setVisible(true);
+                boardPane.add(players[i]);
+                boardPane.moveToFront(players[i]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
     }
 
+    // testing logic/not functional code
     public static void main(String[] args) {
         XMLParser xmlParser = new XMLParser();
         Model.ModelBuilder modelBuilder = new Model.ModelBuilder();
@@ -110,7 +162,6 @@ public class GUI {
 
         Model model = modelBuilder.build();
 
-        GUI gui = new GUI(model.getDeck().getCards());
+        GUI gui = new GUI(model.getDeck().getCards(), 2);
     }
 }
-*/
