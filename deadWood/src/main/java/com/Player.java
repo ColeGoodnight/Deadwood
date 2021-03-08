@@ -2,6 +2,7 @@ package com;
 
 public class Player {
 
+    private String        name;
     private int           credits;
     private int           dollars;
     private int           rank;
@@ -15,6 +16,10 @@ public class Player {
         this.credits = credits;
         this.rank = rank;
     }
+
+    public String getName(){ return this.name; }
+
+    public void setName(String name){ this.name = name; }
 
     public int getCredits() {
         return this.credits;

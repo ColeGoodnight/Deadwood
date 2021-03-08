@@ -1,5 +1,5 @@
 package com;
-
+/*
 import com.sun.xml.internal.bind.v2.model.impl.ModelBuilder;
 
 import javax.imageio.ImageIO;
@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 
 public class GUI {
     //Intellij auto generated
@@ -99,3 +100,4 @@ public class GUI {
         GUI gui = new GUI(model.getAdmin().getCardPaths("res/images/cards/"));
     }
 }
+*/
