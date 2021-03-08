@@ -42,6 +42,11 @@ public class GUI {
     private JButton generalStoreMoveButton;
     private JLabel boardLabel;
     private JLayeredPane boardPane;
+    private JLabel playerNum;
+    private JLabel playerCredits;
+    private JLabel playerDollars;
+    private JLabel playerRole;
+    private JPanel wrapPanel;
     private BufferedImage gameboard;
     private JLabel[] players;
     private JLabel[] cards;
@@ -53,16 +58,9 @@ public class GUI {
     public GUI(List<Card> cards, int numPlayers) {
         initializeFrame();
         initializeBoard(cards, numPlayers);
+        boardPane.setBounds(0,0,boardLabel.getWidth(), boardLabel.getHeight());
+        wrapPanel.setBounds(0,0,boardLabel.getWidth(), boardLabel.getHeight());
 
-        setComponentBounds(getPlayerByNum(1), 200, 200);
-        addShotCounter(new Rectangle(20,20,49,49));
-    }
-
-    public void setComponentBounds(Component component, Rectangle rectangle) {
-        component.setBounds(rectangle.x,
-                            rectangle.y,
-                            component.getWidth(),
-                            component.getHeight());
     }
 
     public void setComponentBounds(Component component, int x, int y) {
@@ -88,11 +86,39 @@ public class GUI {
         return players[i-1];
     }
 
+    public void updatePlayerInfo(Player player, int currentPlayer) {
+        playerNum.setText("Player " + currentPlayer);
+        playerCredits.setText(player.getCredits() + " Credits");
+        playerDollars.setText(player.getDollars() + " Dollars");
+        if (player.getCurrentPart() == null) {
+            playerRole.setText("No current role!");
+        } else {
+            playerRole.setText("Working on " + player.getCurrentPart()
+                                                     .getName());
+        }
+
+        // prefix for dice files
+        String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            BufferedImage image = ImageIO.read(classLoader.getResource("images/dice/" +
+                    playerPrefix[currentPlayer - 1] +
+                    player.getRank() +
+                    ".png"));
+
+            players[currentPlayer - 1].setIcon(new ImageIcon(image));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // adds a new shotcounter image at the specified location
     public void addShotCounter(Rectangle r) {
         JLabel counter = new JLabel();
         ClassLoader classLoader = getClass().getClassLoader();
         try {
-            BufferedImage image = ImageIO.read(classLoader.getResource("shotCounter.png"));
+            BufferedImage image = ImageIO.read(classLoader.getResource("images/shotCounter.png"));
             counter.setIcon(new ImageIcon(image));
             counter.setBounds(r);
             counter.setVisible(true);
@@ -106,13 +132,17 @@ public class GUI {
     }
 
     public void clearShotCounters() {
+        // everytime an attempt at changing visibility/removing
+        // from the pane is made all the formatting breaks, so
+        // solution is to just move non visible things behind the board
         for (JLabel counter : shotCounters) {
-            boardPane.remove(counter);
+            boardPane.moveToBack(counter);
         }
 
         shotCounters.clear();
     }
 
+    // gets all the frame properties set
     public void initializeFrame() {
         mainFrame = new JFrame();
         mainFrame.setTitle("Deadwood");
@@ -145,7 +175,7 @@ public class GUI {
                 image = ImageIO.read(classLoader.getResource("images/cards/" + cardsp.get(i).getImage()));
                 cards[i].setIcon(new ImageIcon(image));
                 cards[i].setBounds(0,0,image.getWidth(), image.getHeight());
-                cards[i].setVisible(true);
+                cards[i].setVisible(false);
                 boardPane.add(cards[i]);
                 boardPane.moveToFront(cards[i]);
             } catch (Exception e) {
@@ -192,6 +222,11 @@ public class GUI {
 
         GUI gui = new GUI(model.getDeck().getCards(), 2);
 
+        model.setupGame(8);
+
+        gui.updatePlayerInfo(model.getPlayerManager().getPlayers()[0], 1);
+
 
     }
+
 }
