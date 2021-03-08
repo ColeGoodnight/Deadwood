@@ -246,7 +246,6 @@ class bullshit extends JFrame {
     }
 
     public JPanel makeMovePanel(){
-        //String[] neighbors = BoardLocation.getNeighbors();
         movePanel = new JPanel();
         movePanel.setLayout(new BoxLayout(movePanel, BoxLayout.Y_AXIS));
         JLabel label = new JLabel("Where would you like to go?");
@@ -257,6 +256,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Main Street");
             }
         });
         JButton jail = new JButton(new AbstractAction("Jail") {
@@ -264,6 +264,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Jail");
             }
         });
         JButton trainStation = new JButton(new AbstractAction("Train Station") {
@@ -271,6 +272,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Train Station");
             }
         });
         JButton generalStore = new JButton(new AbstractAction("General Store") {
@@ -278,6 +280,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("General Store");
             }
         });
         JButton saloon = new JButton(new AbstractAction("Saloon") {
@@ -285,6 +288,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Saloon");
             }
         });
         JButton ranch = new JButton(new AbstractAction("Ranch") {
@@ -292,6 +296,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Ranch");
             }
         });
         JButton bank = new JButton(new AbstractAction("Bank") {
@@ -299,6 +304,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Bank");
             }
         });
         JButton hotel = new JButton(new AbstractAction("Hotel") {
@@ -306,6 +312,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Hotel");
             }
         });
         JButton church = new JButton(new AbstractAction("Church") {
@@ -313,6 +320,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Church");
             }
         });
         JButton secretHideout = new JButton(new AbstractAction("Secret Hideout") {
@@ -320,6 +328,7 @@ class bullshit extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 movePanel.setVisible(false);
                 mainPanel.add(makeTakeRolePanel());
+                getController().move("Secret Hideout");
             }
         });
 
@@ -360,22 +369,31 @@ class bullshit extends JFrame {
     }
     public JPanel makeRolePanel(){
         rolePanel = new JPanel();
+        rolePanel.setLayout(new BoxLayout(rolePanel, BoxLayout.Y_AXIS));
         JLabel label = new JLabel("Which role would you like to take?");
         rolePanel.add(label);
-        JButton role1 = new JButton(new AbstractAction("role 1") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rolePanel.setVisible(false);
-                mainPanel.add(makeWorkPanel());
-            }
-        });
-        JButton role2 = new JButton(new AbstractAction("role 2") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rolePanel.setVisible(false);
-                mainPanel.add(makeWorkPanel());
-            }
-        });
+
+        Part[] offCard = getModel().getCurrentPlayer().getLocation().getParts();
+        Part[] onCard = getModel().getCurrentPlayer().getLocation().getCard().getParts();
+        //String location = getModel().getCurrentPlayer().getLocation();
+
+
+        JLabel availableParts = new JLabel("These are the available roles at your location");
+        rolePanel.add(availableParts);
+        JLabel offCardParts = new JLabel("Off card roles:");
+        rolePanel.add(availableParts);
+        for(final Part part : offCard){
+            JButton currentPart = new JButton(new AbstractAction(part.getName()) {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    rolePanel.setVisible(false);
+                    mainPanel.add(makeMenuPanel());
+                    getController().takeRole(part.getName());
+                }
+            });
+        }
+
+
         JButton no = new JButton(new AbstractAction("no role") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -383,8 +401,7 @@ class bullshit extends JFrame {
                 mainPanel.add(makeMenuPanel());
             }
         });
-        rolePanel.add(role1);
-        rolePanel.add(role2);
+
         rolePanel.add(no);
         return rolePanel;
     }
@@ -421,61 +438,331 @@ class bullshit extends JFrame {
         JButton cash2 = new JButton(new AbstractAction("Rank 2 4$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(2, "cash");
+                if(!getController().upgrade(2, "dollar")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton credits2 = new JButton(new AbstractAction("Rank 2 5 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(2, "credits");
+                if(getController().upgrade(2, "credit")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton cash3 = new JButton(new AbstractAction("Rank 3 10$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(3, "cash");
+                if(!getController().upgrade(2, "dollar")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton credits3 = new JButton(new AbstractAction("Rank 3 10 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(3, "credits");
+                if(getController().upgrade(2, "credit")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton cash4 = new JButton(new AbstractAction("Rank 4 18$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(4, "cash");
+                if(!getController().upgrade(2, "dollar")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton credits4 = new JButton(new AbstractAction("Rank 4 15 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(4, "credits");
+                if(getController().upgrade(2, "credit")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton cash5 = new JButton(new AbstractAction("Rank 5 28$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(5, "cash");
+                if(!getController().upgrade(2, "dollar")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton credits5 = new JButton(new AbstractAction("Rank 5 20 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(5, "credits");
+                if(getController().upgrade(2, "credit")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton cash6 = new JButton(new AbstractAction("Rank 6 40$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(6, "cash");
+                if(!getController().upgrade(2, "dollar")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         JButton credits6 = new JButton(new AbstractAction("Rank 6 25 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getController().upgrade(6, "credits");
+                if(getController().upgrade(2, "credit")){
+                    JLabel tooPoor = new JLabel("You can't afford this yet");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(tooPoor);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
+                else{
+                    JLabel success = new JLabel("You leveled up!");
+                    JButton back = new JButton(new AbstractAction("back to menu") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            upgradePanel.setVisible(false);
+                            mainPanel.add(makeMenuPanel());
+                        }
+                    });
+                    upgradePanel.add(success);
+                    upgradePanel.add(back);
+                    upgradePanel.revalidate();
+                    upgradePanel.repaint();
+                }
             }
         });
         upgradePanel.add(cash2);
