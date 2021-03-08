@@ -37,6 +37,7 @@ public class Controller {
     }
 
     public boolean upgrade(int rank, String currency){ //2, cash
+        boolean canUpgrade = false;
         String desiredRank = Integer.toString(rank);
         try {
             model.getPlayerManager()
@@ -46,10 +47,11 @@ public class Controller {
                                     .getUpgrade(currency,
                                             Integer.parseInt(desiredRank)),
                             model.getBank());
-            return true;
+            canUpgrade = true;
         } catch (Exception e) {
             view.displayError(e.getMessage());
         }
+        return canUpgrade;
     }
 
     public boolean act(){
@@ -78,7 +80,9 @@ public class Controller {
         }
         return rehearse;
     }
-
+    public void endTurn(){
+        model.endTurn();
+    }
     public void pollUser() {
 
         Scanner terminal = new Scanner(System.in);

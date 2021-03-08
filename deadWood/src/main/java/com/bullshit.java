@@ -14,6 +14,9 @@ import javax.swing.*;
 import javax.swing.BoxLayout;
 
 class bullshit extends JFrame {
+    private Controller controller;
+    private Model      model;
+    private PlayerManager playerManager;
     private JFrame frame;
     private JPanel mainPanel;
     private JPanel boardPanel;
@@ -29,98 +32,25 @@ class bullshit extends JFrame {
     private int    numPlayers;
 
     public static void main(String[] args) throws IOException {
-        JFrame frame = new bullshit();
+        XMLParser xmlParser = new XMLParser();
+        CLIView view = new CLIView();
+        Model.ModelBuilder modelBuilder = new Model.ModelBuilder();
+        try {
+            modelBuilder.board(new Board(xmlParser.buildBoardLocations(
+                    new File("C:\\Users\\vlada\\345-assignment-2\\deadWood\\src\\main\\resources\\xmlFiles\\board.xml"))))
+                    .deck(new Deck(xmlParser.buildCards(
+                            new File("C:\\Users\\vlada\\345-assignment-2\\deadWood\\src\\main\\resources\\xmlFiles\\cards.xml"))))
+                    .upgradeManager(new UpgradeManager(xmlParser.buildUpgrades(
+                            new File("C:\\Users\\vlada\\345-assignment-2\\deadWood\\src\\main\\resources\\xmlFiles\\board.xml"))))
+                    .playerManager(new PlayerManager());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Model model = modelBuilder.build();
+        PlayerManager playerManager = model.getPlayerManager();
+        Board board = model.getBoard();
+        JFrame frame = new bullshit(view, model, playerManager, board);
         frame.setVisible(true);
-    }
-
-    public bullshit() throws IOException {
-        super("Deadwood");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainPanel = new JPanel();
-        this.setContentPane(mainPanel);
-        this.pack();
-
-        mainPanel.add(makeBoardPanel());
-        mainPanel.add(makeInitialPanel());
-    }
-
-    public JPanel makeBoardPanel() throws IOException {
-        boardPanel = new JPanel();
-        JLabel boardBackground = new JLabel(new ImageIcon("C:\\Users\\vlada\\345-assignment-2\\deadWood\\res\\images\\board.jpg"));
-        boardPanel.add(boardBackground);
-        return boardPanel;
-    }
-    public JPanel makeInitialPanel(){
-        initialPanel = new JPanel();
-        initialPanel.add(new JLabel("How many players?"));
-        initialPanel.setLayout(new BoxLayout(initialPanel, BoxLayout.Y_AXIS));
-        setPlayerIterator(1);
-        JButton two = new JButton(new AbstractAction("2") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(2));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-        JButton three = new JButton(new AbstractAction("3") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(3));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-        JButton four = new JButton(new AbstractAction("4") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(4));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-        JButton five = new JButton(new AbstractAction("5") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(5));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-        JButton six = new JButton(new AbstractAction("6") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(6));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-        JButton seven = new JButton(new AbstractAction("7") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(7));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-        JButton eight = new JButton(new AbstractAction("8") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initialPanel.setVisible(false);
-                //mainPanel.add(makeNamePanel(8));
-                mainPanel.add(makeMenuPanel());
-            }
-        });
-
-        initialPanel.add(two);
-        initialPanel.add(three);
-        initialPanel.add(four);
-        initialPanel.add(five);
-        initialPanel.add(six);
-        initialPanel.add(seven);
-        initialPanel.add(eight);
-
-        return initialPanel;
     }
     public void setPlayerIterator(int num){
         this.playerIterator = num;
@@ -134,37 +64,126 @@ class bullshit extends JFrame {
     public int getNumPlayers(){
         return this.numPlayers;
     }
-    /*
-    public JPanel makeNamePanel(final int numPlayers){
-        namePanel = new JPanel();
-        final JLabel label = new JLabel("Player 1's name?");
-        JButton enter = new JButton("enter");
-        JTextField nameEntry = new JTextField(20);
+    public Controller getController(){
+        return this.controller;
+    }
+    public void setController(CLIView view, Model model){
+        this.controller = new Controller(view,model);
+    }
+    public void setModel(Model model){
+        this.model = model;
+    }
+    public Model getModel(){
+        return this.model;
+    }
+    public void setPlayerManager(PlayerManager playerManager){
+        this.playerManager = playerManager;
+    }
+    public PlayerManager getPlayerManager(){
+        return this.playerManager;
+    }
 
-        namePanel.add(nameEntry);
-        namePanel.add(enter);
-        namePanel.add(label);
-        mainPanel.add(namePanel);
+    public bullshit(CLIView view, Model model, PlayerManager playerManager, Board board) throws IOException {
+        super("Deadwood");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainPanel = new JPanel();
+        this.setContentPane(mainPanel);
+        this.pack();
 
-        final String[] playerNames = new String[numPlayers];
+        setController(view, model);
+        setModel(model);
+        setPlayerManager(playerManager);
 
-        enter.addActionListener(new ActionListener() {
+
+        mainPanel.add(makeBoardPanel());
+        mainPanel.add(makeInitialPanel());
+    }
+
+    public JPanel makeBoardPanel() throws IOException {
+        boardPanel = new JPanel();
+        JLabel boardBackground = new JLabel(new ImageIcon("C:\\Users\\vlada\\345-assignment-2\\deadWood\\src\\main\\resources\\images\\board.jpg"));
+        boardPanel.add(boardBackground);
+        return boardPanel;
+    }
+    public JPanel makeInitialPanel(){
+        initialPanel = new JPanel();
+        initialPanel.add(new JLabel("How many players?"));
+        initialPanel.setLayout(new BoxLayout(initialPanel, BoxLayout.Y_AXIS));
+
+        setPlayerIterator(1);
+        JButton two = new JButton(new AbstractAction("2") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i < numPlayers; i++){
-                    String currentName = e.getActionCommand();
-                    playerNames[i] = currentName;
-                    label.setText("Player " + i+2 + "'s name?");
-                }
-                namePanel.setVisible(false);
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(2));
+                getPlayerManager().initializePlayers(2, getModel().getBoard());
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+        JButton three = new JButton(new AbstractAction("3") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(3));
+                getPlayerManager().initializePlayers(3, getModel().getBoard());
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+        JButton four = new JButton(new AbstractAction("4") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(4));
+                getPlayerManager().initializePlayers(4, getModel().getBoard());
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+        JButton five = new JButton(new AbstractAction("5") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(5));
+                getPlayerManager().initializePlayers(5, getModel().getBoard());
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+        JButton six = new JButton(new AbstractAction("6") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(6));
+                getPlayerManager().initializePlayers(6, getModel().getBoard());
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+        JButton seven = new JButton(new AbstractAction("7") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(7));
+                getPlayerManager().initializePlayers(7, getModel().getBoard());
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+        JButton eight = new JButton(new AbstractAction("8") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialPanel.setVisible(false);
+                //mainPanel.add(makeNamePanel(8));
+                getPlayerManager().initializePlayers(8, getModel().getBoard());
                 mainPanel.add(makeMenuPanel());
             }
         });
 
-        return namePanel;
+        initialPanel.add(two);
+        initialPanel.add(three);
+        initialPanel.add(four);
+        initialPanel.add(five);
+        initialPanel.add(six);
+        initialPanel.add(seven);
+        initialPanel.add(eight);
+        return initialPanel;
     }
-    */
-
 
     public JPanel makeMenuPanel(){
         menuPanel = new JPanel();
@@ -173,6 +192,7 @@ class bullshit extends JFrame {
         menuPanel.add(playerNum);
         JLabel label = new JLabel("What would you like to do?");
         menuPanel.add(label);
+
         JButton moveBtn = new JButton(new AbstractAction("move") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -194,11 +214,16 @@ class bullshit extends JFrame {
                 mainPanel.add(makeUpgradePanel());
             }
         });
-        JButton endBtn = new JButton(new AbstractAction("end turn") {
+        JButton infoBtn = new JButton(new AbstractAction("info") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 menuPanel.setVisible(false);
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeInfoPanel());
+            }
+        });
+        JButton endBtn = new JButton(new AbstractAction("end turn") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if(getNumPlayers() == 8){
                     setPlayerIterator(1);
                 }
@@ -206,12 +231,16 @@ class bullshit extends JFrame {
                     int currentNum = getPlayerIterator()+1;
                     setPlayerIterator(currentNum);
                 }
+                menuPanel.setVisible(false);
+                mainPanel.add(makeMenuPanel());
+
             }
         });
 
         menuPanel.add(moveBtn);
         menuPanel.add(workBtn);
         menuPanel.add(upgradeBtn);
+        menuPanel.add(infoBtn);
         menuPanel.add(endBtn);
         return menuPanel;
     }
@@ -219,6 +248,7 @@ class bullshit extends JFrame {
     public JPanel makeMovePanel(){
         //String[] neighbors = BoardLocation.getNeighbors();
         movePanel = new JPanel();
+        movePanel.setLayout(new BoxLayout(movePanel, BoxLayout.Y_AXIS));
         JLabel label = new JLabel("Where would you like to go?");
         movePanel.add(label);
 
@@ -305,6 +335,7 @@ class bullshit extends JFrame {
         movePanel.add(hotel);
         return movePanel;
     }
+
     public JPanel makeTakeRolePanel(){
         takeRolePanel = new JPanel();
         JLabel label = new JLabel("Would you like to take a role?");
@@ -357,20 +388,22 @@ class bullshit extends JFrame {
         rolePanel.add(no);
         return rolePanel;
     }
+
     public JPanel makeWorkPanel(){
+        controller = getController();
         workPanel = new JPanel();
         JLabel label = new JLabel("What would you like to do?");
         workPanel.add(label);
         JButton act = new JButton(new AbstractAction("act") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.act();
+                controller.act();
             }
         });
         JButton rehearse = new JButton(new AbstractAction("rehearse") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.rehearse();
+                controller.rehearse();
             }
         });
         workPanel.add(act);
@@ -378,6 +411,7 @@ class bullshit extends JFrame {
         return workPanel;
     }
     public JPanel makeUpgradePanel(){
+        controller = getController();
         upgradePanel = new JPanel();
         upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
 
@@ -387,61 +421,61 @@ class bullshit extends JFrame {
         JButton cash2 = new JButton(new AbstractAction("Rank 2 4$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(2, "cash");
+                getController().upgrade(2, "cash");
             }
         });
         JButton credits2 = new JButton(new AbstractAction("Rank 2 5 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(2, "credits");
+                getController().upgrade(2, "credits");
             }
         });
         JButton cash3 = new JButton(new AbstractAction("Rank 3 10$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(3, "cash");
+                getController().upgrade(3, "cash");
             }
         });
         JButton credits3 = new JButton(new AbstractAction("Rank 3 10 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(3, "credits");
+                getController().upgrade(3, "credits");
             }
         });
         JButton cash4 = new JButton(new AbstractAction("Rank 4 18$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(4, "cash");
+                getController().upgrade(4, "cash");
             }
         });
         JButton credits4 = new JButton(new AbstractAction("Rank 4 15 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(4, "credits");
+                getController().upgrade(4, "credits");
             }
         });
         JButton cash5 = new JButton(new AbstractAction("Rank 5 28$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(5, "cash");
+                getController().upgrade(5, "cash");
             }
         });
         JButton credits5 = new JButton(new AbstractAction("Rank 5 20 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(5, "credits");
+                getController().upgrade(5, "credits");
             }
         });
         JButton cash6 = new JButton(new AbstractAction("Rank 6 40$") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(6, "cash");
+                getController().upgrade(6, "cash");
             }
         });
         JButton credits6 = new JButton(new AbstractAction("Rank 6 25 Credits") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.upgrade(6, "credits");
+                getController().upgrade(6, "credits");
             }
         });
         upgradePanel.add(cash2);
@@ -457,4 +491,29 @@ class bullshit extends JFrame {
         return upgradePanel;
     }
 
+    public JPanel makeInfoPanel(){
+        final JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+        Player currentPlayer = getModel().getCurrentPlayer();
+        int dollars = currentPlayer.getDollars();
+        int credits = currentPlayer.getCredits();
+        int rank = currentPlayer.getRank();
+        JLabel cashLabel = new JLabel("Player cash amount: " + dollars);
+        JLabel creditsLabel = new JLabel("Player credit amount: " + credits);
+        JLabel rankLabel = new JLabel("Player rank: " + rank);
+        JButton back = new JButton(new AbstractAction("back to menu") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                infoPanel.setVisible(false);
+                mainPanel.add(makeMenuPanel());
+            }
+        });
+
+        infoPanel.add(cashLabel);
+        infoPanel.add(creditsLabel);
+        infoPanel.add(rankLabel);
+        infoPanel.add(back);
+        return infoPanel;
+    }
 }
