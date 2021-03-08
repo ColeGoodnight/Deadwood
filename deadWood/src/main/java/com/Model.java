@@ -140,6 +140,16 @@ public class Model {
 
         }
 
+        public String[] getCardPaths(String prefix) {
+            String[] cardPaths = new String[40];
+            Card[] cards = (Card[]) deck.getCards().toArray();
+            for (int i = 0; i < cardPaths.length; i++) {
+                cardPaths[i] = prefix + cards[i].getImage();
+            }
+
+            return cardPaths;
+        }
+
         public void initializeGameVars(int numPlayers) {
             switch (numPlayers) {
                 case 2:

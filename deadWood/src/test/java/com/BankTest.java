@@ -1,10 +1,9 @@
 package com;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 
 public class BankTest {
@@ -39,7 +38,7 @@ public class BankTest {
 
     @Test
     public void debtCreditsRange() {
-        assertTrue(!bank.debtPlayerInCredits(player, 6));
+        assertFalse(bank.debtPlayerInCredits(player, 6));
     }
 
     @Test
