@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class Controller {
 
-    private CLIView  view;
+    private MainFrame  view;
     private Model model;
 
-    public Controller(CLIView view, Model model) {
+    public Controller(MainFrame view, Model model) {
         this.model = model;
         this.view  = view;
     }
