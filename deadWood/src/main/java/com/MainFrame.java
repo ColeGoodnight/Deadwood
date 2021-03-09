@@ -166,6 +166,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
+        mainMenu = new javax.swing.JPanel();
+        moveBUtton = new javax.swing.JButton();
+        actButton = new javax.swing.JButton();
+        rehearseButton = new javax.swing.JButton();
+        upgradeButton = new javax.swing.JButton();
+        endTurnButton = new javax.swing.JButton();
         playerInfoPanel = new javax.swing.JPanel();
         playerLabel = new javax.swing.JLabel();
         playerDollarLabel = new javax.swing.JLabel();
@@ -175,15 +181,60 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        moveBUtton.setText("jButton1");
+
+        actButton.setText("jButton2");
+
+        rehearseButton.setText("jButton3");
+
+        upgradeButton.setText("jButton4");
+
+        endTurnButton.setText("jButton5");
+
+        javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(mainMenu);
+        mainMenu.setLayout(mainMenuLayout);
+        mainMenuLayout.setHorizontalGroup(
+            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainMenuLayout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainMenuLayout.createSequentialGroup()
+                        .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(endTurnButton)
+                            .addComponent(actButton)
+                            .addComponent(moveBUtton))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(mainMenuLayout.createSequentialGroup()
+                        .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(upgradeButton)
+                            .addComponent(rehearseButton))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        mainMenuLayout.setVerticalGroup(
+            mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainMenuLayout.createSequentialGroup()
+                .addGap(163, 163, 163)
+                .addComponent(moveBUtton)
+                .addGap(34, 34, 34)
+                .addComponent(actButton)
+                .addGap(39, 39, 39)
+                .addComponent(rehearseButton)
+                .addGap(33, 33, 33)
+                .addComponent(upgradeButton)
+                .addGap(30, 30, 30)
+                .addComponent(endTurnButton)
+                .addContainerGap(164, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(mainMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 578, Short.MAX_VALUE)
+            .addComponent(mainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         playerLabel.setText("jLabel1");
@@ -339,13 +390,19 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actButton;
     private javax.swing.JLabel boardLabel;
     private javax.swing.JLayeredPane boardPane;
+    private javax.swing.JButton endTurnButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel mainMenu;
     private javax.swing.JPanel menuPanel;
+    private javax.swing.JButton moveBUtton;
     private javax.swing.JLabel playerCreditLabel;
     private javax.swing.JLabel playerDollarLabel;
     private javax.swing.JPanel playerInfoPanel;
     private javax.swing.JLabel playerLabel;
+    private javax.swing.JButton rehearseButton;
+    private javax.swing.JButton upgradeButton;
     // End of variables declaration//GEN-END:variables
 }
