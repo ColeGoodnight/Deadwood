@@ -21,7 +21,6 @@ class bullshit extends JFrame {
     private JPanel mainPanel;
     private JPanel boardPanel;
     private JPanel initialPanel;
-    private JPanel namePanel;
     private JPanel menuPanel;
     private JPanel movePanel;
     private JPanel takeRolePanel;
