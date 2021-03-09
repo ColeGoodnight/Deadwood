@@ -16,7 +16,7 @@ class Deck {
         this.cards = cardsTemp;
     }
 
-    public void shuffle() {
+    /*ublic void shuffle() {
         List<Card> shuffledDeck = new ArrayList<Card>(40);
         Random randyGuy = new Random();
         int i = 0;
@@ -32,7 +32,7 @@ class Deck {
             }  
         }
         cards = shuffledDeck;
-    }
+    }*/
 
     private boolean allTrue(boolean[] deckCheck){
         boolean check = true;

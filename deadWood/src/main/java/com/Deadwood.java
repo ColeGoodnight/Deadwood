@@ -6,6 +6,11 @@ import com.Model.ModelBuilder;
 
 import javax.swing.*;
 
+//TODO: figure out issue with skipping player 2 on first set of turns
+//TODO: debug menu
+//TODO: get displayed cards and model cards to sync
+//TODO: players move to role upon taking a role
+//TODO: -1 when move?
 public class Deadwood {
     public static void main(String[] args) {
         ModelBuilder modelBuilder = new ModelBuilder();
