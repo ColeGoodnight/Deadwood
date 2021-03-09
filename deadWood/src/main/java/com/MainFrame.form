@@ -92,23 +92,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="endTurnButton" min="-2" max="-2" attributes="0"/>
-                                      <Component id="actButton" min="-2" max="-2" attributes="0"/>
-                                      <Component id="moveBUtton" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="upgradeButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="rehearseButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="moveButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="actButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="rehearseButton" alignment="0" pref="119" max="32767" attributes="0"/>
+                              <Component id="upgradeButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="endTurnButton" alignment="0" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -116,7 +107,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
-                          <Component id="moveBUtton" min="-2" max="-2" attributes="0"/>
+                          <Component id="moveButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Component id="actButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
@@ -131,29 +122,32 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="moveBUtton">
+                <Component class="javax.swing.JButton" name="moveButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jButton1"/>
+                    <Property name="text" type="java.lang.String" value="Move"/>
+                    <Property name="actionCommand" type="java.lang.String" value="Move"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="actButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jButton2"/>
+                    <Property name="text" type="java.lang.String" value="Act"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="rehearseButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jButton3"/>
+                    <Property name="text" type="java.lang.String" value="Rehearse"/>
+                    <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="upgradeButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jButton4"/>
+                    <Property name="text" type="java.lang.String" value="Upgrade"/>
+                    <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="endTurnButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jButton5"/>
+                    <Property name="text" type="java.lang.String" value="End Turn"/>
                   </Properties>
                 </Component>
               </SubComponents>
