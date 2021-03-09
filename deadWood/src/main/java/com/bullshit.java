@@ -21,7 +21,7 @@ class bullshit extends JFrame {
     private JPanel mainPanel;
     private JPanel boardPanel;
     private JPanel initialPanel;
-    private JPanel menuPanel;
+    private JPanel MainMenuPanel;
     private JPanel movePanel;
     private JPanel takeRolePanel;
     private JPanel rolePanel;
@@ -116,7 +116,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(2));
                 getPlayerManager().initializePlayers(2, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         JButton three = new JButton(new AbstractAction("3") {
@@ -125,7 +125,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(3));
                 getPlayerManager().initializePlayers(3, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         JButton four = new JButton(new AbstractAction("4") {
@@ -134,7 +134,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(4));
                 getPlayerManager().initializePlayers(4, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         JButton five = new JButton(new AbstractAction("5") {
@@ -143,7 +143,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(5));
                 getPlayerManager().initializePlayers(5, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         JButton six = new JButton(new AbstractAction("6") {
@@ -152,7 +152,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(6));
                 getPlayerManager().initializePlayers(6, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         JButton seven = new JButton(new AbstractAction("7") {
@@ -161,7 +161,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(7));
                 getPlayerManager().initializePlayers(7, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         JButton eight = new JButton(new AbstractAction("8") {
@@ -170,7 +170,7 @@ class bullshit extends JFrame {
                 initialPanel.setVisible(false);
                 //mainPanel.add(makeNamePanel(8));
                 getPlayerManager().initializePlayers(8, getModel().getBoard());
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
 
@@ -184,39 +184,39 @@ class bullshit extends JFrame {
         return initialPanel;
     }
 
-    public JPanel makeMenuPanel(){
-        menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+    public JPanel makeMainMenuPanel(){
+        MainMenuPanel = new JPanel();
+        MainMenuPanel.setLayout(new BoxLayout(MainMenuPanel, BoxLayout.Y_AXIS));
         JLabel playerNum = new JLabel("Player " + this.playerIterator + "'s turn");
-        menuPanel.add(playerNum);
+        MainMenuPanel.add(playerNum);
         JLabel label = new JLabel("What would you like to do?");
-        menuPanel.add(label);
+        MainMenuPanel.add(label);
 
         JButton moveBtn = new JButton(new AbstractAction("move") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuPanel.setVisible(false);
+                MainMenuPanel.setVisible(false);
                 mainPanel.add(makeMovePanel());
             }
         });
         JButton workBtn = new JButton(new AbstractAction("work") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuPanel.setVisible(false);
+                MainMenuPanel.setVisible(false);
                 mainPanel.add(makeWorkPanel());
             }
         });
         JButton upgradeBtn = new JButton(new AbstractAction("upgrade") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuPanel.setVisible(false);
+                MainMenuPanel.setVisible(false);
                 mainPanel.add(makeUpgradePanel());
             }
         });
         JButton infoBtn = new JButton(new AbstractAction("info") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuPanel.setVisible(false);
+                MainMenuPanel.setVisible(false);
                 mainPanel.add(makeInfoPanel());
             }
         });
@@ -230,18 +230,18 @@ class bullshit extends JFrame {
                     int currentNum = getPlayerIterator()+1;
                     setPlayerIterator(currentNum);
                 }
-                menuPanel.setVisible(false);
-                mainPanel.add(makeMenuPanel());
+                MainMenuPanel.setVisible(false);
+                mainPanel.add(makeMainMenuPanel());
 
             }
         });
 
-        menuPanel.add(moveBtn);
-        menuPanel.add(workBtn);
-        menuPanel.add(upgradeBtn);
-        menuPanel.add(infoBtn);
-        menuPanel.add(endBtn);
-        return menuPanel;
+        MainMenuPanel.add(moveBtn);
+        MainMenuPanel.add(workBtn);
+        MainMenuPanel.add(upgradeBtn);
+        MainMenuPanel.add(infoBtn);
+        MainMenuPanel.add(endBtn);
+        return MainMenuPanel;
     }
 
     public JPanel makeMovePanel(){
@@ -359,7 +359,7 @@ class bullshit extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 takeRolePanel.setVisible(false);
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         takeRolePanel.add(yes);
@@ -407,7 +407,7 @@ class bullshit extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 rolePanel.setVisible(false);
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
         rolePanel.add(no);
@@ -452,7 +452,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -466,7 +466,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -485,7 +485,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -499,7 +499,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -518,7 +518,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -532,7 +532,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -551,7 +551,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -565,7 +565,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -584,7 +584,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -598,7 +598,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -617,7 +617,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -631,7 +631,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -650,7 +650,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -664,7 +664,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -683,7 +683,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -697,7 +697,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -716,7 +716,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -730,7 +730,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -749,7 +749,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(tooPoor);
@@ -763,7 +763,7 @@ class bullshit extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             upgradePanel.setVisible(false);
-                            mainPanel.add(makeMenuPanel());
+                            mainPanel.add(makeMainMenuPanel());
                         }
                     });
                     upgradePanel.add(success);
@@ -801,7 +801,7 @@ class bullshit extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 infoPanel.setVisible(false);
-                mainPanel.add(makeMenuPanel());
+                mainPanel.add(makeMainMenuPanel());
             }
         });
 
