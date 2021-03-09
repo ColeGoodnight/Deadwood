@@ -159,15 +159,16 @@ public class MainFrame extends javax.swing.JFrame {
         upgradeButton.addActionListener(new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                JOptionPane.showMessageDialog(null, controller.upgrade());
+                String rank = JOptionPane.showInputDialog("What rank?");
+                String currency = JOptionPane.showInputDialog("What currency? (dollar or credit");
+                JOptionPane.showMessageDialog(null, controller.upgrade(Integer.parseInt(rank), currency));
             }
         });
         
         endTurnButton.addActionListener(new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.endTurn();
+                JOptionPane.showMessageDialog(null, controller.endTurn());
             }
         });
     }
