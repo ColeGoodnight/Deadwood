@@ -29,7 +29,6 @@ public class Controller {
             }
         }
         model.setupGame(userInput);
-        //view.updatePlayers();
     }
 
     public void startGame() {
@@ -53,7 +52,6 @@ public class Controller {
                             model.getBoard()
                                     .getBoardLocation(location));
             moved = true;
-            //view.getPlayerByNum(model.getCurrentPlayer()).setBounds(model.getBoard().getBoardLocation(location).getRectangle()
         } catch (Exception e) {
             view.displayError(e.getMessage());
         }
@@ -76,9 +74,7 @@ public class Controller {
             view.displayError(e.getMessage());
         }
         return canUpgrade;
-        //view.updatePlayer(model.getCurrentPlayer())
     }
-
     public void takeRole(String partName){
         Part[] parts1 = model.getCurrentPlayer()
                 .getLocation()
@@ -124,7 +120,6 @@ public class Controller {
             view.displayError(e.getMessage());
         }
     }
-
     public boolean act(){
         boolean outcome = false;
         try {
@@ -132,7 +127,6 @@ public class Controller {
                     .act(model.getCurrentPlayer(),
                             model.getBank())) {
                 outcome = true;
-                //view.addShotCounter(model.getCurrentPlayer.getLocation().getTakes().getRectangle());
             } else {
                 outcome = false;
             }
@@ -155,7 +149,6 @@ public class Controller {
     public void endTurn(){
         model.endTurn();
     }
-
     public void pollUser() {
 
         Scanner terminal = new Scanner(System.in);
