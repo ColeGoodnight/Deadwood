@@ -21,14 +21,18 @@ public class Deadwood {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Model model = modelBuilder.build();
         String input = JOptionPane.showInputDialog("How many players?");
         int numPlayers = Integer.parseInt(input);
         List<Card> cards = model.getDeck().getCards();
-        MainFrame mainframe = new MainFrame( cards, numPlayers);
+        MainFrame mainframe = new MainFrame(cards, numPlayers);
         Controller controller = new Controller(mainframe, model);
 
         controller.gameSetup(numPlayers);
         controller.startGame();
+        mainframe.setController(controller);
+        mainframe.setVisible(true);
+
     }
 }

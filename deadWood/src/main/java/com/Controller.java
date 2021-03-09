@@ -1,5 +1,6 @@
 package com;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
@@ -15,12 +16,23 @@ public class Controller {
     public void gameSetup(int numPlayers) {
         model.getPlayerManager().initializePlayers(numPlayers, model.getBoard());
         Player[] players = model.getPlayerManager().getPlayers();
-        for(int i = numPlayers; i > 0; i--){
+        for(int i = numPlayers-1; i >= 0; i--){
             view.updatePlayerInfo(players[i],i);
             BoardLocation trailers = model.getBoard().getBoardLocation("Trailers");
-            players[i].setLocation(trailers);
+            view.getPlayerByNum(i+1).setBounds(trailers.getRectangle());
+        }
+        model.getDeck().getCards();
+        model.getDeck().dealCardsToBoard(model.getBoard().getLocations());
+        makeCardsVisible(model.getDeck().getCards(), model.getBoard().getLocations());
+    }
+
+    public void makeCardsVisible(List<Card> cards, BoardLocation[] locations) {
+        for (int i = 0; i < locations.length-2; i++) {
+            view.getCardByNum(i).setBounds(locations[i].getRectangle());
         }
     }
+
+
 
     public void startGame() {
         model.getAdmin().incrementPlayer();
@@ -37,6 +49,7 @@ public class Controller {
                     .move(model.getCurrentPlayer(),
                             model.getBoard()
                                     .getBoardLocation(location));
+            view.getPlayerByNum(model.getAdmin().getPlayerIterator()).setBounds(model.getCurrentPlayer().getLocation().getRectangle());
         } catch (Exception e) {
             return(e.getMessage());
         }
@@ -113,8 +126,9 @@ public class Controller {
                 outcome = true;
                 BoardLocation location = model.getCurrentPlayer().getLocation();
                 Take[] takes = model.getCurrentPlayer().getLocation().getTakes();
-                Take currentTake = takes[location.getTakeIterator()];
+                Take currentTake = takes[location.getTakeIterator()-1];
                 view.addShotCounter(currentTake.getRectangle());
+                view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator());
             } else {
                 outcome = false;
             }
@@ -140,6 +154,7 @@ public class Controller {
     
     public String endTurn(){ //call updatePlayerInfo for next player
         model.endTurn();
+        view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator());
         return "Turn ended";
     }
 
