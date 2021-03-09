@@ -21,7 +21,6 @@ class bullshit extends JFrame {
     private JPanel mainPanel;
     private JPanel boardPanel;
     private JPanel initialPanel;
-    private JPanel namePanel;
     private JPanel menuPanel;
     private JPanel movePanel;
     private JPanel takeRolePanel;
@@ -375,25 +374,35 @@ class bullshit extends JFrame {
 
         Part[] offCard = getModel().getCurrentPlayer().getLocation().getParts();
         Part[] onCard = getModel().getCurrentPlayer().getLocation().getCard().getParts();
-        //String location = getModel().getCurrentPlayer().getLocation();
-
 
         JLabel availableParts = new JLabel("These are the available roles at your location");
         rolePanel.add(availableParts);
         JLabel offCardParts = new JLabel("Off card roles:");
-        rolePanel.add(availableParts);
+        rolePanel.add(offCardParts);
         for(final Part part : offCard){
             JButton currentPart = new JButton(new AbstractAction(part.getName()) {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     rolePanel.setVisible(false);
-                    mainPanel.add(makeMenuPanel());
+                    mainPanel.add(makeWorkPanel());
                     getController().takeRole(part.getName());
                 }
             });
+            rolePanel.add(currentPart);
         }
-
-
+        JLabel onCardParts = new JLabel("On card roles:");
+        rolePanel.add(onCardParts);
+        for(final Part part : onCard){
+            JButton currentPart = new JButton(new AbstractAction(part.getName()) {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    rolePanel.setVisible(false);
+                    mainPanel.add(makeWorkPanel());
+                    getController().takeRole(part.getName());
+                }
+            });
+            rolePanel.add(currentPart);
+        }
         JButton no = new JButton(new AbstractAction("no role") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -401,7 +410,6 @@ class bullshit extends JFrame {
                 mainPanel.add(makeMenuPanel());
             }
         });
-
         rolePanel.add(no);
         return rolePanel;
     }
@@ -414,13 +422,13 @@ class bullshit extends JFrame {
         JButton act = new JButton(new AbstractAction("act") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.act();
+                getController().act();
             }
         });
         JButton rehearse = new JButton(new AbstractAction("rehearse") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.rehearse();
+                getController().rehearse();
             }
         });
         workPanel.add(act);
