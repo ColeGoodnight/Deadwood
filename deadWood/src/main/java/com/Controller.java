@@ -36,8 +36,7 @@ public class Controller {
         pollUser();
     }
 
-    public boolean move(String location){
-        boolean moved = false;
+    public String move(String location){
         String[] neighbors = model.getCurrentPlayer()
                 .getLocation()
                 .getNeighbors();
@@ -51,31 +50,28 @@ public class Controller {
                     .move(model.getCurrentPlayer(),
                             model.getBoard()
                                     .getBoardLocation(location));
-            moved = true;
         } catch (Exception e) {
-            view.displayError(e.getMessage());
+            return(e.getMessage());
         }
-        return moved;
+        return "Success";
     }
 
-    public boolean upgrade(int rank, String currency){ //2, cash
-        boolean canUpgrade = false;
-        String desiredRank = Integer.toString(rank);
+    public String upgrade(int rank, String currency){ //2, cash
         try {
             model.getPlayerManager()
                     .upgrade(
                             model.getCurrentPlayer(),
                             model.getUpgradeManager()
                                     .getUpgrade(currency,
-                                            Integer.parseInt(desiredRank)),
+                                            rank),
                             model.getBank());
-            canUpgrade = true;
         } catch (Exception e) {
-            view.displayError(e.getMessage());
+            return(e.getMessage());
         }
-        return canUpgrade;
+        return "Success";
     }
-    public void takeRole(String partName){
+    
+    public String takeRole(String partName){
         Part[] parts1 = model.getCurrentPlayer()
                 .getLocation()
                 .getParts();
@@ -103,8 +99,6 @@ public class Controller {
             parts[i] = parts2[j];
         }
 
-        view.updateAvailableRoles(parts, model.getCurrentPlayer().getRank());
-
         Part temp = null;
         for (Part part : parts) {
             if (part.getName().equals(partName)) {
@@ -115,12 +109,15 @@ public class Controller {
         try {
             model.getPlayerManager()
                     .takePart(model.getCurrentPlayer(), temp);
-            view.displaySuccess();
+            
         } catch (Exception e) {
-            view.displayError(e.getMessage());
+            return(e.getMessage());
         }
+        
+        return "Success";
     }
-    public boolean act(){
+    
+    public String act(){
         boolean outcome = false;
         try {
             if (model.getPlayerManager()
@@ -131,24 +128,30 @@ public class Controller {
                 outcome = false;
             }
         } catch (Exception e) {
-            view.displayError(e.getMessage());
+            return(e.getMessage());
         }
-        return outcome;
+        if (outcome) {
+           return "Success"; 
+        } else {
+            return "Failure";
+        }
     }
 
-    public boolean rehearse(){
-        boolean rehearse = false;
+    public String rehearse(){
         try {
             model.getPlayerManager().rehearse(model.getCurrentPlayer());
-            rehearse = true;
+            
         } catch (Exception e) {
-            view.displayError(e.getMessage());
+            return(e.getMessage());
         }
-        return rehearse;
+        return "Success";
     }
-    public void endTurn(){
+    
+    public String endTurn(){
         model.endTurn();
+        return "Turn ended";
     }
+    
     public void pollUser() {
 
         Scanner terminal = new Scanner(System.in);

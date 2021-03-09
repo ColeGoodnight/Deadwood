@@ -122,28 +122,54 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean invalidInput = true;
+                String input = "";
                 while (invalidInput) {
-                    String input = JOptionPane.showInputDialog("Where would you like to move?");
+                     input = JOptionPane.showInputDialog("Where would you like to move?");
                     if (input.length() > 0) {
                         invalidInput=false;
                     }
                 }
+                
+                JOptionPane.showMessageDialog(null, controller.move(input));
             }
         });
         
         actButton.addActionListener(new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean invalidInput = true;
-                
+                JOptionPane.showMessageDialog(null, controller.act());
             }
         });
                 
-        //rehearseButton
+        rehearseButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, controller.rehearse());
+            }
+        });
                 
-        //takeRoleButton
+        takeRoleButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = JOptionPane.showInputDialog("What role would you like to take?");
+                JOptionPane.showMessageDialog(null, controller.takeRole(input));
+            }
+        });
+        
+        upgradeButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 
-        //endTurnButton
+                JOptionPane.showMessageDialog(null, controller.upgrade());
+            }
+        });
+        
+        endTurnButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.endTurn();
+            }
+        });
     }
 
     public void clearShotCounters() {
@@ -219,6 +245,7 @@ public class MainFrame extends javax.swing.JFrame {
         rehearseButton = new javax.swing.JButton();
         upgradeButton = new javax.swing.JButton();
         endTurnButton = new javax.swing.JButton();
+        takeRoleButton = new javax.swing.JButton();
         playerInfoPanel = new javax.swing.JPanel();
         playerLabel = new javax.swing.JLabel();
         playerDollarLabel = new javax.swing.JLabel();
@@ -241,6 +268,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         endTurnButton.setText("End Turn");
 
+        takeRoleButton.setText("Take Role");
+
         javax.swing.GroupLayout mainMenuLayout = new javax.swing.GroupLayout(mainMenu);
         mainMenu.setLayout(mainMenuLayout);
         mainMenuLayout.setHorizontalGroup(
@@ -252,7 +281,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(actButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(rehearseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                     .addComponent(upgradeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(endTurnButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(endTurnButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(takeRoleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainMenuLayout.setVerticalGroup(
@@ -266,9 +296,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(rehearseButton)
                 .addGap(33, 33, 33)
                 .addComponent(upgradeButton)
-                .addGap(30, 30, 30)
+                .addGap(29, 29, 29)
+                .addComponent(takeRoleButton)
+                .addGap(27, 27, 27)
                 .addComponent(endTurnButton)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
@@ -430,6 +462,8 @@ public class MainFrame extends javax.swing.JFrame {
                 frame.clearShotCounters();
                 
                 
+                
+                
             }
         });
     }
@@ -452,6 +486,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel playerInfoPanel;
     private javax.swing.JLabel playerLabel;
     private javax.swing.JButton rehearseButton;
+    private javax.swing.JButton takeRoleButton;
     private javax.swing.JButton upgradeButton;
     // End of variables declaration//GEN-END:variables
 }
