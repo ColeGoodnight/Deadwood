@@ -127,6 +127,9 @@ public class MainFrame extends javax.swing.JFrame {
                     if (input.length() > 0) {
                         invalidInput=false;
                     }
+                    else{
+                        controller.move(input);
+                    }
                 }
             }
         });
@@ -134,16 +137,42 @@ public class MainFrame extends javax.swing.JFrame {
         actButton.addActionListener(new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean invalidInput = true;
-                
+                controller.act();
             }
         });
                 
         //rehearseButton
-                
+        actButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.rehearse();
+            }
+        });
+
         //takeRoleButton
+        takeRoleButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean invalidInput = true;
+                while(invalidInput){
+                    String input = JOptionPane.showInputDialog("Which role would you like?");
+                    if (input.length() > 0) {
+                        invalidInput=false;
+                    }
+                    else{
+                        controller.takeRole(input);
+                    }
+                }
+            }
+        });
                 
         //endTurnButton
+        endTurnButton.addActionListener(new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.endTurn();
+            }
+        });
     }
 
     public void clearShotCounters() {
@@ -215,6 +244,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuPanel = new javax.swing.JPanel();
         mainMenu = new javax.swing.JPanel();
         moveButton = new javax.swing.JButton();
+        takeRoleButton = new javax.swing.JButton();
         actButton = new javax.swing.JButton();
         rehearseButton = new javax.swing.JButton();
         upgradeButton = new javax.swing.JButton();
@@ -447,6 +477,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel mainMenu;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JButton moveButton;
+    private javax.swing.JButton takeRoleButton;
     private javax.swing.JLabel playerCreditLabel;
     private javax.swing.JLabel playerDollarLabel;
     private javax.swing.JPanel playerInfoPanel;
