@@ -11,39 +11,26 @@ public class Controller {
         this.model = model;
         this.view  = view;
     }
-
-    public void gameSetup() {
-        Scanner terminal = new Scanner(System.in);
-        boolean validInput = false;
-        int userInput = 0;
-        while (!validInput) {
-                view.setupPrompt();
-            try {
-                userInput = terminal.nextInt();
-            } catch (Exception e) {
-                view.displayError("Invalid input");
-            }
-
-            if (userInput > 1 || userInput < 7) {
-                validInput = true;
-            }
+    //repurpose gameSetup so that players start in trailer, set location to trailer, updatePlayerInfo gets called on all players in reverse order
+    public void gameSetup(int numPlayers) {
+        model.getPlayerManager().initializePlayers(numPlayers, model.getBoard());
+        Player[] players = model.getPlayerManager().getPlayers();
+        for(int i = numPlayers; i > 0; i--){
+            view.updatePlayerInfo(players[i],i);
+            BoardLocation trailers = model.getBoard().getBoardLocation("Trailers");
+            players[i].setLocation(trailers);
         }
-        model.setupGame(userInput);
     }
 
     public void startGame() {
         model.getAdmin().incrementPlayer();
-        pollUser();
+        //pollUser();
     }
 
     public String move(String location){
         String[] neighbors = model.getCurrentPlayer()
                 .getLocation()
                 .getNeighbors();
-
-        view.updateNeighboringLocations(neighbors);
-
-        //view.movePrompt();
 
         try {
             model.getPlayerManager()
@@ -124,6 +111,10 @@ public class Controller {
                     .act(model.getCurrentPlayer(),
                             model.getBank())) {
                 outcome = true;
+                BoardLocation location = model.getCurrentPlayer().getLocation();
+                Take[] takes = model.getCurrentPlayer().getLocation().getTakes();
+                Take currentTake = takes[location.getTakeIterator()];
+                view.addShotCounter(currentTake.getRectangle());
             } else {
                 outcome = false;
             }
@@ -147,11 +138,12 @@ public class Controller {
         return "Success";
     }
     
-    public String endTurn(){
+    public String endTurn(){ //call updatePlayerInfo for next player
         model.endTurn();
         return "Turn ended";
     }
-    
+
+    /*
     public void pollUser() {
 
         Scanner terminal = new Scanner(System.in);
@@ -365,4 +357,5 @@ public class Controller {
 
             terminal.close();
     }
+    */
 }

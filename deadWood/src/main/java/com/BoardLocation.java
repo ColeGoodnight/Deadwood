@@ -85,6 +85,8 @@ public class BoardLocation {
         return this.neighbors;
     }
 
+    public int getTakeIterator(){ return this.takeIterator; }
+
     public Rectangle getRectangle() {
         return this.rectangle;
     }

@@ -1,12 +1,13 @@
 package com;
 
 import java.io.File;
-
+import java.util.List;
 import com.Model.ModelBuilder;
+
+import javax.swing.*;
 
 public class Deadwood {
     public static void main(String[] args) {
-        CLIView view = new CLIView();
         ModelBuilder modelBuilder = new ModelBuilder();
         XMLParser xmlParser = new XMLParser();
         try {
@@ -20,9 +21,14 @@ public class Deadwood {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Controller controller = new Controller(view, modelBuilder.build());
+        Model model = modelBuilder.build();
+        String input = JOptionPane.showInputDialog("How many players?");
+        int numPlayers = Integer.parseInt(input);
+        List<Card> cards = model.getDeck().getCards();
+        MainFrame mainframe = new MainFrame( cards, numPlayers);
+        Controller controller = new Controller(mainframe, model);
 
-        controller.gameSetup();
+        controller.gameSetup(numPlayers);
         controller.startGame();
     }
 }
