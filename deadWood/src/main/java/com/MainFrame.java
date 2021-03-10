@@ -23,15 +23,6 @@ import javax.swing.*;
 public class MainFrame extends javax.swing.JFrame {
 
     private Controller controller;
-    private JPanel initialPanel;
-    private JPanel mainMenuPanel;
-    private JPanel moveMenuPanel;
-    private JPanel takeRolePanel;
-    private JPanel rolePanel;
-    private JPanel workPanel;
-    private JPanel upgradePanel;
-    private int    playerIterator;
-    private int    numPlayers;
 
     private JLabel[] players;
     private JLabel[] cards;
@@ -122,9 +113,10 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean invalidInput = true;
+
                 String input = "";
                 while (invalidInput) {
-                     input = JOptionPane.showInputDialog("Where would you like to move?");
+                     input = JOptionPane.showInputDialog("Where would Player " + controller.getModel().getCurrentPlayer().getPlayerNum() + " like to move?");
                     if (input.length() > 0) {
                         invalidInput=false;
                     }
@@ -209,7 +201,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     // updates player info panel and rank of player if applicable
     public void updatePlayerInfo(Player player, int currentPlayer) {
-        playerLabel.setText("Player " + currentPlayer);
+        int playerNum = player.getPlayerNum();
+        playerLabel.setText("Player " + playerNum);
         playerCreditLabel.setText(player.getCredits() + " Credits");
         playerDollarLabel.setText(player.getDollars() + " Dollars");
 
@@ -219,11 +212,11 @@ public class MainFrame extends javax.swing.JFrame {
         ClassLoader classLoader = getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(classLoader.getResource("images/dice/" +
-                    playerPrefix[currentPlayer - 1] +
+                    playerPrefix[currentPlayer] +
                     player.getRank() +
                     ".png"));
 
-            players[currentPlayer - 1].setIcon(new ImageIcon(image));
+            players[playerNum - 1].setIcon(new ImageIcon(image));
         } catch (Exception e) {
             e.printStackTrace();
         }

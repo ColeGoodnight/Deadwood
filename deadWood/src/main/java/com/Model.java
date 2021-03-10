@@ -193,7 +193,12 @@ public class Model {
             //redeal cards to board
             deck.dealCardsToBoard(locations);
         }
-    
+
+        public void firstPlayer(){
+            Player[] players = playerManager.getPlayers();
+            currentPlayer = players[0];
+        }
+
         public void incrementPlayer() {
             Player[] players = playerManager.getPlayers();
             playerIterator++;

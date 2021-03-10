@@ -81,7 +81,7 @@ public class Card {
     }
 
     private String  name;
-    private String    image;
+    private String  image;
     private int     budget;
     private int     sceneNum;
     private String  description;
