@@ -50,7 +50,7 @@ class Deck {
     public void dealCardsToBoard(BoardLocation[] locations) {;
         for (int i = 0; i < locations.length-2; i++) {
             locations[i].setCard(cards.get(0));
-            cards.remove(cards.get(i));
+            cards.remove(0);
         }
     }
 

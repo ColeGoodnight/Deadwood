@@ -23,6 +23,18 @@ import javax.swing.*;
 public class MainFrame extends javax.swing.JFrame {
 
     private Controller controller;
+    private JPanel initialPanel;
+    private JPanel mainMenuPanel;
+    private JPanel moveMenuPanel;
+    private JPanel takeRolePanel;
+    private JPanel rolePanel;
+    private JPanel workPanel;
+    private JPanel upgradePanel;
+    private int    playerIterator;
+    private int    numPlayers;
+    BufferedImage cardBackImage;
+    BufferedImage shotCounterImage;
+    ClassLoader classLoader;
 
     private JLabel[] players;
     private JLabel[] cards;
@@ -33,6 +45,16 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame(List<Card> cards, int numPlayers) {
+
+        classLoader = getClass().getClassLoader();
+        cardBackImage = null;
+        shotCounterImage = null;
+        try {
+            cardBackImage = ImageIO.read(classLoader.getResource("images/cards/cardBack.png"));
+            shotCounterImage = ImageIO.read(classLoader.getResource("images/shotCounter.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initComponents();
         initializeBoard(cards, numPlayers);
     }
@@ -44,10 +66,8 @@ public class MainFrame extends javax.swing.JFrame {
         String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
 
         players = new JLabel[numPlayers];
-        cards = new JLabel[40];
+        cards = new JLabel[10];
 
-        BufferedImage image;
-        ClassLoader classLoader = getClass().getClassLoader();
 
         // gets card image files from resources and creates new Jlabel objects for each image
         // Jlabels are then added to the overlay pane
@@ -55,10 +75,8 @@ public class MainFrame extends javax.swing.JFrame {
             cards[i] = new JLabel();
 
             try {
-                image = ImageIO.read(classLoader.getResource("images/cards/" + cardsp.get(i).getImage()));
-                cards[i].setIcon(new ImageIcon(image));
-                cards[i].setBounds(0,0,image.getWidth(), image.getHeight());
-                cards[i].setVisible(false);
+                cards[i].setBounds(0,0,205, 115);
+                cards[i].setVisible(true);
                 boardPane.add(cards[i]);
                 boardPane.moveToFront(cards[i]);
             } catch (Exception e) {
@@ -66,12 +84,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
+        resetAllCards();
+
         // same as above loop but for players
         for (int i = 0; i < players.length; i++) {
             players[i] = new JLabel();
 
             try {
-                image = ImageIO.read(classLoader.getResource("images/dice/" + playerPrefix[i] + "1.png"));
+                BufferedImage image = ImageIO.read(classLoader.getResource("images/dice/" + playerPrefix[i] + "1.png"));
                 players[i].setIcon(new ImageIcon(image));
                 players[i].setBounds(0,0,image.getWidth(), image.getHeight());
                 players[i].setVisible(true);
@@ -93,10 +113,8 @@ public class MainFrame extends javax.swing.JFrame {
     // adds a new shotcounter image at the specified location
     public void addShotCounter(Rectangle r) {
         JLabel counter = new JLabel();
-        ClassLoader classLoader = getClass().getClassLoader();
         try {
-            BufferedImage image = ImageIO.read(classLoader.getResource("images/shotCounter.png"));
-            counter.setIcon(new ImageIcon(image));
+            counter.setIcon(new ImageIcon(shotCounterImage));
             counter.setBounds(r);
             counter.setVisible(true);
             shotCounters.add(counter);
@@ -113,10 +131,9 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean invalidInput = true;
-
                 String input = "";
                 while (invalidInput) {
-                     input = JOptionPane.showInputDialog("Where would Player " + controller.getModel().getCurrentPlayer().getPlayerNum() + " like to move?");
+                     input = JOptionPane.showInputDialog("Where would you like to move?");
                     if (input.length() > 0) {
                         invalidInput=false;
                     }
@@ -175,7 +192,23 @@ public class MainFrame extends javax.swing.JFrame {
 
         shotCounters.clear();
     }
-    
+
+    public void setCard(BoardLocation location, int locationIndex) {
+        try {
+            BufferedImage image = ImageIO.read(classLoader.getResource("images/cards/" + location.getCard().getImage()));
+            cards[locationIndex].setIcon(new ImageIcon(image));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void resetAllCards() {
+        for (JLabel card : cards) {
+            card.setIcon(new ImageIcon(cardBackImage));
+        }
+    }
+
     public void setComponentBounds(Component component, int x, int y) {
         component.setBounds(x,
                 y,
@@ -201,22 +234,24 @@ public class MainFrame extends javax.swing.JFrame {
 
     // updates player info panel and rank of player if applicable
     public void updatePlayerInfo(Player player, int currentPlayer) {
-        int playerNum = player.getPlayerNum();
-        playerLabel.setText("Player " + playerNum);
+        String[] playerColors = {"Blue", "Cyan", "Green", "Orange", "Pink", "Red", "Purple", "Yellow"};
+
+        playerLabel.setText("Player " + currentPlayer + " (" + playerColors[currentPlayer-1] + ")");
         playerCreditLabel.setText(player.getCredits() + " Credits");
         playerDollarLabel.setText(player.getDollars() + " Dollars");
 
         // prefix for dice files
         String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
 
+
         ClassLoader classLoader = getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(classLoader.getResource("images/dice/" +
-                    playerPrefix[currentPlayer] +
+                    playerPrefix[currentPlayer - 1] +
                     player.getRank() +
                     ".png"));
 
-            players[playerNum - 1].setIcon(new ImageIcon(image));
+            players[currentPlayer - 1].setIcon(new ImageIcon(image));
         } catch (Exception e) {
             e.printStackTrace();
         }
