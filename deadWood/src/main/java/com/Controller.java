@@ -69,6 +69,7 @@ public class Controller {
                                     .getUpgrade(currency,
                                             rank),
                             model.getBank());
+            view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator()+1);
         } catch (Exception e) {
             return(e.getMessage());
         }

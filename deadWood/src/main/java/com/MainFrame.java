@@ -234,12 +234,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     // updates player info panel and rank of player if applicable
     public void updatePlayerInfo(Player player, int currentPlayer) {
-        playerLabel.setText("Player " + currentPlayer);
+        String[] playerColors = {"Blue", "Cyan", "Green", "Orange", "Pink", "Red", "Purple", "Yellow"};
+
+        playerLabel.setText("Player " + currentPlayer + " (" + playerColors[currentPlayer-1] + ")");
         playerCreditLabel.setText(player.getCredits() + " Credits");
         playerDollarLabel.setText(player.getDollars() + " Dollars");
 
         // prefix for dice files
         String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
+
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
