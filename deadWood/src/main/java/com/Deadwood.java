@@ -7,7 +7,7 @@ import com.Model.ModelBuilder;
 import javax.swing.*;
 
 //TODO: debug menu
-//TODO: players move to role upon taking a role
+//TODO: issue with acting (something about index:1) also add stack traces to all error handling because debuggage
 public class Deadwood {
     public static void main(String[] args) {
         ModelBuilder modelBuilder = new ModelBuilder();

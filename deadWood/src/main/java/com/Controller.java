@@ -23,14 +23,14 @@ public class Controller {
         }
         model.getDeck().getCards();
         model.getDeck().dealCardsToBoard(model.getBoard().getLocations());
-        //makeCardsVisible(model.getDeck().getCards(), model.getBoard().getLocations());
+        makeCardsVisible(model.getDeck().getCards(), model.getBoard().getLocations());
     }
 
-    //public void makeCardsVisible(List<Card> cards, BoardLocation[] locations) {
-    //    for (int i = 0; i < locations.length-2; i++) {
-    //        view.getCardByNum(i).setBounds(locations[i].getRectangle());
-    //    }
-    // }
+    public void makeCardsVisible(List<Card> cards, BoardLocation[] locations) {
+        for (int i = 0; i < locations.length-2; i++) {
+            view.getCardByNum(i+1).setBounds(locations[i].getRectangle());
+        }
+    }
 
     public Model getModel(){
         return this.model;
@@ -42,17 +42,22 @@ public class Controller {
     }
 
     public String move(String location){
-        String[] neighbors = model.getCurrentPlayer()
-                .getLocation()
-                .getNeighbors();
+        BoardLocation desiredLocation = model.getBoard().getBoardLocation(location);
+        BoardLocation playerLocation = model.getCurrentPlayer().getLocation();
+        String[] neighbors = playerLocation.getNeighbors();
+
         try {
-            model.getPlayerManager()
-                    .move(model.getCurrentPlayer(),
-                            model.getBoard()
-                                    .getBoardLocation(location));
-            view.getPlayerByNum(model.getAdmin().getPlayerIterator()).setBounds(model.getCurrentPlayer().getCurrentPart().getRectangle());
+            model.getPlayerManager().move(model.getCurrentPlayer(), desiredLocation);
+            view.getPlayerByNum(model.getAdmin().getPlayerIterator()+1).setBounds(desiredLocation.getRectangle());
+
+            if (model.getBoard().getHasVisited(desiredLocation) == false && desiredLocation.getCard() != null) {
+                view.setCard(desiredLocation, model.getBoard().getLocationIndex(desiredLocation));
+            }
+
         } catch (Exception e) {
+            e.printStackTrace();
             return(e.getMessage());
+
         }
         return "Success";
     }
@@ -66,6 +71,7 @@ public class Controller {
                                     .getUpgrade(currency,
                                             rank),
                             model.getBank());
+            view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator()+1);
         } catch (Exception e) {
             return(e.getMessage());
         }
@@ -110,7 +116,17 @@ public class Controller {
         try {
             model.getPlayerManager()
                     .takePart(model.getCurrentPlayer(), temp);
-            
+            if (temp.getOnCard()) {
+                view.getPlayerByNum(model.getAdmin().getPlayerIterator()+1).setBounds(
+                        model.getCurrentPlayer().getLocation().getRectangle().x + temp.getRectangle().x,
+                        model.getCurrentPlayer().getLocation().getRectangle().y + temp.getRectangle().y,
+                        temp.getRectangle().width,
+                        temp.getRectangle().height
+                );
+            } else {
+                view.getPlayerByNum(model.getAdmin().getPlayerIterator()+1).setBounds(temp.getRectangle());
+            }
+
         } catch (Exception e) {
             return(e.getMessage());
         }
@@ -131,6 +147,7 @@ public class Controller {
                 currentTake.setShotCompleted(true);
                 view.addShotCounter(currentTake.getRectangle());
                 view.updatePlayerInfo(model.getCurrentPlayer(), model.getCurrentPlayer().getPlayerNum());
+
             } else {
                 outcome = false;
             }

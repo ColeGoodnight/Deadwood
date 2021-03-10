@@ -234,6 +234,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // updates player info panel and rank of player if applicable
     public void updatePlayerInfo(Player player, int currentPlayer) {
+
         //bring back the get player num
         String[] playerColors = {"Blue", "Cyan", "Green", "Orange", "Pink", "Red", "Purple", "Yellow"};
         int playerNum = player.getPlayerNum();
