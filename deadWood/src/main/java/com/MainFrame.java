@@ -234,9 +234,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     // updates player info panel and rank of player if applicable
     public void updatePlayerInfo(Player player, int currentPlayer) {
+        //bring back the get player num
         String[] playerColors = {"Blue", "Cyan", "Green", "Orange", "Pink", "Red", "Purple", "Yellow"};
-
-        playerLabel.setText("Player " + currentPlayer + " (" + playerColors[currentPlayer-1] + ")");
+        int playerNum = player.getPlayerNum();
+        playerLabel.setText("Player " + playerNum + " (" + playerColors[playerNum-1] + ")");
         playerCreditLabel.setText(player.getCredits() + " Credits");
         playerDollarLabel.setText(player.getDollars() + " Dollars");
 
@@ -247,11 +248,11 @@ public class MainFrame extends javax.swing.JFrame {
         ClassLoader classLoader = getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(classLoader.getResource("images/dice/" +
-                    playerPrefix[currentPlayer - 1] +
+                    playerPrefix[playerNum-1] +
                     player.getRank() +
                     ".png"));
 
-            players[currentPlayer - 1].setIcon(new ImageIcon(image));
+            players[playerNum - 1].setIcon(new ImageIcon(image));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -120,7 +120,6 @@ public class Controller {
     
     public String act(){
         boolean outcome = false;
-        System.out.println(model.getCurrentPlayer().getCurrentPart().getPartComplete());
         try {
             if (model.getPlayerManager()
                     .act(model.getCurrentPlayer(),
