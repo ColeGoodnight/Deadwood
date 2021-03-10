@@ -32,6 +32,9 @@ public class MainFrame extends javax.swing.JFrame {
     private JPanel upgradePanel;
     private int    playerIterator;
     private int    numPlayers;
+    BufferedImage cardBackImage;
+    BufferedImage shotCounterImage;
+    ClassLoader classLoader;
 
     private JLabel[] players;
     private JLabel[] cards;
@@ -42,6 +45,16 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame(List<Card> cards, int numPlayers) {
+
+        classLoader = getClass().getClassLoader();
+        cardBackImage = null;
+        shotCounterImage = null;
+        try {
+            cardBackImage = ImageIO.read(classLoader.getResource("images/cards/cardBack.png"));
+            shotCounterImage = ImageIO.read(classLoader.getResource("images/shotCounter.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initComponents();
         initializeBoard(cards, numPlayers);
     }
@@ -53,10 +66,8 @@ public class MainFrame extends javax.swing.JFrame {
         String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
 
         players = new JLabel[numPlayers];
-        cards = new JLabel[40];
+        cards = new JLabel[10];
 
-        BufferedImage image;
-        ClassLoader classLoader = getClass().getClassLoader();
 
         // gets card image files from resources and creates new Jlabel objects for each image
         // Jlabels are then added to the overlay pane
@@ -64,23 +75,25 @@ public class MainFrame extends javax.swing.JFrame {
             cards[i] = new JLabel();
 
             try {
-                image = ImageIO.read(classLoader.getResource("images/cards/" + cardsp.get(i).getImage()));
-                cards[i].setIcon(new ImageIcon(image));
-                cards[i].setBounds(0,0,image.getWidth(), image.getHeight());
-                cards[i].setVisible(false);
+                cards[i].setBounds(0,0,205, 115);
+                cards[i].setVisible(true);
                 boardPane.add(cards[i]);
                 boardPane.moveToFront(cards[i]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
         }
+
+        resetAllCards();
 
         // same as above loop but for players
         for (int i = 0; i < players.length; i++) {
             players[i] = new JLabel();
 
             try {
-                image = ImageIO.read(classLoader.getResource("images/dice/" + playerPrefix[i] + "1.png"));
+                BufferedImage image = ImageIO.read(classLoader.getResource("images/dice/" + playerPrefix[i] + "1.png"));
                 players[i].setIcon(new ImageIcon(image));
                 players[i].setBounds(0,0,image.getWidth(), image.getHeight());
                 players[i].setVisible(true);
@@ -102,10 +115,8 @@ public class MainFrame extends javax.swing.JFrame {
     // adds a new shotcounter image at the specified location
     public void addShotCounter(Rectangle r) {
         JLabel counter = new JLabel();
-        ClassLoader classLoader = getClass().getClassLoader();
         try {
-            BufferedImage image = ImageIO.read(classLoader.getResource("images/shotCounter.png"));
-            counter.setIcon(new ImageIcon(image));
+            counter.setIcon(new ImageIcon(shotCounterImage));
             counter.setBounds(r);
             counter.setVisible(true);
             shotCounters.add(counter);
@@ -182,6 +193,22 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         shotCounters.clear();
+    }
+
+    public void setCard(BoardLocation location, int locationIndex) {
+        try {
+            BufferedImage image = ImageIO.read(classLoader.getResource("images/cards/" + location.getCard().getImage()));
+            cards[locationIndex].setIcon(new ImageIcon(image));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void resetAllCards() {
+        for (JLabel card : cards) {
+            card.setIcon(new ImageIcon(cardBackImage));
+        }
     }
     
     public void setComponentBounds(Component component, int x, int y) {

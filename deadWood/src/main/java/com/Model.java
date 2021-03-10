@@ -72,8 +72,6 @@ public class Model {
     public void setupGame(int numPlayers) {
         admin.initializeGameVars(numPlayers);
         playerManager.initializePlayers(numPlayers, board);
-        deck.dealCardsToBoard(board.getLocations());
-
     }
 
     public boolean isGameDone() {
@@ -82,7 +80,7 @@ public class Model {
 
     public void endTurn() {
         admin.refreshPlayer(admin.getCurrentPlayer());
-        admin.advancePlayer();
+        admin.incrementPlayer();
     }
 
     public String getPlayerInfo() {
@@ -165,7 +163,7 @@ public class Model {
         public void advancePlayer() {
             Player[] players = playerManager.getPlayers();
             playerIterator++;
-            if (playerIterator >= players.length) {
+            if (playerIterator >= players.length-1) {
                 playerIterator = 0;
             }
             currentPlayer = players[playerIterator];
