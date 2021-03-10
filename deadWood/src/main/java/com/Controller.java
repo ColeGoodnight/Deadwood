@@ -38,7 +38,6 @@ public class Controller {
 
     public void startGame() {
         model.getAdmin().firstPlayer();
-        System.out.println("After: " + model.getCurrentPlayer().getPlayerNum());
         //pollUser();
     }
 
@@ -121,6 +120,7 @@ public class Controller {
     
     public String act(){
         boolean outcome = false;
+        System.out.println(model.getCurrentPlayer().getCurrentPart().getPartComplete());
         try {
             if (model.getPlayerManager()
                     .act(model.getCurrentPlayer(),

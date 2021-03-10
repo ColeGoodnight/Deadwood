@@ -285,21 +285,17 @@ public class PlayerManager {
 
         // checks to see if any players were on card
         if (onCardPlayers.size() > 0) {
-            for (Player offCardPlayer : offCardPlayers) {
-                // pays offCardPlayers relative to the level of their part
-                bank.payPlayerInDollars(offCardPlayer, 
-                                offCardPlayer.getCurrentPart().getLevel());
-                offCardPlayer.setCurrentPart(null);
-            }
             int i = 0;
-
             for (int roll : diceRolls) {
-                if (i >= onCardPlayers.size()) {
-                    i = 0;
-                }
                 bank.payPlayerInDollars(onCardPlayers.get(i), roll);
                 onCardPlayers.get(i).setCurrentPart(null);
                 i++;
+            }
+        }
+        else{   //only off card players
+            for(Player offCardPlayer : offCardPlayers){
+                bank.payPlayerInDollars(offCardPlayer, offCardPlayer.getCurrentPart().getLevel());
+                offCardPlayer.setCurrentPart(null);
             }
         }
         location.setCard(null);
