@@ -10,11 +10,12 @@ public class Part{
      * constructor with many parameters
      */
     static final class PartBuilder {
-        private String  name;
-        private String  line;
-        private int     level;
-        private Rectangle    rectangle;
-        private boolean onCard = false;
+        private String     name;
+        private String     line;
+        private int        level;
+        private Rectangle  rectangle;
+        private boolean    onCard = false;
+        private boolean    partComplete = false;
 
         public PartBuilder() {
 
@@ -45,6 +46,11 @@ public class Part{
             return this;
         }
 
+        public PartBuilder partComplete(boolean partComplete){
+            this.partComplete = partComplete;
+            return this;
+        }
+
         public Part build() {
             if (name == null) 
                 throw new IllegalStateException("Missing name");
@@ -58,12 +64,13 @@ public class Part{
         }
     }
 
-    private String  name;
-    private String  line;
-    private int     level;
+    private String    name;
+    private String    line;
+    private int       level;
     private Rectangle rectangle;
-    private boolean onCard;
-    private int     practiceChips;
+    private boolean   onCard;
+    private boolean   partComplete;
+    private int       practiceChips;
     
     private Part(PartBuilder builder) {
         this.name   = builder.name;
@@ -71,6 +78,7 @@ public class Part{
         this.rectangle   = builder.rectangle;
         this.line   = builder.line;
         this.onCard = builder.onCard;
+        this.partComplete = builder.partComplete;
         practiceChips = 0;
     }
 
@@ -97,6 +105,8 @@ public class Part{
     public boolean getOnCard() {
         return this.onCard;
     }
+
+    public boolean getPartComplete() { return this.partComplete; }
 
     public void addPracticeChip() {
         practiceChips++;

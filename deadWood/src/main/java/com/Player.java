@@ -2,6 +2,7 @@ package com;
 
 public class Player {
 
+    private int           playerNum;
     private int           credits;
     private int           dollars;
     private int           rank;
@@ -11,11 +12,14 @@ public class Player {
     private boolean       hasActedOrRehearsed;
 
 
-    public Player(int credits, int rank) {
+    public Player( int credits, int rank) {
         this.credits = credits;
         this.rank = rank;
     }
 
+    public void setPlayerNum(int playerNum){ this.playerNum = playerNum; }
+
+    public int getPlayerNum(){ return this.playerNum; }
 
     public int getCredits() {
         return this.credits;

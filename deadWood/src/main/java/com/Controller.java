@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
-
     private MainFrame  view;
     private Model model;
 
@@ -12,30 +11,34 @@ public class Controller {
         this.model = model;
         this.view  = view;
     }
+
     //repurpose gameSetup so that players start in trailer, set location to trailer, updatePlayerInfo gets called on all players in reverse order
     public void gameSetup(int numPlayers) {
         model.getPlayerManager().initializePlayers(numPlayers, model.getBoard());
         Player[] players = model.getPlayerManager().getPlayers();
-        for(int i = numPlayers-1; i >= 0; i--){
-            view.updatePlayerInfo(players[i],i);
+        for(int i = numPlayers; i > 0; i--){
+            view.updatePlayerInfo(players[i-1],i-1);
             BoardLocation trailers = model.getBoard().getBoardLocation("Trailers");
-            view.getPlayerByNum(i+1).setBounds(trailers.getRectangle());
+            view.getPlayerByNum(i).setBounds(trailers.getRectangle());
         }
         model.getDeck().getCards();
         model.getDeck().dealCardsToBoard(model.getBoard().getLocations());
-        makeCardsVisible(model.getDeck().getCards(), model.getBoard().getLocations());
+        //makeCardsVisible(model.getDeck().getCards(), model.getBoard().getLocations());
     }
 
-    public void makeCardsVisible(List<Card> cards, BoardLocation[] locations) {
-        for (int i = 0; i < locations.length-2; i++) {
-            view.getCardByNum(i).setBounds(locations[i].getRectangle());
-        }
+    //public void makeCardsVisible(List<Card> cards, BoardLocation[] locations) {
+    //    for (int i = 0; i < locations.length-2; i++) {
+    //        view.getCardByNum(i).setBounds(locations[i].getRectangle());
+    //    }
+    // }
+
+    public Model getModel(){
+        return this.model;
     }
-
-
 
     public void startGame() {
-        model.getAdmin().incrementPlayer();
+        model.getAdmin().firstPlayer();
+        System.out.println("After: " + model.getCurrentPlayer().getPlayerNum());
         //pollUser();
     }
 
@@ -43,13 +46,12 @@ public class Controller {
         String[] neighbors = model.getCurrentPlayer()
                 .getLocation()
                 .getNeighbors();
-
         try {
             model.getPlayerManager()
                     .move(model.getCurrentPlayer(),
                             model.getBoard()
                                     .getBoardLocation(location));
-            view.getPlayerByNum(model.getAdmin().getPlayerIterator()).setBounds(model.getCurrentPlayer().getLocation().getRectangle());
+            view.getPlayerByNum(model.getAdmin().getPlayerIterator()).setBounds(model.getCurrentPlayer().getCurrentPart().getRectangle());
         } catch (Exception e) {
             return(e.getMessage());
         }
@@ -127,8 +129,9 @@ public class Controller {
                 BoardLocation location = model.getCurrentPlayer().getLocation();
                 Take[] takes = model.getCurrentPlayer().getLocation().getTakes();
                 Take currentTake = takes[location.getTakeIterator()-1];
+                currentTake.setShotCompleted(true);
                 view.addShotCounter(currentTake.getRectangle());
-                view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator());
+                view.updatePlayerInfo(model.getCurrentPlayer(), model.getCurrentPlayer().getPlayerNum());
             } else {
                 outcome = false;
             }
@@ -154,7 +157,7 @@ public class Controller {
     
     public String endTurn(){ //call updatePlayerInfo for next player
         model.endTurn();
-        view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator());
+        view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator()+1);
         return "Turn ended";
     }
 

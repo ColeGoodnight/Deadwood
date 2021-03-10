@@ -82,8 +82,6 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
         }
 
         resetAllCards();
@@ -210,7 +208,7 @@ public class MainFrame extends javax.swing.JFrame {
             card.setIcon(new ImageIcon(cardBackImage));
         }
     }
-    
+
     public void setComponentBounds(Component component, int x, int y) {
         component.setBounds(x,
                 y,

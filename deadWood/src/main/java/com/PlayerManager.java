@@ -22,18 +22,24 @@ public class PlayerManager {
                 for (int i = 0; i < numPlayers; i++) {
                     players[i] = new Player(0, 1);
                     players[i].setLocation(trailers);
+                    int num = i+1;
+                    players[i].setPlayerNum(num);
                 }
                 break;
             case 5:
                 for (int i = 0; i < numPlayers; i++) {
-                    players[i] = new Player(2, 1);
+                    players[i] = new Player( 2, 1);
                     players[i].setLocation(trailers);
+                    int num = i+1;
+                    players[i].setPlayerNum(num);
                 }
                 break;
             case 6:
                 for (int i = 0; i < numPlayers; i++) {
                     players[i] = new Player(4, 1);
                     players[i].setLocation(trailers);
+                    int num = i+1;
+                    players[i].setPlayerNum(num);
                 }
                 break;
             case 7:
@@ -41,6 +47,8 @@ public class PlayerManager {
                 for (int i = 0; i < numPlayers; i++) {
                     players[i] = new Player(0, 2);
                     players[i].setLocation(trailers);
+                    int num = i+1;
+                    players[i].setPlayerNum(num);
                 }
                 break;        
         }
