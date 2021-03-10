@@ -76,14 +76,10 @@ public class Controller {
     }
     
     public String takeRole(String partName){
-        Part[] parts1 = model.getCurrentPlayer()
-                .getLocation()
-                .getParts();
+        BoardLocation location = model.getCurrentPlayer().getLocation();
+        Part[] parts1 = location.getParts();
 
-        Part[] parts2 = model.getCurrentPlayer()
-                .getLocation()
-                .getCard()
-                .getParts();
+        Part[] parts2 = location.getCard().getParts();
 
         Part[] parts = new Part[parts1.length + parts2.length];
         int i = 0;
@@ -113,7 +109,17 @@ public class Controller {
         try {
             model.getPlayerManager()
                     .takePart(model.getCurrentPlayer(), temp);
-            //view.getPlayerByNum(model.getAdmin().getPlayerIterator()+1).setBounds();
+            if (temp.getOnCard()) {
+                view.getPlayerByNum(model.getAdmin().getPlayerIterator()+1).setBounds(
+                        location.getRectangle().x + temp.getRectangle().x,
+                        location.getRectangle().y + temp.getRectangle().y,
+                        temp.getRectangle().width,
+                        temp.getRectangle().height
+                );
+            } else {
+                view.getPlayerByNum(model.getAdmin().getPlayerIterator()+1).setBounds(temp.getRectangle());
+            }
+
 
         } catch (Exception e) {
             return(e.getMessage());
