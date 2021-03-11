@@ -37,6 +37,7 @@ class Board {
         hasVisited[getLocationIndex(location)] = true;
     }
 
+    // keeps track of if a location has been visited within a given day
     public boolean getHasVisited(BoardLocation location) {
         return hasVisited[getLocationIndex(location)];
     }

@@ -16,10 +16,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-/**
- *
- * @author Cole
- */
+
 public class MainFrame extends javax.swing.JFrame {
 
     private Controller controller;
@@ -182,6 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    // clears counters from board
     public void clearShotCounters() {
         // everytime an attempt at changing visibility/removing
         // from the pane is made all the formatting breaks, so
@@ -193,6 +191,7 @@ public class MainFrame extends javax.swing.JFrame {
         shotCounters.clear();
     }
 
+    // changes card image at a given location
     public void setCard(BoardLocation location, int locationIndex) {
         try {
             BufferedImage image = ImageIO.read(classLoader.getResource("images/cards/" + location.getCard().getImage()));
@@ -235,7 +234,7 @@ public class MainFrame extends javax.swing.JFrame {
     // updates player info panel and rank of player if applicable
     public void updatePlayerInfo(Player player, int currentPlayer) {
 
-        //bring back the get player num
+        //Correlates player colors to numbers
         String[] playerColors = {"Blue", "Cyan", "Green", "Orange", "Pink", "Red", "Purple", "Yellow"};
         int playerNum = player.getPlayerNum();
         playerLabel.setText("Player " + playerNum + " (" + playerColors[playerNum-1] + ")");

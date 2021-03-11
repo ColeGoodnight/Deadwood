@@ -1,7 +1,6 @@
 package com;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class Controller {
     private MainFrame  view;
@@ -12,7 +11,8 @@ public class Controller {
         this.view  = view;
     }
 
-    //repurpose gameSetup so that players start in trailer, set location to trailer, updatePlayerInfo gets called on all players in reverse order
+    //set location to trailer, updatePlayerInfo gets called on all players in reverse order
+    // cards images are also updated and made visible
     public void gameSetup(int numPlayers) {
         model.getPlayerManager().initializePlayers(numPlayers, model.getBoard());
         Player[] players = model.getPlayerManager().getPlayers();
@@ -25,6 +25,7 @@ public class Controller {
         model.getDeck().dealCardsToBoard(model.getBoard().getLocations());
         makeCardsVisible(model.getDeck().getCards(), model.getBoard().getLocations());
     }
+
 
     public void makeCardsVisible(List<Card> cards, BoardLocation[] locations) {
         for (int i = 0; i < locations.length-2; i++) {
