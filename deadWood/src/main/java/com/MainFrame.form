@@ -128,7 +128,6 @@
                 <Component class="javax.swing.JButton" name="moveButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Move"/>
-                    <Property name="actionCommand" type="java.lang.String" value="Move"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="actButton">
@@ -173,6 +172,7 @@
                           <Component id="playerCreditLabel" pref="151" max="32767" attributes="0"/>
                           <Component id="playerDollarLabel" alignment="0" max="32767" attributes="0"/>
                           <Component id="playerLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="playerPracticeCountersLabel" alignment="0" pref="151" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                   </Group>
@@ -187,7 +187,9 @@
                       <Component id="playerDollarLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="playerCreditLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="172" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="playerPracticeCountersLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="152" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -204,6 +206,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="playerCreditLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="jLabel3"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="playerPracticeCountersLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jLabel3"/>
               </Properties>

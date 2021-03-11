@@ -131,7 +131,7 @@ public class Controller {
         } catch (Exception e) {
             return(e.getMessage());
         }
-        
+        view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator()+1);
         return "Success";
     }
     
@@ -165,6 +165,7 @@ public class Controller {
     public String rehearse(){
         try {
             model.getPlayerManager().rehearse(model.getCurrentPlayer());
+            view.updatePlayerInfo(model.getCurrentPlayer(), model.getAdmin().getPlayerIterator()+1);
             
         } catch (Exception e) {
             return(e.getMessage());

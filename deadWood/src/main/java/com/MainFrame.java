@@ -240,6 +240,12 @@ public class MainFrame extends javax.swing.JFrame {
         playerLabel.setText("Player " + playerNum + " (" + playerColors[playerNum-1] + ")");
         playerCreditLabel.setText(player.getCredits() + " Credits");
         playerDollarLabel.setText(player.getDollars() + " Dollars");
+        if (player.getCurrentPart() == null) {
+            playerPracticeCountersLabel.setText("No part being worked");
+        } else {
+            playerPracticeCountersLabel.setText("Practice Chips: " + player.getCurrentPart().getPracticeChips());
+        }
+        
 
         // prefix for dice files
         String[] playerPrefix = {"b", "c", "g", "o", "p", "r", "v", "y"};
@@ -280,13 +286,13 @@ public class MainFrame extends javax.swing.JFrame {
         playerLabel = new javax.swing.JLabel();
         playerDollarLabel = new javax.swing.JLabel();
         playerCreditLabel = new javax.swing.JLabel();
+        playerPracticeCountersLabel = new javax.swing.JLabel();
         boardPane = new javax.swing.JLayeredPane();
         boardLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         moveButton.setText("Move");
-        moveButton.setActionCommand("Move");
 
         actButton.setText("Act");
 
@@ -350,6 +356,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         playerCreditLabel.setText("jLabel3");
 
+        playerPracticeCountersLabel.setText("jLabel3");
+
         javax.swing.GroupLayout playerInfoPanelLayout = new javax.swing.GroupLayout(playerInfoPanel);
         playerInfoPanel.setLayout(playerInfoPanelLayout);
         playerInfoPanelLayout.setHorizontalGroup(
@@ -359,7 +367,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(playerInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(playerCreditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                     .addComponent(playerDollarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(playerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(playerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(playerPracticeCountersLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
                 .addGap(66, 66, 66))
         );
         playerInfoPanelLayout.setVerticalGroup(
@@ -371,7 +380,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(playerDollarLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playerCreditLabel)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playerPracticeCountersLabel)
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -515,6 +526,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel playerDollarLabel;
     private javax.swing.JPanel playerInfoPanel;
     private javax.swing.JLabel playerLabel;
+    private javax.swing.JLabel playerPracticeCountersLabel;
     private javax.swing.JButton rehearseButton;
     private javax.swing.JButton takeRoleButton;
     private javax.swing.JButton upgradeButton;
