@@ -1,4 +1,4 @@
-###DEADWOOD###
+###DEADWOOD
 
 Authors: Cole Goodnight, Vlad Avadanei
 
